@@ -1,0 +1,18 @@
+package com.nli.probation.model.office;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor @AllArgsConstructor @Getter @Setter
+public class OfficeModel {
+
+    private int id;
+
+    private String name;
+
+    private String location;
+
+    private int status;
+}
