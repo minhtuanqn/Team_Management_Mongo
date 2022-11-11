@@ -1,31 +1,31 @@
-//package com.nli.probation.entity;
-//
-//import lombok.AllArgsConstructor;
-//import lombok.Getter;
-//import lombok.NoArgsConstructor;
-//import lombok.Setter;
-//
-//import javax.persistence.*;
-//import java.util.Set;
-//
-//@NoArgsConstructor @AllArgsConstructor @Getter @Setter
-//@Entity
-//@Table(name = "team")
-//public class TeamEntity {
-//    @Column(name = "id")
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private int id;
-//
-//    @Column(name = "short_name")
-//    private String shortName;
-//
-//    @Column(name = "name")
-//    private String name;
-//
-//    @Column(name = "status")
-//    private int status;
-//
+package com.nli.probation.entity;
+
+import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@Document(collection = "team")
+@Data
+public class TeamEntity {
+    @Transient
+    public static final String SEQUENCE_NAME = "team_sequence";
+
+    @Id
+    @Field("id")
+    private int id;
+
+    @Field("short_name")
+    private String shortName;
+
+    @Field("name")
+    private String name;
+
+    @Field("status")
+    private int status;
+
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teamEntity")
 //    private Set<UserAccountEntity> userList;
-//}
+}
