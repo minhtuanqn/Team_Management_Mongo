@@ -13,9 +13,10 @@ import com.nli.probation.model.office.OfficeModel;
 import com.nli.probation.model.office.UpdateOfficeModel;
 import com.nli.probation.repository.OfficeRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,11 +27,14 @@ import java.util.Optional;
 public class OfficeService {
     private final OfficeRepository officeRepository;
     private final ModelMapper modelMapper;
+    private final SequenceGeneratorService sequenceGeneratorService;
 
     public OfficeService(OfficeRepository officeRepository,
-                         ModelMapper modelMapper) {
+                         ModelMapper modelMapper,
+                         SequenceGeneratorService sequenceGeneratorService) {
         this.officeRepository = officeRepository;
         this.modelMapper = modelMapper;
+        this.sequenceGeneratorService = sequenceGeneratorService;
     }
 
     /**
@@ -45,6 +49,7 @@ public class OfficeService {
 
         //Prepare saved entity
         OfficeEntity officeEntity = modelMapper.map(createOfficeModel, OfficeEntity.class);
+        officeEntity.setId(sequenceGeneratorService.generateSequence(OfficeEntity.SEQUENCE_NAME));
         officeEntity.setStatus(EntityStatusEnum.OfficeStatusEnum.ACTIVE.ordinal());
 
         //Save entity to DB
@@ -104,27 +109,22 @@ public class OfficeService {
     }
 
     /**
-     * Specification for search name
+     * Specification for search like name or location
      * @param searchValue
-     * @return specification
+     * @return Example type of office entity
      */
-    private Specification<OfficeEntity> containsName(String searchValue) {
-        return ((root, query, criteriaBuilder) -> {
-           String pattern = searchValue != null ? "%" + searchValue + "%" : "%%";
-           return criteriaBuilder.like(root.get(OfficeEntity_.NAME), pattern);
-        });
-    }
-
-    /**
-     * Specification for search location
-     * @param searchValue
-     * @return specification
-     */
-    private Specification<OfficeEntity> containsLocation(String searchValue) {
-        return ((root, query, criteriaBuilder) -> {
-            String pattern = searchValue != null ? "%" + searchValue + "%" : "%%";
-            return criteriaBuilder.like(root.get(OfficeEntity_.LOCATION), pattern);
-        });
+    private Example<OfficeEntity> searchNameOrLocation(String searchValue) {
+        OfficeEntity officeEntity = new OfficeEntity();
+        officeEntity.setName(searchValue);
+        officeEntity.setLocation(searchValue);
+        officeEntity.setId(Integer.MIN_VALUE);
+        officeEntity.setStatus(Integer.MIN_VALUE);
+        ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny()
+                .withMatcher(OfficeEntity_.NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher(OfficeEntity_.LOCATION, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher(OfficeEntity_.STATUS, ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase())
+                .withMatcher(OfficeEntity_.ID, ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase());
+        return Example.of(officeEntity, exampleMatcher);
     }
 
     /**
@@ -141,8 +141,8 @@ public class OfficeService {
         Pageable pageable = paginationConverter.convertToPageable(paginationModel, defaultSortBy, OfficeEntity.class);
 
         //Find all offices
-        Page<OfficeEntity> officeEntityPage = officeRepository.findAll(containsLocation(searchValue)
-                .and(containsName(searchValue)), pageable);
+        Page<OfficeEntity> officeEntityPage = officeRepository
+                .findAll(searchNameOrLocation(searchValue), pageable);
 
         //Convert list of offices entity to list of offices model
         List<OfficeModel> officeModels = new ArrayList<>();

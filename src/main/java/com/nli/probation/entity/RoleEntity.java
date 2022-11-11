@@ -1,31 +1,28 @@
 package com.nli.probation.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.util.Set;
 
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter
-@Entity
-@Table(name = "role")
+@Document(collection = "role")
+@Data
 public class RoleEntity {
-    @Column(name = "id")
+    @Transient
+    public static final String SEQUENCE_NAME = "role_sequence";
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "short_name")
     private String shortName;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "status")
     private int status;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "roleEntity")
-    private Set<UserAccountEntity> userList;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "roleEntity")
+//    private Set<UserAccountEntity> userList;
 }

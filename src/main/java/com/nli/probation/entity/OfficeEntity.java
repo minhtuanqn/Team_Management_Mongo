@@ -1,32 +1,27 @@
 package com.nli.probation.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import javax.persistence.*;
-import java.util.Set;
+import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @NoArgsConstructor @AllArgsConstructor @Getter  @Setter
-@Entity
-@Table(name = "office")
+@Document(collection = "office")
+@Data
 public class OfficeEntity {
 
-    @Column(name = "id")
+    @Transient
+    public static final String SEQUENCE_NAME = "office_sequence";
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "location")
     private String location;
 
-    @Column(name = "status")
     private int status;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "officeEntity")
-    private Set<UserAccountEntity> userList;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "officeEntity")
+//    private Set<UserAccountEntity> userList;
 }

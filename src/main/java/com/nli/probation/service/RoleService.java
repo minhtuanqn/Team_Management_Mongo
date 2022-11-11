@@ -13,9 +13,10 @@ import com.nli.probation.model.role.RoleModel;
 import com.nli.probation.model.role.UpdateRoleModel;
 import com.nli.probation.repository.RoleRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,11 +27,14 @@ import java.util.Optional;
 public class RoleService {
     private final RoleRepository roleRepository;
     private final ModelMapper modelMapper;
+    private final SequenceGeneratorService sequenceGeneratorService;
 
     public RoleService(RoleRepository roleRepository,
-                       ModelMapper modelMapper) {
+                       ModelMapper modelMapper,
+                       SequenceGeneratorService sequenceGeneratorService) {
         this.roleRepository = roleRepository;
         this.modelMapper = modelMapper;
+        this.sequenceGeneratorService = sequenceGeneratorService;
     }
 
     /**
@@ -49,6 +53,7 @@ public class RoleService {
 
         //Prepare saved entity
         RoleEntity roleEntity = modelMapper.map(createRoleModel, RoleEntity.class);
+        roleEntity.setId(sequenceGeneratorService.generateSequence(RoleEntity.SEQUENCE_NAME));
         roleEntity.setStatus(EntityStatusEnum.RoleStatusEnum.ACTIVE.ordinal());
 
         //Save entity to DB
@@ -112,27 +117,22 @@ public class RoleService {
     }
 
     /**
-     * Specification for search name
+     * Specification for search like name or short name
      * @param searchValue
-     * @return specification
+     * @return Example type of role entity
      */
-    private Specification<RoleEntity> containsName(String searchValue) {
-        return ((root, query, criteriaBuilder) -> {
-            String pattern = searchValue != null ? "%" + searchValue + "%" : "%%";
-            return criteriaBuilder.like(root.get(RoleEntity_.NAME), pattern);
-        });
-    }
-
-    /**
-     * Specification for search short name
-     * @param searchValue
-     * @return specification
-     */
-    private Specification<RoleEntity> containsShortName(String searchValue) {
-        return ((root, query, criteriaBuilder) -> {
-            String pattern = searchValue != null ? "%" + searchValue + "%" : "%%";
-            return criteriaBuilder.like(root.get(RoleEntity_.SHORT_NAME), pattern);
-        });
+    private Example<RoleEntity> searchNameOrShortName(String searchValue) {
+        RoleEntity roleEntity = new RoleEntity();
+        roleEntity.setName(searchValue);
+        roleEntity.setShortName(searchValue);
+        roleEntity.setId(Integer.MIN_VALUE);
+        roleEntity.setStatus(Integer.MIN_VALUE);
+        ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny()
+                .withMatcher(RoleEntity_.NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher(RoleEntity_.SHORT_NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher(RoleEntity_.STATUS, ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase())
+                .withMatcher(RoleEntity_.ID, ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase());
+        return Example.of(roleEntity, exampleMatcher);
     }
 
     /**
@@ -149,8 +149,7 @@ public class RoleService {
         Pageable pageable = paginationConverter.convertToPageable(paginationModel, defaultSortBy, RoleEntity.class);
 
         //Find all roles
-        Page<RoleEntity> roleEntityPage = roleRepository.findAll(containsName(searchValue)
-                .and(containsShortName(searchValue)), pageable);
+        Page<RoleEntity> roleEntityPage = roleRepository.findAll(searchNameOrShortName(searchValue), pageable);
 
         //Convert list of roles entity to list of role model
         List<RoleModel> roleModels = new ArrayList<>();
