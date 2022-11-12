@@ -27,7 +27,5 @@ public class RoleEntity {
 
     @Field("status")
     private int status;
-
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "roleEntity")
-//    private Set<UserAccountEntity> userList;
+    
 }

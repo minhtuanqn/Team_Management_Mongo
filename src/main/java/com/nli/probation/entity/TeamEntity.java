@@ -26,6 +26,4 @@ public class TeamEntity {
     @Field("status")
     private int status;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teamEntity")
-//    private Set<UserAccountEntity> userList;
 }

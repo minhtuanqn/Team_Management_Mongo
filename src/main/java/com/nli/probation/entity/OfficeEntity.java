@@ -27,6 +27,4 @@ public class OfficeEntity {
     @Field("status")
     private int status;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "officeEntity")
-//    private Set<UserAccountEntity> userList;
 }

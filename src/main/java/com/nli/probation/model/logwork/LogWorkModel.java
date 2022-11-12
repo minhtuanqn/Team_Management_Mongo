@@ -19,5 +19,4 @@ public class LogWorkModel {
 
     private int status;
 
-    private TaskModel taskModel;
 }

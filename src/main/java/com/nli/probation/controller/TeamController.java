@@ -8,6 +8,7 @@ import com.nli.probation.model.team.TeamModel;
 import com.nli.probation.model.team.UpdateTeamModel;
 import com.nli.probation.resolver.annotation.RequestPagingParam;
 import com.nli.probation.service.TeamService;
+import com.nli.probation.service.UserAccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,12 @@ import java.util.List;
 @RequestMapping("/teams")
 public class TeamController {
     private final TeamService teamService;
-//    private final UserAccountService userAccountService;
+    private final UserAccountService userAccountService;
 
-    public TeamController(TeamService teamService
-//            , UserAccountService userAccountService
-    ) {
+    public TeamController(TeamService teamService,
+                          UserAccountService userAccountService) {
         this.teamService = teamService;
-//        this.userAccountService = userAccountService;
+        this.userAccountService = userAccountService;
     }
 
     /**

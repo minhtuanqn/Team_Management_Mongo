@@ -1,48 +1,42 @@
-//package com.nli.probation.entity;
-//
-//import lombok.AllArgsConstructor;
-//import lombok.Getter;
-//import lombok.NoArgsConstructor;
-//import lombok.Setter;
-//
-//import javax.persistence.*;
-//import java.util.Set;
-//
-//@NoArgsConstructor @AllArgsConstructor @Getter @Setter
-//@Entity
-//@Table(name = "user_account")
-//public class UserAccountEntity {
-//    @Column(name = "id")
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private int id;
-//
-//    @Column(name = "name")
-//    private String name;
-//
-//    @Column(name = "email")
-//    private String email;
-//
-//    @Column(name = "phone")
-//    private String phone;
-//
-//    @Column(name = "status")
-//    private  int status;
-//
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userAccountEntity")
-//    private Set<TaskEntity> taskList;
-//
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "team_id")
-//    private TeamEntity teamEntity;
-//
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "office_id", nullable = false)
-//    private OfficeEntity officeEntity;
-//
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "role_id", nullable = false)
-//    private RoleEntity roleEntity;
-//
-//
-//}
+package com.nli.probation.entity;
+
+import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@Document(collection = "user_account")
+@Data
+public class UserAccountEntity {
+
+    @Transient
+    public static final String SEQUENCE_NAME = "account_sequence";
+
+    @Id
+    @Field("id")
+    private int id;
+
+    @Field("name")
+    private String name;
+
+    @Field("email")
+    private String email;
+
+    @Field("phone")
+    private String phone;
+
+    @Field("status")
+    private  int status;
+
+    @Field("team_id")
+    private int teamId;
+
+    @Field("office_id")
+    private int officeId;
+
+    @Field("role_id")
+    private int roleId;
+
+}
