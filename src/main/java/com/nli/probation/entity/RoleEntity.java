@@ -16,7 +16,6 @@ public class RoleEntity {
     public static final String SEQUENCE_NAME = "role_sequence";
 
     @Id
-    @Field("id")
     private int id;
 
     @Field("short_name")

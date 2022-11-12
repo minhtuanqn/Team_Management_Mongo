@@ -14,7 +14,6 @@ public class TeamEntity {
     public static final String SEQUENCE_NAME = "team_sequence";
 
     @Id
-    @Field("id")
     private int id;
 
     @Field("short_name")

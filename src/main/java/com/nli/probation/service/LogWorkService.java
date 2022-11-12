@@ -1,76 +1,75 @@
-//package com.nli.probation.service;
-//
-//import com.nli.probation.constant.EntityStatusEnum;
-//import com.nli.probation.converter.PaginationConverter;
-//import com.nli.probation.customexception.NoSuchEntityException;
-//import com.nli.probation.customexception.TimeCustomException;
-//import com.nli.probation.entity.LogWorkEntity;
-//import com.nli.probation.entity.TaskEntity;
-//import com.nli.probation.metamodel.LogWorkEntity_;
-//import com.nli.probation.model.RequestPaginationModel;
-//import com.nli.probation.model.ResourceModel;
-//import com.nli.probation.model.logwork.CreateLogWorkModel;
-//import com.nli.probation.model.logwork.LogWorkModel;
-//import com.nli.probation.model.logwork.UpdateLogWorkModel;
-//import com.nli.probation.model.task.TaskModel;
-//import com.nli.probation.repository.LogWorkRepository;
-//import com.nli.probation.repository.TaskRepository;
-//import org.modelmapper.ModelMapper;
-//import org.springframework.data.domain.Page;
-//import org.springframework.data.domain.Pageable;
-//import org.springframework.data.jpa.domain.Specification;
-//import org.springframework.stereotype.Service;
-//
-//import java.time.Duration;
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Optional;
-//
-//@Service
-//public class LogWorkService {
-//    private final LogWorkRepository logWorkRepository;
-//    private final ModelMapper modelMapper;
-//    private final TaskRepository taskRepository;
-//
-//    public LogWorkService(LogWorkRepository logWorkRepository,
-//                          ModelMapper modelMapper,
-//                          TaskRepository taskRepository) {
-//        this.logWorkRepository = logWorkRepository;
-//        this.modelMapper = modelMapper;
-//        this.taskRepository = taskRepository;
-//    }
-//
-//    /**
-//     * Create new log work
-//     * @param createLogWorkModel
-//     * @return saved log work
-//     */
-//    public LogWorkModel createLogWork(CreateLogWorkModel createLogWorkModel) {
-//        //Check exist task
-//        Optional<TaskEntity> existedTaskOptional = taskRepository.findById(createLogWorkModel.getTaskId());
-//        TaskEntity existedTaskEntity = existedTaskOptional
-//                .orElseThrow(() -> new NoSuchEntityException("Not found task"));
-//
-//        //Check time
-//        if(createLogWorkModel.getStartTime().isAfter(createLogWorkModel.getEndTime()))
-//            throw new TimeCustomException("Check time of log work again");
-//
-//        //Prepare saved entity
-//        LogWorkEntity logWorkEntity = modelMapper.map(createLogWorkModel, LogWorkEntity.class);
-//        logWorkEntity.setStatus(EntityStatusEnum.LogWorkStatusEnum.ACTIVE.ordinal());
-//        double totalTime = existedTaskEntity.getActualTime()
-//                + Duration.between(logWorkEntity.getStartTime(), logWorkEntity.getEndTime()).toMinutes() / 60.0;
-//        existedTaskEntity.setActualTime(totalTime);
-//        logWorkEntity.setTaskEntity(existedTaskEntity);
-//
-//        //Save entity to DB
-//        LogWorkEntity savedEntity = logWorkRepository.save(logWorkEntity);
-//        LogWorkModel responseLogModel = modelMapper.map(savedEntity, LogWorkModel.class);
-//        responseLogModel.setTaskModel(modelMapper.map(existedTaskEntity, TaskModel.class));
-//
-//        return responseLogModel;
-//    }
-//
+package com.nli.probation.service;
+
+import com.nli.probation.constant.EntityStatusEnum;
+import com.nli.probation.converter.PaginationConverter;
+import com.nli.probation.customexception.NoSuchEntityException;
+import com.nli.probation.customexception.TimeCustomException;
+import com.nli.probation.entity.LogWorkEntity;
+import com.nli.probation.entity.TaskEntity;
+import com.nli.probation.metamodel.LogWorkEntity_;
+import com.nli.probation.model.RequestPaginationModel;
+import com.nli.probation.model.ResourceModel;
+import com.nli.probation.model.logwork.CreateLogWorkModel;
+import com.nli.probation.model.logwork.LogWorkModel;
+import com.nli.probation.model.logwork.UpdateLogWorkModel;
+import com.nli.probation.model.task.TaskModel;
+import com.nli.probation.repository.TaskRepository;
+import org.bson.types.ObjectId;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class LogWorkService {
+    private final ModelMapper modelMapper;
+    private final TaskRepository taskRepository;
+
+    public LogWorkService(ModelMapper modelMapper,
+                          TaskRepository taskRepository) {
+        this.modelMapper = modelMapper;
+        this.taskRepository = taskRepository;
+    }
+
+    /**
+     * Create new log work
+     * @param createLogWorkModel
+     * @return saved log work
+     */
+    public LogWorkModel createLogWork(CreateLogWorkModel createLogWorkModel) {
+        //Check exist task
+        Optional<TaskEntity> existedTaskOptional = taskRepository.findById(createLogWorkModel.getTaskId());
+        TaskEntity existedTaskEntity = existedTaskOptional
+                .orElseThrow(() -> new NoSuchEntityException("Not found task"));
+
+        //Check time
+        if(createLogWorkModel.getStartTime().isAfter(createLogWorkModel.getEndTime()))
+            throw new TimeCustomException("Check time of log work again");
+
+        //Prepare saved entity
+        LogWorkEntity logWorkEntity = modelMapper.map(createLogWorkModel, LogWorkEntity.class);
+        logWorkEntity.setStatus(EntityStatusEnum.LogWorkStatusEnum.ACTIVE.ordinal());
+        logWorkEntity.setId(ObjectId.get().toString());
+        double totalTime = existedTaskEntity.getActualTime()
+                + Duration.between(logWorkEntity.getStartTime(), logWorkEntity.getEndTime()).toMinutes() / 60.0;
+        existedTaskEntity.setActualTime(totalTime);
+        List<LogWorkEntity> logWorkEntities = existedTaskEntity.getLogWorkList();
+        if(logWorkEntities == null)
+            logWorkEntities = new ArrayList<>();
+        logWorkEntities.add(logWorkEntity);
+        existedTaskEntity.setLogWorkList(logWorkEntities);
+
+        //Save entity to DB
+        TaskEntity savedEntity = taskRepository.save(existedTaskEntity);
+        return modelMapper.map(savedEntity, LogWorkModel.class);
+
+    }
+
 //    /**
 //     * Find log work by id
 //     * @param id
@@ -187,4 +186,4 @@
 //        paginationConverter.buildPagination(paginationModel, logEntityPage, resourceModel);
 //        return resourceModel;
 //    }
-//}
+}

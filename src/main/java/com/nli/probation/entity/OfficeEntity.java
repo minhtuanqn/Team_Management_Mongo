@@ -15,7 +15,6 @@ public class OfficeEntity {
     public static final String SEQUENCE_NAME = "office_sequence";
 
     @Id
-    @Field("id")
     private int id;
 
     @Field("name")

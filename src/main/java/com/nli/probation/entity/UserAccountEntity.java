@@ -15,7 +15,6 @@ public class UserAccountEntity {
     public static final String SEQUENCE_NAME = "account_sequence";
 
     @Id
-    @Field("id")
     private int id;
 
     @Field("name")

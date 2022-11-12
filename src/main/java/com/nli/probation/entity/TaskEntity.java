@@ -19,7 +19,6 @@ public class TaskEntity {
     public static final String SEQUENCE_NAME = "task_sequence";
 
     @Id
-    @Field("id")
     private int id;
 
     @Field("title")
