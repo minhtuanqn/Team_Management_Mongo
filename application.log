@@ -316,3 +316,139 @@ com.mongodb.MongoWriteException: E11000 duplicate key error collection: teamwork
 2022-11-13 01:52:19.871  INFO 3624 --- [http-nio-8080-exec-1] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:3, serverValue:145}] to localhost:27017
 2022-11-13 01:54:17.273  INFO 3624 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
 2022-11-13 01:54:17.277  INFO 3624 --- [SpringContextShutdownHook] org.mongodb.driver.connection            : Closed connection [connectionId{localValue:3, serverValue:145}] to localhost:27017 because the pool has been closed.
+2022-11-13 02:19:01.641  INFO 17052 --- [main] com.nli.probation.ProbationApplication   : Starting ProbationApplication using Java 17.0.5 on 5CD1199VWM with PID 17052 (F:\Projects\probation_mongodb\build\classes\java\main started by tuanmle in F:\Projects\probation_mongodb)
+2022-11-13 02:19:01.642 DEBUG 17052 --- [main] com.nli.probation.ProbationApplication   : Running with Spring Boot v2.4.5, Spring v5.3.6
+2022-11-13 02:19:01.642  INFO 17052 --- [main] com.nli.probation.ProbationApplication   : No active profile set, falling back to default profiles: default
+2022-11-13 02:19:02.201  INFO 17052 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2022-11-13 02:19:02.248  INFO 17052 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 44 ms. Found 5 MongoDB repository interfaces.
+2022-11-13 02:19:02.504  INFO 17052 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-13 02:19:02.511  INFO 17052 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-13 02:19:02.511  INFO 17052 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2022-11-13 02:19:02.588  INFO 17052 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-13 02:19:02.588  INFO 17052 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 921 ms
+2022-11-13 02:19:02.679  INFO 17052 --- [main] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms'}
+2022-11-13 02:19:02.715  INFO 17052 --- [cluster-ClusterId{value='636ff1a6b0ce7a7cd664e871', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:1, serverValue:146}] to localhost:27017
+2022-11-13 02:19:02.715  INFO 17052 --- [cluster-rtt-ClusterId{value='636ff1a6b0ce7a7cd664e871', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:2, serverValue:147}] to localhost:27017
+2022-11-13 02:19:02.715  INFO 17052 --- [cluster-ClusterId{value='636ff1a6b0ce7a7cd664e871', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=13402000}
+2022-11-13 02:19:02.765  WARN 17052 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.RoleEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:19:02.784  WARN 17052 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.TeamEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:19:02.788  WARN 17052 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.UserAccountEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:19:02.790  WARN 17052 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.OfficeEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:19:02.792  WARN 17052 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.TaskEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:19:03.168  INFO 17052 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-11-13 02:19:03.287  INFO 17052 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-13 02:19:03.473  INFO 17052 --- [main] com.nli.probation.ProbationApplication   : Started ProbationApplication in 2.048 seconds (JVM running for 2.474)
+2022-11-13 02:19:09.830  INFO 17052 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-13 02:19:09.830  INFO 17052 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-13 02:19:09.831  INFO 17052 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-11-13 02:23:39.680  INFO 17052 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-11-13 02:23:43.478  INFO 21184 --- [main] com.nli.probation.ProbationApplication   : Starting ProbationApplication using Java 17.0.5 on 5CD1199VWM with PID 21184 (F:\Projects\probation_mongodb\build\classes\java\main started by tuanmle in F:\Projects\probation_mongodb)
+2022-11-13 02:23:43.480 DEBUG 21184 --- [main] com.nli.probation.ProbationApplication   : Running with Spring Boot v2.4.5, Spring v5.3.6
+2022-11-13 02:23:43.480  INFO 21184 --- [main] com.nli.probation.ProbationApplication   : No active profile set, falling back to default profiles: default
+2022-11-13 02:23:44.102  INFO 21184 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2022-11-13 02:23:44.151  INFO 21184 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 46 ms. Found 5 MongoDB repository interfaces.
+2022-11-13 02:23:44.479  INFO 21184 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-13 02:23:44.484  INFO 21184 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-13 02:23:44.484  INFO 21184 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2022-11-13 02:23:44.556  INFO 21184 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-13 02:23:44.556  INFO 21184 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1028 ms
+2022-11-13 02:23:44.688  INFO 21184 --- [main] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms'}
+2022-11-13 02:23:44.736  INFO 21184 --- [cluster-ClusterId{value='636ff2c0cb3ca5225c564534', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:1, serverValue:148}] to localhost:27017
+2022-11-13 02:23:44.736  INFO 21184 --- [cluster-ClusterId{value='636ff2c0cb3ca5225c564534', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=15293400}
+2022-11-13 02:23:44.736  INFO 21184 --- [cluster-rtt-ClusterId{value='636ff2c0cb3ca5225c564534', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:2, serverValue:149}] to localhost:27017
+2022-11-13 02:23:44.824  WARN 21184 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.RoleEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:23:44.829  WARN 21184 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.UserAccountEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:23:44.835  WARN 21184 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.TaskEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:23:44.840  WARN 21184 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.OfficeEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:23:44.842  WARN 21184 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.TeamEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:23:45.322  INFO 21184 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-11-13 02:23:45.441  INFO 21184 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-13 02:23:45.704  INFO 21184 --- [main] com.nli.probation.ProbationApplication   : Started ProbationApplication in 2.519 seconds (JVM running for 2.994)
+2022-11-13 02:23:49.277  INFO 21184 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-13 02:23:49.278  INFO 21184 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-13 02:23:49.279  INFO 21184 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-11-13 02:24:25.922  INFO 21184 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-11-13 02:24:29.641  INFO 20056 --- [main] com.nli.probation.ProbationApplication   : Starting ProbationApplication using Java 17.0.5 on 5CD1199VWM with PID 20056 (F:\Projects\probation_mongodb\build\classes\java\main started by tuanmle in F:\Projects\probation_mongodb)
+2022-11-13 02:24:29.643 DEBUG 20056 --- [main] com.nli.probation.ProbationApplication   : Running with Spring Boot v2.4.5, Spring v5.3.6
+2022-11-13 02:24:29.643  INFO 20056 --- [main] com.nli.probation.ProbationApplication   : No active profile set, falling back to default profiles: default
+2022-11-13 02:24:30.211  INFO 20056 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2022-11-13 02:24:30.257  INFO 20056 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 43 ms. Found 5 MongoDB repository interfaces.
+2022-11-13 02:24:30.509  INFO 20056 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-13 02:24:30.514  INFO 20056 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-13 02:24:30.514  INFO 20056 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2022-11-13 02:24:30.593  INFO 20056 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-13 02:24:30.593  INFO 20056 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 921 ms
+2022-11-13 02:24:30.686  INFO 20056 --- [main] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms'}
+2022-11-13 02:24:30.720  INFO 20056 --- [cluster-ClusterId{value='636ff2eea0879c319559735b', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:1, serverValue:150}] to localhost:27017
+2022-11-13 02:24:30.720  INFO 20056 --- [cluster-ClusterId{value='636ff2eea0879c319559735b', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=12044100}
+2022-11-13 02:24:30.720  INFO 20056 --- [cluster-rtt-ClusterId{value='636ff2eea0879c319559735b', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:2, serverValue:151}] to localhost:27017
+2022-11-13 02:24:30.771  WARN 20056 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.RoleEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:24:30.787  WARN 20056 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.TeamEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:24:30.794  WARN 20056 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.TaskEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:24:30.798  WARN 20056 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.OfficeEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:24:30.800  WARN 20056 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.UserAccountEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:24:31.199  INFO 20056 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-11-13 02:24:31.312  INFO 20056 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-13 02:24:31.501  INFO 20056 --- [main] com.nli.probation.ProbationApplication   : Started ProbationApplication in 2.078 seconds (JVM running for 2.488)
+2022-11-13 02:24:40.077  INFO 20056 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-13 02:24:40.077  INFO 20056 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-13 02:24:40.078  INFO 20056 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-11-13 02:24:55.136  INFO 20056 --- [http-nio-8080-exec-6] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:3, serverValue:152}] to localhost:27017
+2022-11-13 02:27:03.097  INFO 20056 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-11-13 02:27:03.102  INFO 20056 --- [SpringContextShutdownHook] org.mongodb.driver.connection            : Closed connection [connectionId{localValue:3, serverValue:152}] to localhost:27017 because the pool has been closed.
+2022-11-13 02:38:00.717  INFO 16836 --- [main] com.nli.probation.ProbationApplication   : Starting ProbationApplication using Java 17.0.5 on 5CD1199VWM with PID 16836 (F:\Projects\probation_mongodb\build\classes\java\main started by tuanmle in F:\Projects\probation_mongodb)
+2022-11-13 02:38:00.719 DEBUG 16836 --- [main] com.nli.probation.ProbationApplication   : Running with Spring Boot v2.4.5, Spring v5.3.6
+2022-11-13 02:38:00.720  INFO 16836 --- [main] com.nli.probation.ProbationApplication   : No active profile set, falling back to default profiles: default
+2022-11-13 02:38:01.278  INFO 16836 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2022-11-13 02:38:01.322  INFO 16836 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 43 ms. Found 5 MongoDB repository interfaces.
+2022-11-13 02:38:01.593  INFO 16836 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-13 02:38:01.598  INFO 16836 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-13 02:38:01.598  INFO 16836 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2022-11-13 02:38:01.673  INFO 16836 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-13 02:38:01.673  INFO 16836 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 920 ms
+2022-11-13 02:38:01.764  INFO 16836 --- [main] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms'}
+2022-11-13 02:38:01.797  INFO 16836 --- [cluster-ClusterId{value='636ff6193c2f591f4df1d64a', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:1, serverValue:153}] to localhost:27017
+2022-11-13 02:38:01.797  INFO 16836 --- [cluster-rtt-ClusterId{value='636ff6193c2f591f4df1d64a', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:2, serverValue:154}] to localhost:27017
+2022-11-13 02:38:01.797  INFO 16836 --- [cluster-ClusterId{value='636ff6193c2f591f4df1d64a', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=12194800}
+2022-11-13 02:38:01.852  WARN 16836 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.RoleEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:38:01.869  WARN 16836 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.OfficeEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:38:01.873  WARN 16836 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.TeamEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:38:01.878  WARN 16836 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.TaskEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:38:01.883  WARN 16836 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.UserAccountEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:38:02.271  INFO 16836 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-11-13 02:38:02.417  INFO 16836 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-13 02:38:02.663  INFO 16836 --- [main] com.nli.probation.ProbationApplication   : Started ProbationApplication in 2.166 seconds (JVM running for 2.644)
+2022-11-13 02:38:26.778  INFO 16836 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-13 02:38:26.779  INFO 16836 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-13 02:38:26.780  INFO 16836 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-11-13 02:39:48.318  INFO 16836 --- [http-nio-8080-exec-8] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:3, serverValue:155}] to localhost:27017
+2022-11-13 02:44:51.864  INFO 16836 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-11-13 02:44:51.869  INFO 16836 --- [SpringContextShutdownHook] org.mongodb.driver.connection            : Closed connection [connectionId{localValue:3, serverValue:155}] to localhost:27017 because the pool has been closed.
+2022-11-13 02:45:07.047  INFO 9576 --- [main] com.nli.probation.ProbationApplication   : Starting ProbationApplication using Java 17.0.5 on 5CD1199VWM with PID 9576 (F:\Projects\probation_mongodb\build\classes\java\main started by tuanmle in F:\Projects\probation_mongodb)
+2022-11-13 02:45:07.050 DEBUG 9576 --- [main] com.nli.probation.ProbationApplication   : Running with Spring Boot v2.4.5, Spring v5.3.6
+2022-11-13 02:45:07.050  INFO 9576 --- [main] com.nli.probation.ProbationApplication   : No active profile set, falling back to default profiles: default
+2022-11-13 02:45:07.754  INFO 9576 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2022-11-13 02:45:07.800  INFO 9576 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 44 ms. Found 5 MongoDB repository interfaces.
+2022-11-13 02:45:08.162  INFO 9576 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-13 02:45:08.170  INFO 9576 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-13 02:45:08.171  INFO 9576 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2022-11-13 02:45:08.257  INFO 9576 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-13 02:45:08.257  INFO 9576 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1166 ms
+2022-11-13 02:45:08.345  INFO 9576 --- [main] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms'}
+2022-11-13 02:45:08.380  INFO 9576 --- [cluster-ClusterId{value='636ff7c409eee54c37789328', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:1, serverValue:157}] to localhost:27017
+2022-11-13 02:45:08.380  INFO 9576 --- [cluster-rtt-ClusterId{value='636ff7c409eee54c37789328', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:2, serverValue:156}] to localhost:27017
+2022-11-13 02:45:08.380  INFO 9576 --- [cluster-ClusterId{value='636ff7c409eee54c37789328', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=13436300}
+2022-11-13 02:45:08.443  WARN 9576 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.TeamEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:45:08.470  WARN 9576 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.UserAccountEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:45:08.481  WARN 9576 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.OfficeEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:45:08.487  WARN 9576 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.TaskEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:45:08.491  WARN 9576 --- [main] o.s.d.m.c.m.BasicMongoPersistentProperty : Customizing field name for id property 'com.nli.probation.entity.RoleEntity.id' is not allowed! Custom name ('id') will not be considered!
+2022-11-13 02:45:08.992  INFO 9576 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-11-13 02:45:09.150  INFO 9576 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-13 02:45:09.403  INFO 9576 --- [main] com.nli.probation.ProbationApplication   : Started ProbationApplication in 2.569 seconds (JVM running for 2.973)
+2022-11-13 02:45:12.923  INFO 9576 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-13 02:45:12.923  INFO 9576 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-13 02:45:12.925  INFO 9576 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-11-13 02:45:13.076  INFO 9576 --- [http-nio-8080-exec-1] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:3, serverValue:158}] to localhost:27017
+2022-11-13 02:47:47.703  INFO 9576 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-11-13 02:47:47.708  INFO 9576 --- [SpringContextShutdownHook] org.mongodb.driver.connection            : Closed connection [connectionId{localValue:3, serverValue:158}] to localhost:27017 because the pool has been closed.

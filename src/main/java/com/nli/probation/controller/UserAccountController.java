@@ -95,7 +95,7 @@ public class UserAccountController {
 //     * @return response entity contains data resource
 //     */
 //    @GetMapping(path = "", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public ResponseEntity<Object> searchTeams(@RequestPagingParam RequestPaginationModel requestPaginationModel,
+//    public ResponseEntity<Object> searchUsersOfTeam(@RequestPagingParam RequestPaginationModel requestPaginationModel,
 //                                              @RequestParam(value = "searchText", defaultValue = "") String searchText) {
 //        ResourceModel<UserAccountModel> accountList = userAccountService
 //                .searchAccounts(searchText, requestPaginationModel, 0);
@@ -110,7 +110,7 @@ public class UserAccountController {
 //     * @return response entity contains list of tasks
 //     */
 //    @GetMapping(path = "{id}/tasks", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public ResponseEntity<Object> searchTasks(@RequestPagingParam RequestPaginationModel requestPaginationModel,
+//    public ResponseEntity<Object> searchTasksOfUser(@RequestPagingParam RequestPaginationModel requestPaginationModel,
 //                                              @PathVariable int id,
 //                                              @RequestParam(value = "searchText", defaultValue = "") String searchText) {
 //        ResourceModel<TaskModel> taskList = taskService.searchTasksOfUserId(searchText, requestPaginationModel, id);

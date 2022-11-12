@@ -100,22 +100,22 @@ public class TaskController {
 //        ResourceModel<TaskModel> taskList = taskService.searchTasks(searchText, requestPaginationModel);
 //        return new ResponseEntity<>(taskList, HttpStatus.OK);
 //    }
-//
-//    /**
-//     * Assign/reassign a task to an user account
-//     * @param id
-//     * @param userId
-//     * @return saved task model
-//     */
-//    @PutMapping(path = "{id}/user-accounts/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public ResponseEntity<ResponseModel> assignUserForTask(@PathVariable int id, @PathVariable int userId) {
-//        TaskModel taskModel = taskService.assignTaskToUser(id, userId);
-//        ResponseModel responseModel = new ResponseModel().statusCode(HttpStatus.OK.value())
-//                .data(taskModel)
-//                .message("OK");
-//        return new ResponseEntity<>(responseModel, HttpStatus.OK);
-//    }
-//
+
+    /**
+     * Assign/reassign a task to an user account
+     * @param id
+     * @param userId
+     * @return saved task model
+     */
+    @PutMapping(path = "{id}/user-accounts/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ResponseModel> assignUserForTask(@PathVariable int id, @PathVariable int userId) {
+        TaskModel taskModel = taskService.assignTaskToUser(id, userId);
+        ResponseModel responseModel = new ResponseModel().statusCode(HttpStatus.OK.value())
+                .data(taskModel)
+                .message("OK");
+        return new ResponseEntity<>(responseModel, HttpStatus.OK);
+    }
+
 //    /**
 //     * Search log works of task
 //     * @param requestPaginationModel

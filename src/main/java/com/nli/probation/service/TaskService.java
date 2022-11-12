@@ -3,8 +3,10 @@ package com.nli.probation.service;
 import com.nli.probation.constant.EntityStatusEnum;
 import com.nli.probation.converter.PaginationConverter;
 import com.nli.probation.customexception.NoSuchEntityException;
+import com.nli.probation.entity.RoleEntity;
 import com.nli.probation.entity.TaskEntity;
 import com.nli.probation.entity.UserAccountEntity;
+import com.nli.probation.metamodel.RoleEntity_;
 import com.nli.probation.metamodel.TaskEntity_;
 import com.nli.probation.metamodel.UserAccountEntity_;
 import com.nli.probation.model.RequestPaginationModel;
@@ -15,7 +17,10 @@ import com.nli.probation.model.task.UpdateTaskModel;
 import com.nli.probation.model.useraccount.UserAccountModel;
 import com.nli.probation.repository.TaskRepository;
 import com.nli.probation.repository.UserAccountRepository;
+import io.swagger.models.auth.In;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -173,6 +178,25 @@ public class TaskService {
 //        });
 //    }
 //
+//    private Example<TaskEntity> searchTitle(String searchValue) {
+//        TaskEntity taskEntity = new TaskEntity();
+//        taskEntity.setTitle(searchValue);
+//        taskEntity.setActualTime(Double.MIN_VALUE);
+//        taskEntity.setStatus(Integer.MIN_VALUE);
+//        taskEntity.setDescription(searchValue);
+//        taskEntity.setEstimatedTime(Double.MIN_VALUE);
+//        taskEntity.setId(Integer.MIN_VALUE);
+//        taskEntity.set
+//        roleEntity.setId(Integer.MIN_VALUE);
+//        roleEntity.setStatus(Integer.MIN_VALUE);
+//        ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny()
+//                .withMatcher(RoleEntity_.NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+//                .withMatcher(RoleEntity_.SHORT_NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+//                .withMatcher(RoleEntity_.STATUS, ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase())
+//                .withMatcher(RoleEntity_.ID, ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase());
+//        return Example.of(roleEntity, exampleMatcher);
+//    }
+//
 //    /**
 //     * Search task like title
 //     * @param searchValue
@@ -208,32 +232,32 @@ public class TaskService {
 //        paginationConverter.buildPagination(paginationModel, taskEntityPage, resourceModel);
 //        return resourceModel;
 //    }
-//
-//    /**
-//     * Assign/reassign a user for a task
-//     * @param taskId
-//     * @param userId
-//     * @return saved task model
-//     */
-//    public TaskModel assignTaskToUser(int taskId, int userId) {
-//        //Check task
-//        Optional<TaskEntity> taskOptional = taskRepository.findById(taskId);
-//        TaskEntity taskEntity = taskOptional.orElseThrow(() -> new NoSuchEntityException("Not found task"));
-//
-//        //Check user
-//        Optional<UserAccountEntity> userOptional = userAccountRepository.findById(userId);
-//        UserAccountEntity userEntity = userOptional.orElseThrow(() -> new NoSuchEntityException("Not found user account"));
-//
-//        //Update user in task
-//        taskEntity.setUserAccountEntity(userEntity);
-//        TaskEntity savedTaskEntity = taskRepository.save(taskEntity);
-//
-//        //Prepare for response model
-//        TaskModel responseModel = modelMapper.map(savedTaskEntity, TaskModel.class);
-//        responseModel.setAssignee(modelMapper.map(savedTaskEntity.getUserAccountEntity(), UserAccountModel.class));
-//        return  responseModel;
-//    }
-//
+
+    /**
+     * Assign/reassign a user for a task
+     * @param taskId
+     * @param userId
+     * @return saved task model
+     */
+    public TaskModel assignTaskToUser(int taskId, int userId) {
+        //Check task
+        Optional<TaskEntity> taskOptional = taskRepository.findById(taskId);
+        TaskEntity taskEntity = taskOptional.orElseThrow(() -> new NoSuchEntityException("Not found task"));
+
+        //Check user
+        Optional<UserAccountEntity> userOptional = userAccountRepository.findById(userId);
+        UserAccountEntity userEntity = userOptional.orElseThrow(() -> new NoSuchEntityException("Not found user account"));
+
+        //Update user in task
+        taskEntity.setUserAccountId(userId);
+        TaskEntity savedTaskEntity = taskRepository.save(taskEntity);
+
+        //Prepare for response model
+        TaskModel responseModel = modelMapper.map(savedTaskEntity, TaskModel.class);
+        responseModel.setAssignee(modelMapper.map(userEntity, UserAccountModel.class));
+        return  responseModel;
+    }
+
 //    public ResourceModel<TaskModel> searchTasksOfUserId(String searchValue, RequestPaginationModel paginationModel, int userId) {
 //        //Check exist user account
 //        Optional<UserAccountEntity> accountOptional = userAccountRepository.findById(userId);
