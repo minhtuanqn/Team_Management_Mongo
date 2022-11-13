@@ -102,19 +102,19 @@ public class UserAccountController {
 //                .searchAccounts(searchText, requestPaginationModel, 0);
 //        return new ResponseEntity<>(accountList, HttpStatus.OK);
 //    }
-//
-//    /**
-//     * Search task of an user account
-//     * @param requestPaginationModel
-//     * @param id
-//     * @param searchText
-//     * @return response entity contains list of tasks
-//     */
-//    @GetMapping(path = "{id}/tasks", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public ResponseEntity<Object> searchTasksOfUser(@RequestPagingParam RequestPaginationModel requestPaginationModel,
-//                                              @PathVariable int id,
-//                                              @RequestParam(value = "searchText", defaultValue = "") String searchText) {
-//        ResourceModel<TaskModel> taskList = taskService.searchTasksOfUserId(searchText, requestPaginationModel, id);
-//        return new ResponseEntity<>(taskList, HttpStatus.OK);
-//    }
+
+    /**
+     * Search task of an user account
+     * @param requestPaginationModel
+     * @param id
+     * @param searchText
+     * @return response entity contains list of tasks
+     */
+    @GetMapping(path = "{id}/tasks", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Object> searchTasksOfUser(@RequestPagingParam RequestPaginationModel requestPaginationModel,
+                                              @PathVariable int id,
+                                              @RequestParam(value = "searchText", defaultValue = "") String searchText) {
+        ResourceModel<TaskModel> taskList = taskService.searchTasksOfUserId(searchText, requestPaginationModel, id);
+        return new ResponseEntity<>(taskList, HttpStatus.OK);
+    }
 }

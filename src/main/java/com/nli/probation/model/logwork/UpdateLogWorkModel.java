@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class UpdateLogWorkModel {
 
     @NotNull(message = "{logwork_id.null}")
-    private int id;
+    private String id;
 
     @NotNull(message = "{logwork_starttime.null}")
     private LocalDateTime startTime;

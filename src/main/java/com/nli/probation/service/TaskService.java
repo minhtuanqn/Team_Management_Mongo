@@ -3,12 +3,9 @@ package com.nli.probation.service;
 import com.nli.probation.constant.EntityStatusEnum;
 import com.nli.probation.converter.PaginationConverter;
 import com.nli.probation.customexception.NoSuchEntityException;
-import com.nli.probation.entity.RoleEntity;
 import com.nli.probation.entity.TaskEntity;
 import com.nli.probation.entity.UserAccountEntity;
-import com.nli.probation.metamodel.RoleEntity_;
 import com.nli.probation.metamodel.TaskEntity_;
-import com.nli.probation.metamodel.UserAccountEntity_;
 import com.nli.probation.model.RequestPaginationModel;
 import com.nli.probation.model.ResourceModel;
 import com.nli.probation.model.task.CreateTaskModel;
@@ -17,12 +14,13 @@ import com.nli.probation.model.task.UpdateTaskModel;
 import com.nli.probation.model.useraccount.UserAccountModel;
 import com.nli.probation.repository.TaskRepository;
 import com.nli.probation.repository.UserAccountRepository;
-import io.swagger.models.auth.In;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,15 +34,18 @@ public class TaskService {
     private final UserAccountRepository userAccountRepository;
     private final ModelMapper modelMapper;
     private final SequenceGeneratorService sequenceGeneratorService;
+    private final MongoTemplate mongoTemplate;
 
     public TaskService(TaskRepository taskRepository,
                        UserAccountRepository userAccountRepository,
                        ModelMapper modelMapper,
-                       SequenceGeneratorService sequenceGeneratorService) {
+                       SequenceGeneratorService sequenceGeneratorService,
+                       MongoTemplate mongoTemplate) {
         this.taskRepository = taskRepository;
         this.userAccountRepository = userAccountRepository;
         this.modelMapper = modelMapper;
         this.sequenceGeneratorService = sequenceGeneratorService;
+        this.mongoTemplate = mongoTemplate;
     }
 
     /**
@@ -155,83 +156,50 @@ public class TaskService {
         return taskModel;
     }
 
-//    /**
-//     * Specification for search task by title
-//     * @param searchValue
-//     * @return specification
-//     */
-//    private Specification<TaskEntity> containsTitle(String searchValue) {
-//        return ((root, query, criteriaBuilder) -> {
-//            String pattern = searchValue != null ? "%" + searchValue + "%" : "%%";
-//            return criteriaBuilder.like(root.get(TaskEntity_.TITLE), pattern);
-//        });
-//    }
-//
-//    /**
-//     * Specification for search task by assignee
-//     * @param userAccountEntity
-//     * @return specification
-//     */
-//    private Specification<TaskEntity> belongToAssignee(UserAccountEntity userAccountEntity) {
-//        return ((root, query, criteriaBuilder) -> {
-//            return criteriaBuilder.equal(root.get(TaskEntity_.USER_ACCOUNT_ENTITY), userAccountEntity);
-//        });
-//    }
-//
-//    private Example<TaskEntity> searchTitle(String searchValue) {
-//        TaskEntity taskEntity = new TaskEntity();
-//        taskEntity.setTitle(searchValue);
-//        taskEntity.setActualTime(Double.MIN_VALUE);
-//        taskEntity.setStatus(Integer.MIN_VALUE);
-//        taskEntity.setDescription(searchValue);
-//        taskEntity.setEstimatedTime(Double.MIN_VALUE);
-//        taskEntity.setId(Integer.MIN_VALUE);
-//        taskEntity.set
-//        roleEntity.setId(Integer.MIN_VALUE);
-//        roleEntity.setStatus(Integer.MIN_VALUE);
-//        ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny()
-//                .withMatcher(RoleEntity_.NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-//                .withMatcher(RoleEntity_.SHORT_NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-//                .withMatcher(RoleEntity_.STATUS, ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase())
-//                .withMatcher(RoleEntity_.ID, ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase());
-//        return Example.of(roleEntity, exampleMatcher);
-//    }
-//
-//    /**
-//     * Search task like title
-//     * @param searchValue
-//     * @param paginationModel
-//     * @return resource of data
-//     */
-//    public ResourceModel<TaskModel> searchTasks(String searchValue, RequestPaginationModel paginationModel) {
-//        PaginationConverter<TaskModel, TaskEntity> paginationConverter = new PaginationConverter<>();
-//
-//        //Build pageable
-//        String defaultSortBy = TaskEntity_.ID;
-//        Pageable pageable = paginationConverter.convertToPageable(paginationModel, defaultSortBy, TaskEntity.class);
-//
-//        //Find all tasks
-//        Page<TaskEntity> taskEntityPage = taskRepository.findAll(containsTitle(searchValue), pageable);
-//
-//        //Convert list of offices entity to list of task models
-//        List<TaskModel> taskModels = new ArrayList<>();
-//        for(TaskEntity entity : taskEntityPage) {
-//            TaskModel model = modelMapper.map(entity, TaskModel.class);
-//            if(entity.getUserAccountEntity() != null) {
-//                model.setAssignee(modelMapper.map(entity.getUserAccountEntity(), UserAccountModel.class));
-//            }
-//            taskModels.add(model);
-//        }
-//
-//        //Prepare resource for return
-//        ResourceModel<TaskModel> resourceModel = new ResourceModel<>();
-//        resourceModel.setData(taskModels);
-//        resourceModel.setSearchText(searchValue);
-//        resourceModel.setSortBy(defaultSortBy);
-//        resourceModel.setSortType(paginationModel.getSortType());
-//        paginationConverter.buildPagination(paginationModel, taskEntityPage, resourceModel);
-//        return resourceModel;
-//    }
+    /**
+     * Search task like title
+     * @param searchValue
+     * @param paginationModel
+     * @return resource of data
+     */
+    public ResourceModel<TaskModel> searchTasks(String searchValue, RequestPaginationModel paginationModel) {
+        PaginationConverter<TaskModel, TaskEntity> paginationConverter = new PaginationConverter<>();
+
+        //Build pageable
+        String defaultSortBy = TaskEntity_.START_TIME;
+        Pageable pageable = paginationConverter.convertToPageable(paginationModel, defaultSortBy, TaskEntity.class);
+
+        //Create query object
+        Query query = new Query(Criteria.where(TaskEntity_.TITLE).regex(".*" + searchValue + ".*")).with(pageable);
+
+        //Find all tasks
+        List<TaskEntity> taskEntityList = mongoTemplate.find(query, TaskEntity.class);
+        Page<TaskEntity> taskEntityPage = PageableExecutionUtils.getPage(taskEntityList, pageable,
+                () -> mongoTemplate.count(Query.of(query).limit(-1).skip(-1), TaskEntity.class));
+
+        //Convert list of offices entity to list of task models
+        List<TaskModel> taskModels = new ArrayList<>();
+        for(TaskEntity entity : taskEntityPage) {
+            TaskModel model = modelMapper.map(entity, TaskModel.class);
+            if(entity.getUserAccountId() > 0) {
+                Optional<UserAccountEntity> assigneeOptional = userAccountRepository.findById(entity.getUserAccountId());
+                UserAccountEntity assigneeEntity = assigneeOptional.orElse(null);
+                if(assigneeOptional.isPresent()) {
+                    model.setAssignee(modelMapper.map(assigneeEntity, UserAccountModel.class));
+                }
+            }
+            taskModels.add(model);
+        }
+
+        //Prepare resource for return
+        ResourceModel<TaskModel> resourceModel = new ResourceModel<>();
+        resourceModel.setData(taskModels);
+        resourceModel.setSearchText(searchValue);
+        resourceModel.setSortBy(defaultSortBy);
+        resourceModel.setSortType(paginationModel.getSortType());
+        paginationConverter.buildPagination(paginationModel, taskEntityPage, resourceModel);
+        return resourceModel;
+    }
 
     /**
      * Assign/reassign a user for a task
@@ -258,38 +226,55 @@ public class TaskService {
         return  responseModel;
     }
 
-//    public ResourceModel<TaskModel> searchTasksOfUserId(String searchValue, RequestPaginationModel paginationModel, int userId) {
-//        //Check exist user account
-//        Optional<UserAccountEntity> accountOptional = userAccountRepository.findById(userId);
-//        UserAccountEntity accountEntity = accountOptional.orElseThrow(() -> new NoSuchEntityException("Not found user accpount"));
-//
-//        PaginationConverter<TaskModel, TaskEntity> paginationConverter = new PaginationConverter<>();
-//
-//        //Build pageable
-//        String defaultSortBy = TaskEntity_.ID;
-//        Pageable pageable = paginationConverter.convertToPageable(paginationModel, defaultSortBy, TaskEntity.class);
-//
-//        //Find all tasks
-//        Page<TaskEntity> taskEntityPage = taskRepository.findAll(containsTitle(searchValue)
-//                .and(belongToAssignee(accountEntity)), pageable);
-//
-//        //Convert list of offices entity to list of task models
-//        List<TaskModel> taskModels = new ArrayList<>();
-//        for(TaskEntity entity : taskEntityPage) {
-//            TaskModel model = modelMapper.map(entity, TaskModel.class);
-//            if(entity.getUserAccountEntity() != null) {
-//                model.setAssignee(modelMapper.map(entity.getUserAccountEntity(), UserAccountModel.class));
-//            }
-//            taskModels.add(model);
-//        }
-//
-//        //Prepare resource for return
-//        ResourceModel<TaskModel> resourceModel = new ResourceModel<>();
-//        resourceModel.setData(taskModels);
-//        resourceModel.setSearchText(searchValue);
-//        resourceModel.setSortBy(defaultSortBy);
-//        resourceModel.setSortType(paginationModel.getSortType());
-//        paginationConverter.buildPagination(paginationModel, taskEntityPage, resourceModel);
-//        return resourceModel;
-//    }
+    /**
+     * Search task of user
+     * @param searchValue
+     * @param paginationModel
+     * @param userId
+     * @return resource contains list task of user
+     */
+    public ResourceModel<TaskModel> searchTasksOfUserId(String searchValue, RequestPaginationModel paginationModel, int userId) {
+        //Check exist user account
+        Optional<UserAccountEntity> accountOptional = userAccountRepository.findById(userId);
+        UserAccountEntity accountEntity = accountOptional.orElseThrow(() -> new NoSuchEntityException("Not found user accpount"));
+
+        PaginationConverter<TaskModel, TaskEntity> paginationConverter = new PaginationConverter<>();
+
+        //Build pageable
+        String defaultSortBy = TaskEntity_.START_TIME;
+        Pageable pageable = paginationConverter.convertToPageable(paginationModel, defaultSortBy, TaskEntity.class);
+
+        //Create query object
+        Query query = new Query(Criteria.where(TaskEntity_.TITLE).regex(".*" + searchValue + ".*")
+                .andOperator(Criteria.where(TaskEntity_.USER_ACCOUNT_ID).is(userId))).with(pageable);
+
+        //Find all tasks
+        //Find all tasks
+        List<TaskEntity> taskEntityList = mongoTemplate.find(query, TaskEntity.class);
+        Page<TaskEntity> taskEntityPage = PageableExecutionUtils.getPage(taskEntityList, pageable,
+                () -> mongoTemplate.count(Query.of(query).limit(-1).skip(-1), TaskEntity.class));
+
+        //Convert list of offices entity to list of task models
+        List<TaskModel> taskModels = new ArrayList<>();
+        for(TaskEntity entity : taskEntityPage) {
+            TaskModel model = modelMapper.map(entity, TaskModel.class);
+            if(entity.getUserAccountId() > 0) {
+                Optional<UserAccountEntity> assigneeOptional = userAccountRepository.findById(entity.getUserAccountId());
+                UserAccountEntity assigneeEntity = assigneeOptional.orElse(null);
+                if(assigneeOptional.isPresent()) {
+                    model.setAssignee(modelMapper.map(assigneeEntity, UserAccountModel.class));
+                }
+            }
+            taskModels.add(model);
+        }
+
+        //Prepare resource for return
+        ResourceModel<TaskModel> resourceModel = new ResourceModel<>();
+        resourceModel.setData(taskModels);
+        resourceModel.setSearchText(searchValue);
+        resourceModel.setSortBy(defaultSortBy);
+        resourceModel.setSortType(paginationModel.getSortType());
+        paginationConverter.buildPagination(paginationModel, taskEntityPage, resourceModel);
+        return resourceModel;
+    }
 }

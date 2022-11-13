@@ -4,6 +4,7 @@ import com.nli.probation.model.RequestPaginationModel;
 import com.nli.probation.model.ResourceModel;
 import com.nli.probation.model.ResponseModel;
 import com.nli.probation.model.logwork.LogWorkModel;
+import com.nli.probation.model.logwork.UpdateLogWorkModel;
 import com.nli.probation.model.task.CreateTaskModel;
 import com.nli.probation.model.task.TaskModel;
 import com.nli.probation.model.task.UpdateTaskModel;
@@ -17,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @Validated
@@ -89,18 +91,18 @@ public class TaskController {
         return new ResponseEntity<>(responseModel, HttpStatus.OK);
     }
 
-//    /**
-//     * Search tasks
-//     * @param requestPaginationModel
-//     * @param searchText
-//     * @return response entity contains data resource
-//     */
-//    @GetMapping(path = "", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public ResponseEntity<Object> searchTasks(@RequestPagingParam RequestPaginationModel requestPaginationModel,
-//                                              @RequestParam(value = "searchText", defaultValue = "") String searchText) {
-//        ResourceModel<TaskModel> taskList = taskService.searchTasks(searchText, requestPaginationModel);
-//        return new ResponseEntity<>(taskList, HttpStatus.OK);
-//    }
+    /**
+     * Search tasks
+     * @param requestPaginationModel
+     * @param searchText
+     * @return response entity contains data resource
+     */
+    @GetMapping(path = "", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Object> searchTasks(@RequestPagingParam RequestPaginationModel requestPaginationModel,
+                                              @RequestParam(value = "searchText", defaultValue = "") String searchText) {
+        ResourceModel<TaskModel> taskList = taskService.searchTasks(searchText, requestPaginationModel);
+        return new ResponseEntity<>(taskList, HttpStatus.OK);
+    }
 
     /**
      * Assign/reassign a task to an user account
@@ -117,20 +119,16 @@ public class TaskController {
         return new ResponseEntity<>(responseModel, HttpStatus.OK);
     }
 
-//    /**
-//     * Search log works of task
-//     * @param requestPaginationModel
-//     * @param id
-//     * @param searchText
-//     * @return resource of log works
-//     */
-//    @GetMapping(path = "{id}/log-works", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public ResponseEntity<Object> searchLogWorkOfTask(@RequestPagingParam RequestPaginationModel requestPaginationModel,
-//                                                           @PathVariable int id,
-//                                                           @RequestParam(value = "searchText", defaultValue = "") String searchText) {
-//        ResourceModel<LogWorkModel> logList = logWorkService.searchLogWorkOfTask(id, searchText, requestPaginationModel);
-//        return new ResponseEntity<>(logList, HttpStatus.OK);
-//    }
+    /**
+     * Find all log works of a task
+     * @param id
+     * @return all log work of a task
+     */
+    @GetMapping(path = "{id}/log-works", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Object> searchLogWorkOfTask(@PathVariable int id) {
+        List<LogWorkModel> logList = logWorkService.findAllLogWorkOfTask(id);
+        return new ResponseEntity<>(logList, HttpStatus.OK);
+    }
 
     /**
      * Find log work
@@ -161,6 +159,21 @@ public class TaskController {
                 .message("OK");
         return new ResponseEntity<>(responseModel, HttpStatus.OK);
 
+    }
+
+    /**
+     * Update log work
+     * @param requestModel
+     * @return response entity contains model
+     */
+    @PutMapping(path = "/{id}/log-works", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ResponseModel> updateLogWork(@Valid @RequestBody UpdateLogWorkModel requestModel,
+                                                       @PathVariable int id) {
+        LogWorkModel updatedModel = logWorkService.updateLogWork(id, requestModel);
+        ResponseModel responseModel = new ResponseModel().statusCode(HttpStatus.OK.value())
+                .data(updatedModel)
+                .message("OK");
+        return new ResponseEntity<>(responseModel, HttpStatus.OK);
     }
 
 }

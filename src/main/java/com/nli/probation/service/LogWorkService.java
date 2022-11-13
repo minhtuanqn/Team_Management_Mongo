@@ -129,86 +129,65 @@ public class LogWorkService {
         return logWorkModel;
     }
 
-//    /**
-//     * Update log work information
-//     * @param updateLogWorkModel
-//     * @return updated log work
-//     */
-//    public LogWorkModel updateLogWork (UpdateLogWorkModel updateLogWorkModel) {
-//        //Find log work by id
-//        Optional<LogWorkEntity> foundLogOptional = logWorkRepository.findById(updateLogWorkModel.getId());
-//        LogWorkEntity foundLogEntity = foundLogOptional
-//                .orElseThrow(() -> new NoSuchEntityException("Not found log work with id"));
-//
-//        //Check task
-//        Optional<TaskEntity> existTaskOptional = taskRepository.findById(updateLogWorkModel.getTaskId());
-//        TaskEntity existTaskEntity = existTaskOptional.orElseThrow(() -> new NoSuchEntityException("Not found task"));
-//
-//        //Check time
-//        if(updateLogWorkModel.getStartTime().isAfter(updateLogWorkModel.getEndTime()))
-//            throw new TimeCustomException("Check time of log work again");
-//
-//        //Prepare saved entity
-//        LogWorkEntity logWorkEntity = modelMapper.map(updateLogWorkModel, LogWorkEntity.class);
-//        double newTimeOfLog = Duration.between(logWorkEntity.getStartTime(), logWorkEntity.getEndTime()).toMinutes() / 60.0;
-//        double oldTimeOfLog = Duration.between(logWorkEntity.getStartTime(), logWorkEntity.getEndTime()).toMinutes() / 60.0;
-//        double newActualTimeOfTask = existTaskEntity.getActualTime() - oldTimeOfLog + newTimeOfLog;
-//        existTaskEntity.setActualTime(newActualTimeOfTask);
-//        logWorkEntity.setTaskEntity(existTaskEntity);
-//
-//        //Save entity to database
-//        LogWorkEntity savedEntity = logWorkRepository.save(logWorkEntity);
-//        LogWorkModel logWorkModel = modelMapper.map(savedEntity, LogWorkModel.class);
-//        logWorkModel.setTaskModel(modelMapper.map(existTaskEntity, TaskModel.class));
-//        return logWorkModel;
-//    }
-//
-//    /**
-//     * Specification for search log work by task entity
-//     * @param taskEntity
-//     * @return specification
-//     */
-//    private Specification<LogWorkEntity> belongToTask(TaskEntity taskEntity) {
-//        return ((root, query, criteriaBuilder) -> {
-//            return criteriaBuilder.equal(root.get(LogWorkEntity_.TASK_ENTITY), taskEntity);
-//        });
-//    }
-//
-//    /**
-//     * Search log work of task
-//     * @param taskId
-//     * @param searchValue
-//     * @param paginationModel
-//     * @return resource of log work
-//     */
-//    public ResourceModel<LogWorkModel> searchLogWorkOfTask(int taskId, String searchValue, RequestPaginationModel paginationModel) {
-//        PaginationConverter<LogWorkModel, LogWorkEntity> paginationConverter = new PaginationConverter<>();
-//
-//        //Check task
-//        Optional<TaskEntity> taskOptional = taskRepository.findById(taskId);
-//        TaskEntity taskEntity = taskOptional.orElseThrow(() -> new NoSuchEntityException("Not found task"));
-//
-//        //Build pageable
-//        String defaultSortBy = LogWorkEntity_.START_TIME;
-//        Pageable pageable = paginationConverter.convertToPageable(paginationModel, defaultSortBy, LogWorkEntity.class);
-//
-//        //Find all log work
-//        Page<LogWorkEntity> logEntityPage = logWorkRepository.findAll(belongToTask(taskEntity), pageable);
-//
-//        //Convert list of task entity to list of log models
-//        List<LogWorkModel> logModels = new ArrayList<>();
-//        for(LogWorkEntity entity : logEntityPage) {
-//            LogWorkModel model = modelMapper.map(entity, LogWorkModel.class);
-//            logModels.add(model);
-//        }
-//
-//        //Prepare resource for return
-//        ResourceModel<LogWorkModel> resourceModel = new ResourceModel<>();
-//        resourceModel.setData(logModels);
-//        resourceModel.setSearchText(searchValue);
-//        resourceModel.setSortBy(defaultSortBy);
-//        resourceModel.setSortType(paginationModel.getSortType());
-//        paginationConverter.buildPagination(paginationModel, logEntityPage, resourceModel);
-//        return resourceModel;
-//    }
+    /**
+     * Update log work
+     * @param taskId
+     * @param updateLogWorkModel
+     * @return updated log work
+     */
+    public LogWorkModel updateLogWork (int taskId, UpdateLogWorkModel updateLogWorkModel) {
+        //Find task by id
+        Optional<TaskEntity> taskOptional = taskRepository.findById(taskId);
+        TaskEntity taskEntity = taskOptional.orElseThrow(() -> new NoSuchEntityException("Not found task with id"));
+
+        //Find log work in list
+        LogWorkEntity foundLogWork = null;
+        for (LogWorkEntity entity: taskEntity.getLogWorkList()) {
+            if(entity.getId().equals(updateLogWorkModel.getId())) {
+                foundLogWork = entity;
+                break;
+            }
+        }
+
+        //Check exist log work
+        if(foundLogWork == null)
+            throw  new NoSuchEntityException(" Not found log work with id");
+
+        //Check time
+        if(updateLogWorkModel.getStartTime().isAfter(updateLogWorkModel.getEndTime()))
+            throw new TimeCustomException("Check time of log work again");
+
+        //Prepare saved entity
+        LogWorkEntity updatedLogWork = modelMapper.map(updateLogWorkModel, LogWorkEntity.class);
+        double newTimeOfLog = Duration.between(updatedLogWork.getStartTime(), updatedLogWork.getEndTime()).toMinutes() / 60.0;
+        double oldTimeOfLog = Duration.between(updatedLogWork.getStartTime(), updatedLogWork.getEndTime()).toMinutes() / 60.0;
+        double newActualTimeOfTask = taskEntity.getActualTime() - oldTimeOfLog + newTimeOfLog;
+        taskEntity.setActualTime(newActualTimeOfTask);
+        int index = taskEntity.getLogWorkList().indexOf(foundLogWork);
+        taskEntity.getLogWorkList().set(index, updatedLogWork);
+
+        //Save entity to database
+        TaskEntity savedEntity = taskRepository.save(taskEntity);
+        LogWorkModel logWorkModel = modelMapper.map(savedEntity.getLogWorkList().get(index), LogWorkModel.class);
+        return logWorkModel;
+    }
+
+    /**
+     * Find all log works of a task
+     * @param taskId
+     * @return
+     */
+    public List<LogWorkModel> findAllLogWorkOfTask(int taskId) {
+        //Find task by id
+        Optional<TaskEntity> taskOptional = taskRepository.findById(taskId);
+        TaskEntity taskEntity = taskOptional.orElseThrow(() -> new NoSuchEntityException("Not found task with id"));
+
+        //Find log work in list
+        List<LogWorkModel> logWorkModels = new ArrayList<>();
+        for (LogWorkEntity entity: taskEntity.getLogWorkList()) {
+            logWorkModels.add(modelMapper.map(entity, LogWorkModel.class));
+        }
+
+        return logWorkModels;
+    }
 }

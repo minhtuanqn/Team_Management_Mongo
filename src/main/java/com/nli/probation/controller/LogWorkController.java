@@ -3,7 +3,6 @@ package com.nli.probation.controller;
 import com.nli.probation.model.ResponseModel;
 import com.nli.probation.model.logwork.CreateLogWorkModel;
 import com.nli.probation.model.logwork.LogWorkModel;
-import com.nli.probation.model.logwork.UpdateLogWorkModel;
 import com.nli.probation.service.LogWorkService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,17 +36,5 @@ public class LogWorkController {
         return new ResponseEntity<>(responseModel, HttpStatus.OK);
     }
 
-//    /**
-//     * Update log work
-//     * @param requestModel
-//     * @return response entity contains model
-//     */
-//    @PutMapping(path = "", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public ResponseEntity<ResponseModel> updateLogWork(@Valid @RequestBody UpdateLogWorkModel requestModel) {
-//        LogWorkModel updatedModel = logWorkService.updateLogWork(requestModel);
-//        ResponseModel responseModel = new ResponseModel().statusCode(HttpStatus.OK.value())
-//                .data(updatedModel)
-//                .message("OK");
-//        return new ResponseEntity<>(responseModel, HttpStatus.OK);
-//    }
+
 }
