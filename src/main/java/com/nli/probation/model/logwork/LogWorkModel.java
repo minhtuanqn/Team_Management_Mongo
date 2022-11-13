@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter
 public class LogWorkModel {
 
-    private int id;
+    private String id;
 
     private LocalDateTime startTime;
 

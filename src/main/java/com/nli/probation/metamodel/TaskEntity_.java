@@ -9,4 +9,5 @@ public class TaskEntity_ {
     public static final String USER_ACCOUNT_ID = "userAccountId";
     public static final String ACTUAL_TIME = "actualTime";
     public static final String STATUS = "status";
+    public static final String LOG_WORKS_LIST = "logWorkList";
 }

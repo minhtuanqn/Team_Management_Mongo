@@ -7,6 +7,7 @@ import com.nli.probation.customexception.TimeCustomException;
 import com.nli.probation.entity.LogWorkEntity;
 import com.nli.probation.entity.TaskEntity;
 import com.nli.probation.metamodel.LogWorkEntity_;
+import com.nli.probation.metamodel.TaskEntity_;
 import com.nli.probation.model.RequestPaginationModel;
 import com.nli.probation.model.ResourceModel;
 import com.nli.probation.model.logwork.CreateLogWorkModel;
@@ -18,6 +19,9 @@ import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -29,11 +33,14 @@ import java.util.Optional;
 public class LogWorkService {
     private final ModelMapper modelMapper;
     private final TaskRepository taskRepository;
+    private final MongoTemplate mongoTemplate;
 
     public LogWorkService(ModelMapper modelMapper,
-                          TaskRepository taskRepository) {
+                          TaskRepository taskRepository,
+                          MongoTemplate mongoTemplate) {
         this.modelMapper = modelMapper;
         this.taskRepository = taskRepository;
+        this.mongoTemplate = mongoTemplate;
     }
 
     /**
@@ -66,44 +73,62 @@ public class LogWorkService {
 
         //Save entity to DB
         TaskEntity savedEntity = taskRepository.save(existedTaskEntity);
-        return modelMapper.map(savedEntity, LogWorkModel.class);
+        return modelMapper.map(logWorkEntity, LogWorkModel.class);
 
     }
 
-//    /**
-//     * Find log work by id
-//     * @param id
-//     * @return found log work
-//     */
-//    public LogWorkModel findLogWorkById(int id) {
-//        //Find log work by id
-//        Optional<LogWorkEntity> searchedLogOptional = logWorkRepository.findById(id);
-//        LogWorkEntity logWorkEntity = searchedLogOptional.orElseThrow(() -> new NoSuchEntityException("Not found log work"));
-//        LogWorkModel logWorkModel = modelMapper.map(logWorkEntity, LogWorkModel.class);
-//        logWorkModel.setTaskModel(modelMapper.map(logWorkEntity.getTaskEntity(), TaskModel.class));
-//        return logWorkModel;
-//    }
-//
-//    /**
-//     * Delete a log work
-//     * @param id
-//     * @return deleted model
-//     */
-//    public LogWorkModel deleteLogWorkById(int id) {
-//        //Find log work by id
-//        Optional<LogWorkEntity> deletedLogWorkOptional = logWorkRepository.findById(id);
-//        LogWorkEntity deletedLogEntity = deletedLogWorkOptional.orElseThrow(() -> new NoSuchEntityException("Not found log with id"));
-//
-//        //Set status for entity
-//        deletedLogEntity.setStatus(EntityStatusEnum.LogWorkStatusEnum.DISABLE.ordinal());
-//
-//        //Save entity to DB
-//        LogWorkEntity responseEntity = logWorkRepository.save(deletedLogEntity);
-//        LogWorkModel logWorkModel = modelMapper.map(responseEntity, LogWorkModel.class);
-//        logWorkModel.setTaskModel(modelMapper.map(responseEntity.getTaskEntity(), TaskModel.class));
-//        return logWorkModel;
-//    }
-//
+    /**
+     * Find log work by id
+     * @param taskId
+     * @param logWorkId
+     * @return log work model
+     */
+    public LogWorkModel findLogWorkById(int taskId, String logWorkId) {
+        //Find task by id
+        Optional<TaskEntity> taskOptional = taskRepository.findById(taskId);
+        TaskEntity taskEntity = taskOptional.orElseThrow(() -> new NoSuchEntityException("Not found task with id"));
+
+        //Find log work in list
+        for (LogWorkEntity logWorkEntity: taskEntity.getLogWorkList()) {
+            if(logWorkEntity.getId().equals(logWorkId)) {
+                return modelMapper.map(logWorkEntity, LogWorkModel.class);
+            }
+        }
+
+        throw new NoSuchEntityException("Not found log work with id");
+    }
+
+    /**
+     * Delete a log work
+     * @param taskId
+     * @param logWorkId
+     * @return deleted log work
+     */
+    public LogWorkModel deleteLogWorkById(int taskId, String logWorkId) {
+        //Find task by id
+        Optional<TaskEntity> taskOptional = taskRepository.findById(taskId);
+        TaskEntity taskEntity = taskOptional.orElseThrow(() -> new NoSuchEntityException("Not found task with id"));
+
+        //Find log work in list and update disable status
+        int index = Integer.MIN_VALUE;
+        for (LogWorkEntity logWorkEntity: taskEntity.getLogWorkList()) {
+            if(logWorkEntity.getId().equals(logWorkId)) {
+                logWorkEntity.setStatus(EntityStatusEnum.LogWorkStatusEnum.DISABLE.ordinal());
+                index = taskEntity.getLogWorkList().indexOf(logWorkEntity);
+                break;
+            }
+        }
+
+        //Check exist log work
+        if(index < 0)
+            throw  new NoSuchEntityException(" Not found log work with id");
+
+        //Save entity to DB
+        TaskEntity responseEntity = taskRepository.save(taskEntity);
+        LogWorkModel logWorkModel = modelMapper.map(responseEntity.getLogWorkList().get(index), LogWorkModel.class);
+        return logWorkModel;
+    }
+
 //    /**
 //     * Update log work information
 //     * @param updateLogWorkModel

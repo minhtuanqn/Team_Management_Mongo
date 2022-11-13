@@ -8,6 +8,7 @@ import com.nli.probation.model.task.CreateTaskModel;
 import com.nli.probation.model.task.TaskModel;
 import com.nli.probation.model.task.UpdateTaskModel;
 import com.nli.probation.resolver.annotation.RequestPagingParam;
+import com.nli.probation.service.LogWorkService;
 import com.nli.probation.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,13 +23,13 @@ import javax.validation.Valid;
 @RequestMapping("/tasks")
 public class TaskController {
     private final TaskService taskService;
-//    private final LogWorkService logWorkService;
+    private final LogWorkService logWorkService;
 
-    public TaskController(TaskService taskService
-//            , LogWorkService logWorkService
+    public TaskController(TaskService taskService,
+                          LogWorkService logWorkService
     ) {
         this.taskService = taskService;
-//        this.logWorkService = logWorkService;
+        this.logWorkService = logWorkService;
     }
 
     /**
@@ -130,4 +131,36 @@ public class TaskController {
 //        ResourceModel<LogWorkModel> logList = logWorkService.searchLogWorkOfTask(id, searchText, requestPaginationModel);
 //        return new ResponseEntity<>(logList, HttpStatus.OK);
 //    }
+
+    /**
+     * Find log work
+     * @param id
+     * @param logId
+     * @return found log work
+     */
+    @GetMapping(path = "/{id}/log-works/{logId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ResponseModel> findLogWorkById(@PathVariable int id, @PathVariable String logId) {
+        LogWorkModel foundLogWork = logWorkService.findLogWorkById(id, logId);
+        ResponseModel responseModel = new ResponseModel().statusCode(HttpStatus.OK.value())
+                .data(foundLogWork)
+                .message("OK");
+        return new ResponseEntity<>(responseModel, HttpStatus.OK);
+    }
+
+    /**
+     * Delete a log work
+     * @param id
+     * @param logId
+     * @return deleted log work
+     */
+    @DeleteMapping(path = "/{id}/log-works/{logId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ResponseModel> deleteLogWork(@PathVariable int id, @PathVariable String logId) {
+        LogWorkModel deletedModel = logWorkService.deleteLogWorkById(id, logId);
+        ResponseModel responseModel = new ResponseModel().statusCode(HttpStatus.OK.value())
+                .data(deletedModel)
+                .message("OK");
+        return new ResponseEntity<>(responseModel, HttpStatus.OK);
+
+    }
+
 }

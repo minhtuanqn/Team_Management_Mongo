@@ -38,35 +38,6 @@ public class LogWorkController {
     }
 
 //    /**
-//     * Find log work by id
-//     * @param id
-//     * @return response entity contains model
-//     */
-//    @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public ResponseEntity<ResponseModel> findLogWorkById(@PathVariable int id) {
-//        LogWorkModel foundLogWork = logWorkService.findLogWorkById(id);
-//        ResponseModel responseModel = new ResponseModel().statusCode(HttpStatus.OK.value())
-//                .data(foundLogWork)
-//                .message("OK");
-//        return new ResponseEntity<>(responseModel, HttpStatus.OK);
-//    }
-//
-//    /**
-//     * Delete a log work by id
-//     * @param id
-//     * @return response entity contains deleted model
-//     */
-//    @DeleteMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public ResponseEntity<ResponseModel> deleteLogWork(@PathVariable int id) {
-//        LogWorkModel deletedModel = logWorkService.deleteLogWorkById(id);
-//        ResponseModel responseModel = new ResponseModel().statusCode(HttpStatus.OK.value())
-//                .data(deletedModel)
-//                .message("OK");
-//        return new ResponseEntity<>(responseModel, HttpStatus.OK);
-//
-//    }
-//
-//    /**
 //     * Update log work
 //     * @param requestModel
 //     * @return response entity contains model

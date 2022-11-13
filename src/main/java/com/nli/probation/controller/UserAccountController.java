@@ -8,6 +8,7 @@ import com.nli.probation.model.useraccount.CreateUserAccountModel;
 import com.nli.probation.model.useraccount.UpdateUserAccountModel;
 import com.nli.probation.model.useraccount.UserAccountModel;
 import com.nli.probation.resolver.annotation.RequestPagingParam;
+import com.nli.probation.service.TaskService;
 import com.nli.probation.service.UserAccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,13 +23,13 @@ import javax.validation.Valid;
 @RequestMapping("/user-accounts")
 public class UserAccountController {
     private final UserAccountService userAccountService;
-//    private final TaskService taskService;
+    private final TaskService taskService;
 
-    public UserAccountController(UserAccountService userAccountService
-//            , TaskService taskService
+    public UserAccountController(UserAccountService userAccountService,
+                                 TaskService taskService
     ) {
         this.userAccountService = userAccountService;
-//        this.taskService = taskService;
+        this.taskService = taskService;
     }
 
     /**

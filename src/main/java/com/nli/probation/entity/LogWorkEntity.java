@@ -2,7 +2,6 @@ package com.nli.probation.entity;
 
 import lombok.*;
 import nonapi.io.github.classgraph.json.Id;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
