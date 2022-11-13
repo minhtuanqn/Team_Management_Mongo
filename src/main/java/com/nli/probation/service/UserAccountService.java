@@ -257,9 +257,10 @@ public class UserAccountService {
         Pageable pageable = paginationConverter.convertToPageable(paginationModel, defaultSortBy, UserAccountEntity.class);
 
         //Create query object
-        Query query = new Query(Criteria.where(UserAccountEntity_.EMAIL).regex(".*" + searchValue + ".*")
-                .orOperator(Criteria.where(UserAccountEntity_.NAME).regex(".*" + searchValue + ".*")))
-                .with(pageable);
+        Criteria criteria = new Criteria();
+        criteria.orOperator(Criteria.where(UserAccountEntity_.EMAIL).regex(".*" + searchValue + ".*"),
+                Criteria.where(UserAccountEntity_.NAME).regex(".*" + searchValue + ".*"));
+        Query query = new Query(criteria).with(pageable);
 
         //Find all user accounts
         List<UserAccountEntity> userAccountEntities;
