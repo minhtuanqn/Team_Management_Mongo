@@ -4,12 +4,7 @@ import com.nli.probation.constant.EntityStatusEnum;
 import com.nli.probation.converter.PaginationConverter;
 import com.nli.probation.customexception.DuplicatedEntityException;
 import com.nli.probation.customexception.NoSuchEntityException;
-import com.nli.probation.customexception.SQLCustomException;
-import com.nli.probation.entity.OfficeEntity;
-import com.nli.probation.entity.RoleEntity;
-import com.nli.probation.entity.TeamEntity;
-import com.nli.probation.entity.UserAccountEntity;
-import com.nli.probation.metamodel.TeamEntity_;
+import com.nli.probation.entity.*;
 import com.nli.probation.metamodel.UserAccountEntity_;
 import com.nli.probation.model.RequestPaginationModel;
 import com.nli.probation.model.ResourceModel;
@@ -24,12 +19,12 @@ import com.nli.probation.repository.RoleRepository;
 import com.nli.probation.repository.TeamRepository;
 import com.nli.probation.repository.UserAccountRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +40,7 @@ public class UserAccountService {
     private final RoleRepository roleRepository;
     private final ModelMapper modelMapper;
     private final SequenceGeneratorService sequenceGeneratorService;
+    private final MongoTemplate mongoTemplate;
 
 
     public UserAccountService(UserAccountRepository userAccountRepository,
@@ -52,13 +48,15 @@ public class UserAccountService {
                               OfficeRepository officeRepository,
                               ModelMapper modelMapper,
                               RoleRepository roleRepository,
-                              SequenceGeneratorService sequenceGeneratorService) {
+                              SequenceGeneratorService sequenceGeneratorService,
+                              MongoTemplate mongoTemplate) {
         this.userAccountRepository = userAccountRepository;
         this.teamRepository = teamRepository;
         this.officeRepository = officeRepository;
         this.modelMapper = modelMapper;
         this.roleRepository = roleRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
+        this.mongoTemplate = mongoTemplate;
     }
 
     /**
@@ -243,119 +241,65 @@ public class UserAccountService {
         return responseUserAccountModel;
     }
 
-//    /**
-//     * Specification for search name
-//     * @param searchValue
-//     * @return specification
-//     */
-//    private Specification<UserAccountEntity> containsName(String searchValue) {
-//        return ((root, query, criteriaBuilder) -> {
-//            String pattern = searchValue != null ? "%" + searchValue + "%" : "%%";
-//            return criteriaBuilder.like(root.get(UserAccountEntity_.NAME), pattern);
-//        });
-//    }
-//
-//    /**
-//     * Specification for search email
-//     * @param searchValue
-//     * @return specification
-//     */
-//    private Specification<UserAccountEntity> containsEmail(String searchValue) {
-//        return ((root, query, criteriaBuilder) -> {
-//            String pattern = searchValue != null ? "%" + searchValue + "%" : "%%";
-//            return criteriaBuilder.like(root.get(UserAccountEntity_.EMAIL), pattern);
-//        });
-//    }
-//
-//    /**
-//     * Specification for being belong to a team
-//     * @param teamEntity
-//     * @return specification
-//     */
-//    private Specification<UserAccountEntity> beLongToTeam(TeamEntity teamEntity) {
-//        return ((root, query, criteriaBuilder) -> {
-//            return criteriaBuilder.equal(root.get(UserAccountEntity_.TEAM_ENTITY), teamEntity);
-//        });
-//    }
-//
-//    /**
-//     *
-//     * @param searchValue
-//     * @param teamId
-//     * @return
-//     */
-//    private Example<UserAccountEntity> searchNameOrEmail(String searchValue, int teamId) {
-//        UserAccountEntity entity = new UserAccountEntity();
-//        entity.setName(searchValue);
-//        entity.setEmail(searchValue);
-//        entity.setId(Integer.MIN_VALUE);
-//        entity.setTeamId(Integer.MIN_VALUE);
-//        entity.setOfficeId(Integer.MIN_VALUE);
-//        entity.setPhone(searchValue);
-//        entity.setStatus(Integer.MIN_VALUE);
-//        entity.setRoleId(Integer.MIN_VALUE);
-//        ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny()
-//                .withMatcher(UserAccountEntity_.NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-//                .withMatcher(UserAccountEntity_.EMAIL, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-//                .withMatcher(UserAccountEntity_.PHONE, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-//                .withMatcher(UserAccountEntity_.TEAM_ID, ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase())
-//                .withMatcher(UserAccountEntity_.OFFICE_ID, ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase())
-//                .withMatcher(UserAccountEntity_.ROLE_ID, ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase())
-//                .withMatcher(UserAccountEntity_.STATUS, ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase())
-//                .withMatcher(UserAccountEntity_.ID, ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase());
-//        return Example.of(entity, exampleMatcher.);
-//        Query query = new Query();
-//        query.addCriteria(Criteria.where(UserAccountEntity_.EMAIL).regex("^"+ searchValue +"^").and(Criteria.)).
-//    }
-//
-//    /**
-//     * Search user account like name or email
-//     * @param searchValue
-//     * @param paginationModel
-//     * @return resource of data
-//     */
-//    public ResourceModel<UserAccountModel> searchAccounts(String searchValue, RequestPaginationModel paginationModel,
-//                                                          Integer teamId) {
-//        PaginationConverter<UserAccountModel, UserAccountEntity> paginationConverter = new PaginationConverter<>();
-//
-//        //Build pageable
-//        String defaultSortBy = UserAccountEntity_.ID;
-//        Pageable pageable = paginationConverter.convertToPageable(paginationModel, defaultSortBy, UserAccountEntity.class);
-//
-//        //Find all user accounts
-//        Page<UserAccountEntity> accountEntityPage;
-//        if(teamId != 0) {
-//            Optional<TeamEntity> teamOptional = teamRepository.findById(teamId);
-//            TeamEntity teamEntity = teamOptional.orElseThrow(() -> new NoSuchEntityException("Not found team"));
-//            accountEntityPage = userAccountRepository.findAll(containsEmail(searchValue)
-//                    .and(containsName(searchValue))
-//                    .and(beLongToTeam(teamEntity)), pageable);
-//        } else {
-//            accountEntityPage = userAccountRepository.findAll(containsEmail(searchValue)
-//                    .and(containsName(searchValue)), pageable);
-//        }
-//
-//        //Convert list of user accounts entity to list of user account model
-//        List<UserAccountModel> accountModels = new ArrayList<>();
-//        for(UserAccountEntity entity : accountEntityPage) {
-//            UserAccountModel userAccountModel = modelMapper.map(entity, UserAccountModel.class);
-//            if(entity.getTeamEntity() != null) {
-//                userAccountModel.setTeamModel(modelMapper.map(entity.getTeamEntity(), TeamModel.class));
-//            }
-//            userAccountModel.setOfficeModel(modelMapper.map(entity.getOfficeEntity(), OfficeModel.class));
-//            userAccountModel.setRoleModel(modelMapper.map(entity.getRoleEntity(), RoleModel.class));
-//            accountModels.add(userAccountModel);
-//        }
-//
-//        //Prepare resource for return
-//        ResourceModel<UserAccountModel> resourceModel = new ResourceModel<>();
-//        resourceModel.setData(accountModels);
-//        resourceModel.setSearchText(searchValue);
-//        resourceModel.setSortBy(defaultSortBy);
-//        resourceModel.setSortType(paginationModel.getSortType());
-//        paginationConverter.buildPagination(paginationModel, accountEntityPage, resourceModel);
-//        return resourceModel;
-//    }
+
+    /**
+     * Search user account like name or email
+     * @param searchValue
+     * @param paginationModel
+     * @return resource of data
+     */
+    public ResourceModel<UserAccountModel> searchAccounts(String searchValue, RequestPaginationModel paginationModel,
+                                                          Integer teamId) {
+        PaginationConverter<UserAccountModel, UserAccountEntity> paginationConverter = new PaginationConverter<>();
+
+        //Build pageable
+        String defaultSortBy = UserAccountEntity_.ID;
+        Pageable pageable = paginationConverter.convertToPageable(paginationModel, defaultSortBy, UserAccountEntity.class);
+
+        //Create query object
+        Query query = new Query(Criteria.where(UserAccountEntity_.EMAIL).regex(".*" + searchValue + ".*")
+                .orOperator(Criteria.where(UserAccountEntity_.NAME).regex(".*" + searchValue + ".*")))
+                .with(pageable);
+
+        //Find all user accounts
+        List<UserAccountEntity> userAccountEntities;
+        if(teamId != 0) {
+            Optional<TeamEntity> teamOptional = teamRepository.findById(teamId);
+            teamOptional.orElseThrow(() -> new NoSuchEntityException("Not found team"));
+            userAccountEntities = mongoTemplate.find(query.addCriteria(Criteria.where(UserAccountEntity_.TEAM_ID).is(teamId)), UserAccountEntity.class);
+        } else {
+            userAccountEntities = mongoTemplate.find(query, UserAccountEntity.class);
+        }
+        Page<UserAccountEntity> accountEntityPage = PageableExecutionUtils.getPage(userAccountEntities, pageable,
+                () -> mongoTemplate.count(Query.of(query).limit(-1).skip(-1), UserAccountEntity.class));
+
+        //Convert list of user accounts entity to list of user account model
+        List<UserAccountModel> accountModels = new ArrayList<>();
+        for(UserAccountEntity entity : accountEntityPage) {
+            UserAccountModel userAccountModel = modelMapper.map(entity, UserAccountModel.class);
+            //Check exist team
+            Optional<TeamEntity> teamOptional = teamRepository.findById(entity.getTeamId());
+            teamOptional.ifPresent(teamEntity -> userAccountModel.setTeamModel(modelMapper.map(teamEntity, TeamModel.class)));
+
+            //Check exist office
+            Optional<OfficeEntity> officeOptional = officeRepository.findById(entity.getOfficeId());
+            officeOptional.ifPresent(officeEntity -> userAccountModel.setOfficeModel(modelMapper.map(officeEntity, OfficeModel.class)));
+
+            //Check exist role
+            Optional<RoleEntity> roleOptional = roleRepository.findById(entity.getRoleId());
+            roleOptional.ifPresent(roleEntity -> userAccountModel.setRoleModel(modelMapper.map(roleEntity, RoleModel.class)));
+            accountModels.add(userAccountModel);
+        }
+
+        //Prepare resource for return
+        ResourceModel<UserAccountModel> resourceModel = new ResourceModel<>();
+        resourceModel.setData(accountModels);
+        resourceModel.setSearchText(searchValue);
+        resourceModel.setSortBy(defaultSortBy);
+        resourceModel.setSortType(paginationModel.getSortType());
+        paginationConverter.buildPagination(paginationModel, accountEntityPage, resourceModel);
+        return resourceModel;
+    }
 
     /**
      * Add list of users to team

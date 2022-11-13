@@ -118,20 +118,20 @@ public class TeamController {
         return new ResponseEntity<>(responseModel, HttpStatus.OK);
     }
 
-//    /**
-//     * Search user accounts of a team
-//     * @param requestPaginationModel
-//     * @param searchText
-//     * @return response entity contains data resource
-//     */
-//    @GetMapping(path = "{id}/user-accounts", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public ResponseEntity<Object> searchUserAccountsOfTeam(@RequestPagingParam RequestPaginationModel requestPaginationModel,
-//                                              @PathVariable int id,
-//                                              @RequestParam(value = "searchText", defaultValue = "") String searchText) {
-//        ResourceModel<UserAccountModel> accountList = userAccountService
-//                .searchAccounts(searchText, requestPaginationModel, id);
-//        return new ResponseEntity<>(accountList, HttpStatus.OK);
-//    }
+    /**
+     * Search user accounts of a team
+     * @param requestPaginationModel
+     * @param searchText
+     * @return response entity contains data resource
+     */
+    @GetMapping(path = "{id}/user-accounts", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Object> searchUserAccountsOfTeam(@RequestPagingParam RequestPaginationModel requestPaginationModel,
+                                              @PathVariable int id,
+                                              @RequestParam(value = "searchText", defaultValue = "") String searchText) {
+        ResourceModel<UserAccountModel> accountList = userAccountService
+                .searchAccounts(searchText, requestPaginationModel, id);
+        return new ResponseEntity<>(accountList, HttpStatus.OK);
+    }
 
     /**
      * Delete user accounts from team

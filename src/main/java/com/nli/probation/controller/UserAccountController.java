@@ -89,19 +89,19 @@ public class UserAccountController {
         return new ResponseEntity<>(responseModel, HttpStatus.OK);
     }
 
-//    /**
-//     * Search user accounts
-//     * @param requestPaginationModel
-//     * @param searchText
-//     * @return response entity contains data resource
-//     */
-//    @GetMapping(path = "", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public ResponseEntity<Object> searchUsersOfTeam(@RequestPagingParam RequestPaginationModel requestPaginationModel,
-//                                              @RequestParam(value = "searchText", defaultValue = "") String searchText) {
-//        ResourceModel<UserAccountModel> accountList = userAccountService
-//                .searchAccounts(searchText, requestPaginationModel, 0);
-//        return new ResponseEntity<>(accountList, HttpStatus.OK);
-//    }
+    /**
+     * Search user accounts
+     * @param requestPaginationModel
+     * @param searchText
+     * @return response entity contains data resource
+     */
+    @GetMapping(path = "", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Object> searchUsersOfTeam(@RequestPagingParam RequestPaginationModel requestPaginationModel,
+                                              @RequestParam(value = "searchText", defaultValue = "") String searchText) {
+        ResourceModel<UserAccountModel> accountList = userAccountService
+                .searchAccounts(searchText, requestPaginationModel, 0);
+        return new ResponseEntity<>(accountList, HttpStatus.OK);
+    }
 
     /**
      * Search task of an user account

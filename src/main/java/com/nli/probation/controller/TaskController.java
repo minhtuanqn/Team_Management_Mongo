@@ -110,7 +110,7 @@ public class TaskController {
      * @param userId
      * @return saved task model
      */
-    @PutMapping(path = "{id}/user-accounts/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PatchMapping(path = "{id}/user-accounts/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ResponseModel> assignUserForTask(@PathVariable int id, @PathVariable int userId) {
         TaskModel taskModel = taskService.assignTaskToUser(id, userId);
         ResponseModel responseModel = new ResponseModel().statusCode(HttpStatus.OK.value())
