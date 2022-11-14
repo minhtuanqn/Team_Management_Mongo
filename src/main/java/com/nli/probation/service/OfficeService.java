@@ -54,9 +54,8 @@ public class OfficeService {
 
         //Save entity to DB
         OfficeEntity savedEntity = officeRepository.save(officeEntity);
-        OfficeModel responseOfficeModel = modelMapper.map(savedEntity, OfficeModel.class);
+        return modelMapper.map(savedEntity, OfficeModel.class);
 
-        return responseOfficeModel;
     }
 
     /**
@@ -80,6 +79,8 @@ public class OfficeService {
         //Find office by id
         Optional<OfficeEntity> deletedOfficeOptional = officeRepository.findById(id);
         OfficeEntity deletedOfficeEntity = deletedOfficeOptional.orElseThrow(() -> new NoSuchEntityException("Not found office with id"));
+        if(deletedOfficeEntity.getStatus() == EntityStatusEnum.OfficeStatusEnum.DISABLE.ordinal())
+            throw new NoSuchEntityException("This office was deleted");
 
         //Set status for entity
         deletedOfficeEntity.setStatus(EntityStatusEnum.OfficeStatusEnum.DISABLE.ordinal());
@@ -97,7 +98,7 @@ public class OfficeService {
     public OfficeModel updateOffice (UpdateOfficeModel updateOfficeModel) {
         //Find office by id
         Optional<OfficeEntity> foundOfficeOptional = officeRepository.findById(updateOfficeModel.getId());
-        OfficeEntity foundOfficeEntity = foundOfficeOptional.orElseThrow(() -> new NoSuchEntityException("Not found office with id"));
+        foundOfficeOptional.orElseThrow(() -> new NoSuchEntityException("Not found office with id"));
 
         //Check existed office with name
         if(officeRepository.existsByNameAndIdNot(updateOfficeModel.getName(), updateOfficeModel.getId()))

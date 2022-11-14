@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
 
@@ -23,5 +24,6 @@ public class UpdateOfficeModel {
     private String location;
 
     @NotNull(message = "{office_status.null}")
+    @Range(message = "{office_status.range}", min = 0, max = 1)
     private int status;
 }
