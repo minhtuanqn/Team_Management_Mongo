@@ -61,9 +61,7 @@ public class TeamService {
 
         //Save entity to DB
         TeamEntity savedEntity = teamRepository.save(teamEntity);
-        TeamModel responseTeamModel = modelMapper.map(savedEntity, TeamModel.class);
-
-        return responseTeamModel;
+        return modelMapper.map(savedEntity, TeamModel.class);
     }
 
     /**
@@ -87,6 +85,8 @@ public class TeamService {
         //Find team by id
         Optional<TeamEntity> deletedTeamOptional = teamRepository.findById(id);
         TeamEntity deletedTeamEntity = deletedTeamOptional.orElseThrow(() -> new NoSuchEntityException("Not found team with id"));
+        if(deletedTeamEntity.getStatus() == EntityStatusEnum.TeamStatusEnum.DISABLE.ordinal())
+            throw new NoSuchEntityException("This team was deleted");
 
         //Set status for entity
         deletedTeamEntity.setStatus(EntityStatusEnum.TeamStatusEnum.DISABLE.ordinal());
