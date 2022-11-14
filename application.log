@@ -134,3 +134,45 @@
 2022-11-14 00:57:22.580  INFO 22156 --- [http-nio-8080-exec-1] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:3, serverValue:312}] to localhost:27017
 2022-11-14 00:58:11.244  INFO 22156 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
 2022-11-14 00:58:11.249  INFO 22156 --- [SpringContextShutdownHook] org.mongodb.driver.connection            : Closed connection [connectionId{localValue:3, serverValue:312}] to localhost:27017 because the pool has been closed.
+2022-11-14 11:35:28.553  INFO 20220 --- [main] com.nli.probation.ProbationApplication   : Starting ProbationApplication using Java 17.0.5 on 5CD1199VWM with PID 20220 (F:\Projects\probation_mongodb\build\classes\java\main started by tuanmle in F:\Projects\probation_mongodb)
+2022-11-14 11:35:28.555 DEBUG 20220 --- [main] com.nli.probation.ProbationApplication   : Running with Spring Boot v2.4.5, Spring v5.3.6
+2022-11-14 11:35:28.555  INFO 20220 --- [main] com.nli.probation.ProbationApplication   : No active profile set, falling back to default profiles: default
+2022-11-14 11:35:29.217  INFO 20220 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2022-11-14 11:35:29.273  INFO 20220 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 52 ms. Found 5 MongoDB repository interfaces.
+2022-11-14 11:35:29.663  INFO 20220 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-14 11:35:29.669  INFO 20220 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-14 11:35:29.669  INFO 20220 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2022-11-14 11:35:29.755  INFO 20220 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-14 11:35:29.755  INFO 20220 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1159 ms
+2022-11-14 11:35:29.966  INFO 20220 --- [main] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms'}
+2022-11-14 11:35:30.017  INFO 20220 --- [cluster-rtt-ClusterId{value='6371c5919ee064646ee1721b', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:2, serverValue:313}] to localhost:27017
+2022-11-14 11:35:30.017  INFO 20220 --- [cluster-ClusterId{value='6371c5919ee064646ee1721b', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:1, serverValue:314}] to localhost:27017
+2022-11-14 11:35:30.018  INFO 20220 --- [cluster-ClusterId{value='6371c5919ee064646ee1721b', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=16607799}
+2022-11-14 11:35:30.590  INFO 20220 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-11-14 11:35:30.735  INFO 20220 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-14 11:35:30.974  INFO 20220 --- [main] com.nli.probation.ProbationApplication   : Started ProbationApplication in 2.685 seconds (JVM running for 3.264)
+2022-11-14 11:35:35.068  INFO 20220 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-14 11:35:35.068  INFO 20220 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-14 11:35:35.069  INFO 20220 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-11-14 11:35:51.421 DEBUG 20220 --- [http-nio-8080-exec-5] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.controller.OfficeController.searchOffices() with argument[s] = [com.nli.probation.model.RequestPaginationModel@78112e47, ]
+2022-11-14 11:35:51.449 DEBUG 20220 --- [http-nio-8080-exec-5] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.service.OfficeService.searchOffices() with argument[s] = [, com.nli.probation.model.RequestPaginationModel@78112e47]
+2022-11-14 11:35:51.573  INFO 20220 --- [http-nio-8080-exec-5] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:3, serverValue:315}] to localhost:27017
+2022-11-14 11:35:51.612 DEBUG 20220 --- [http-nio-8080-exec-5] com.nli.probation.aop.LoggingAspect      : Response for com.nli.probation.service.OfficeService.searchOffices with Result = dcom.nli.probation.model.ResourceModel@2092d0b6
+2022-11-14 11:35:51.612  INFO 20220 --- [http-nio-8080-exec-5] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
+2022-11-14 11:35:51.613 DEBUG 20220 --- [http-nio-8080-exec-5] com.nli.probation.aop.LoggingAspect      : Response for com.nli.probation.controller.OfficeController.searchOffices with Result = d<200 OK OK,com.nli.probation.model.ResourceModel@2092d0b6,[]>
+2022-11-14 11:35:51.613  INFO 20220 --- [http-nio-8080-exec-5] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
+2022-11-14 11:36:10.345 DEBUG 20220 --- [http-nio-8080-exec-6] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.controller.OfficeController.createOffice() with argument[s] = [com.nli.probation.model.office.CreateOfficeModel@a4eb2ef]
+2022-11-14 11:36:10.346 DEBUG 20220 --- [http-nio-8080-exec-6] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.service.OfficeService.createOffice() with argument[s] = [com.nli.probation.model.office.CreateOfficeModel@a4eb2ef]
+2022-11-14 11:36:10.364 ERROR 20220 --- [http-nio-8080-exec-6] com.nli.probation.aop.LoggingAspect      : Exception in com.nli.probation.service.OfficeService.createOffice() with cause = NULL, with message = Duplicated name of office
+2022-11-14 11:36:10.365 ERROR 20220 --- [http-nio-8080-exec-6] com.nli.probation.aop.LoggingAspect      : Exception in com.nli.probation.controller.OfficeController.createOffice() with cause = NULL, with message = Duplicated name of office
+2022-11-14 11:36:28.392 DEBUG 20220 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.controller.OfficeController.createOffice() with argument[s] = [com.nli.probation.model.office.CreateOfficeModel@56f706b9]
+2022-11-14 11:36:28.393 DEBUG 20220 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.service.OfficeService.createOffice() with argument[s] = [com.nli.probation.model.office.CreateOfficeModel@56f706b9]
+2022-11-14 11:36:28.396 DEBUG 20220 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.service.SequenceGeneratorService.generateSequence() with argument[s] = [office_sequence]
+2022-11-14 11:36:28.416 DEBUG 20220 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Response for com.nli.probation.service.SequenceGeneratorService.generateSequence with Result = d4
+2022-11-14 11:36:28.417  INFO 20220 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
+2022-11-14 11:36:28.433 DEBUG 20220 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Response for com.nli.probation.service.OfficeService.createOffice with Result = dcom.nli.probation.model.office.OfficeModel@1a0d7fac
+2022-11-14 11:36:28.434  INFO 20220 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
+2022-11-14 11:36:28.434 DEBUG 20220 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Response for com.nli.probation.controller.OfficeController.createOffice with Result = d<200 OK OK,com.nli.probation.model.ResponseModel@3caed626,[]>
+2022-11-14 11:36:28.434  INFO 20220 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
+2022-11-14 11:36:55.395  INFO 20220 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-11-14 11:36:55.403  INFO 20220 --- [SpringContextShutdownHook] org.mongodb.driver.connection            : Closed connection [connectionId{localValue:3, serverValue:315}] to localhost:27017 because the pool has been closed.
