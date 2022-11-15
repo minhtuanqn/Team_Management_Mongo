@@ -96,7 +96,7 @@ public class UserAccountController {
      * @return response entity contains data resource
      */
     @GetMapping(path = "", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Object> searchUsersOfTeam(@RequestPagingParam RequestPaginationModel requestPaginationModel,
+    public ResponseEntity<Object> searchUserAccounts(@RequestPagingParam RequestPaginationModel requestPaginationModel,
                                               @RequestParam(value = "searchText", defaultValue = "") String searchText) {
         ResourceModel<UserAccountModel> accountList = userAccountService
                 .searchAccounts(searchText, requestPaginationModel, 0);
