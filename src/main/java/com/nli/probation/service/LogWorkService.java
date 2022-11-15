@@ -33,14 +33,11 @@ import java.util.Optional;
 public class LogWorkService {
     private final ModelMapper modelMapper;
     private final TaskRepository taskRepository;
-    private final MongoTemplate mongoTemplate;
 
     public LogWorkService(ModelMapper modelMapper,
-                          TaskRepository taskRepository,
-                          MongoTemplate mongoTemplate) {
+                          TaskRepository taskRepository) {
         this.modelMapper = modelMapper;
         this.taskRepository = taskRepository;
-        this.mongoTemplate = mongoTemplate;
     }
 
     /**
@@ -66,13 +63,12 @@ public class LogWorkService {
                 + Duration.between(logWorkEntity.getStartTime(), logWorkEntity.getEndTime()).toMinutes() / 60.0;
         existedTaskEntity.setActualTime(totalTime);
         List<LogWorkEntity> logWorkEntities = existedTaskEntity.getLogWorkList();
-        if(logWorkEntities == null)
-            logWorkEntities = new ArrayList<>();
+        if(logWorkEntities == null) logWorkEntities = new ArrayList<>();
         logWorkEntities.add(logWorkEntity);
         existedTaskEntity.setLogWorkList(logWorkEntities);
 
         //Save entity to DB
-        TaskEntity savedEntity = taskRepository.save(existedTaskEntity);
+        taskRepository.save(existedTaskEntity);
         return modelMapper.map(logWorkEntity, LogWorkModel.class);
 
     }
@@ -120,13 +116,11 @@ public class LogWorkService {
         }
 
         //Check exist log work
-        if(index < 0)
-            throw  new NoSuchEntityException(" Not found log work with id");
+        if(index < 0) throw  new NoSuchEntityException(" Not found log work with id");
 
         //Save entity to DB
         TaskEntity responseEntity = taskRepository.save(taskEntity);
-        LogWorkModel logWorkModel = modelMapper.map(responseEntity.getLogWorkList().get(index), LogWorkModel.class);
-        return logWorkModel;
+        return modelMapper.map(responseEntity.getLogWorkList().get(index), LogWorkModel.class);
     }
 
     /**
@@ -160,7 +154,7 @@ public class LogWorkService {
         //Prepare saved entity
         LogWorkEntity updatedLogWork = modelMapper.map(updateLogWorkModel, LogWorkEntity.class);
         double newTimeOfLog = Duration.between(updatedLogWork.getStartTime(), updatedLogWork.getEndTime()).toMinutes() / 60.0;
-        double oldTimeOfLog = Duration.between(updatedLogWork.getStartTime(), updatedLogWork.getEndTime()).toMinutes() / 60.0;
+        double oldTimeOfLog = Duration.between(foundLogWork.getStartTime(), foundLogWork.getEndTime()).toMinutes() / 60.0;
         double newActualTimeOfTask = taskEntity.getActualTime() - oldTimeOfLog + newTimeOfLog;
         taskEntity.setActualTime(newActualTimeOfTask);
         int index = taskEntity.getLogWorkList().indexOf(foundLogWork);
@@ -168,8 +162,7 @@ public class LogWorkService {
 
         //Save entity to database
         TaskEntity savedEntity = taskRepository.save(taskEntity);
-        LogWorkModel logWorkModel = modelMapper.map(savedEntity.getLogWorkList().get(index), LogWorkModel.class);
-        return logWorkModel;
+        return modelMapper.map(savedEntity.getLogWorkList().get(index), LogWorkModel.class);
     }
 
     /**

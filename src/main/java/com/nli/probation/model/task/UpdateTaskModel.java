@@ -26,13 +26,13 @@ public class UpdateTaskModel {
     @NotNull(message = "{task_starttime.null}")
     private LocalDateTime startTime;
 
-    @Range(message = "{task.estimatedtime.range}", min = 0)
+    @Range(message = "{task_estimatedtime.range}", min = 0)
     @NotNull(message = "{task_estimatedtime.null}")
     private double estimatedTime;
 
     private int assigneeId;
 
     @NotNull(message = "{task_status.null}")
-    @Range(message = "{task_status.range}")
+    @Range(message = "{task_status.range}", min = 0, max = 1)
     private int status;
 }

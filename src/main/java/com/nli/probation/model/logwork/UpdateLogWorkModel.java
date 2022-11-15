@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -22,8 +23,6 @@ public class UpdateLogWorkModel {
     private LocalDateTime endTime;
 
     @NotNull(message = "{logwork_status.null}")
+    @Range(message = "{logwork_status.range}", min = 0, max = 1)
     private int status;
-
-    @NotNull(message = "{task_id.null}")
-    private int taskId;
 }

@@ -25,7 +25,7 @@ public class CreateTaskModel {
     private LocalDateTime startTime;
 
     @NotNull(message = "{task_estimatedtime.null}")
-    @Range(message = "{task.estimatedtime.range}", min = 0)
+    @Range(message = "{task_estimatedtime.range}", min = 0)
     private double estimatedTime;
 
     private int assigneeId;
