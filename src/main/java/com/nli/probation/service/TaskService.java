@@ -57,26 +57,20 @@ public class TaskService {
 
         //Check assignee
         Optional<UserAccountEntity> existAccountOptional = userAccountRepository.findById(createTaskModel.getAssigneeId());
-        UserAccountEntity existAccountEntity = existAccountOptional.orElse(null);
 
         //Prepare saved entity
         TaskEntity taskEntity = modelMapper.map(createTaskModel, TaskEntity.class);
         taskEntity.setId(sequenceGeneratorService.generateSequence(TaskEntity.SEQUENCE_NAME));
         taskEntity.setStatus(EntityStatusEnum.TaskStatusEnum.ACTIVE.ordinal());
         taskEntity.setLogWorkList(new ArrayList<>());
-        if(existAccountOptional.isPresent()) {
-            taskEntity.setUserAccountId(createTaskModel.getAssigneeId());
-        } else {
-            taskEntity.setUserAccountId(0);
-        }
+        existAccountOptional.ifPresentOrElse(existAccountEntity -> taskEntity.setUserAccountId(createTaskModel.getAssigneeId()),
+                () -> taskEntity.setUserAccountId(0));
         taskEntity.setActualTime(0);
 
         //Save entity to DB
         TaskEntity savedEntity = taskRepository.save(taskEntity);
         TaskModel responseTaskModel = modelMapper.map(savedEntity, TaskModel.class);
-        if(existAccountEntity != null) {
-            responseTaskModel.setAssignee(modelMapper.map(existAccountEntity, UserAccountModel.class));
-        }
+        existAccountOptional.ifPresent(existAccountEntity -> responseTaskModel.setAssignee(modelMapper.map(existAccountEntity, UserAccountModel.class)));
 
         return responseTaskModel;
     }
@@ -93,10 +87,8 @@ public class TaskService {
         TaskModel taskModel = modelMapper.map(taskEntity, TaskModel.class);
 
         //Check assignee id
-        Optional<UserAccountEntity> accountOptional = userAccountRepository.findById(taskEntity.getId());
-        UserAccountEntity accountEntity = accountOptional.orElse(null);
-        UserAccountModel responseModel = modelMapper.map(accountEntity, UserAccountModel.class);
-        taskModel.setAssignee(responseModel);
+        Optional<UserAccountEntity> accountOptional = userAccountRepository.findById(taskEntity.getUserAccountId());
+        accountOptional.ifPresent(accountEntity -> taskModel.setAssignee(modelMapper.map(accountEntity, UserAccountModel.class)));
 
         return taskModel;
     }
@@ -110,6 +102,8 @@ public class TaskService {
         //Find task by id
         Optional<TaskEntity> deletedTaskOptional = taskRepository.findById(id);
         TaskEntity deletedTaskEntity = deletedTaskOptional.orElseThrow(() -> new NoSuchEntityException("Not found task with id"));
+        if(deletedTaskEntity.getStatus() == EntityStatusEnum.TaskStatusEnum.DISABLE.ordinal())
+            throw new NoSuchEntityException("This task was deleted");
 
         //Set status for entity
         deletedTaskEntity.setStatus(EntityStatusEnum.TaskStatusEnum.DISABLE.ordinal());
@@ -118,9 +112,8 @@ public class TaskService {
         TaskEntity responseEntity = taskRepository.save(deletedTaskEntity);
         TaskModel taskModel = modelMapper.map(responseEntity, TaskModel.class);
         if(deletedTaskEntity.getUserAccountId() > 0) {
-            Optional<UserAccountEntity> accountOptional = userAccountRepository.findById(id);
-            UserAccountEntity accountEntity = accountOptional.orElse(null);
-            taskModel.setAssignee(modelMapper.map(accountEntity, UserAccountModel.class));
+            Optional<UserAccountEntity> accountOptional = userAccountRepository.findById(deletedTaskEntity.getUserAccountId());
+            accountOptional.ifPresent(accountEntity -> taskModel.setAssignee(modelMapper.map(accountEntity, UserAccountModel.class)));
         }
         return taskModel;
     }
@@ -137,22 +130,17 @@ public class TaskService {
 
         //Check assignee
         Optional<UserAccountEntity> existAccountOptional = userAccountRepository.findById(updateTaskModel.getAssigneeId());
-        UserAccountEntity existAccountEntity = existAccountOptional.orElse(null);
 
         //Prepare saved entity
         TaskEntity taskEntity = modelMapper.map(updateTaskModel, TaskEntity.class);
-        if(existAccountOptional.isPresent()) {
-            taskEntity.setUserAccountId(updateTaskModel.getAssigneeId());
-        } else {
-            taskEntity.setUserAccountId(0);
-        }
+        existAccountOptional.ifPresentOrElse(existAccount -> taskEntity.setUserAccountId(updateTaskModel.getAssigneeId()),
+                () -> taskEntity.setUserAccountId(0));
 
         //Save entity to database
         TaskEntity savedEntity = taskRepository.save(taskEntity);
         TaskModel taskModel = modelMapper.map(savedEntity, TaskModel.class);
-        if(existAccountEntity != null) {
-            taskModel.setAssignee(modelMapper.map(existAccountEntity, UserAccountModel.class));
-        }
+        existAccountOptional.ifPresent(existAccountEntity -> taskModel.setAssignee(modelMapper.map(existAccountEntity, UserAccountModel.class)));
+
         return taskModel;
     }
 
@@ -183,10 +171,7 @@ public class TaskService {
             TaskModel model = modelMapper.map(entity, TaskModel.class);
             if(entity.getUserAccountId() > 0) {
                 Optional<UserAccountEntity> assigneeOptional = userAccountRepository.findById(entity.getUserAccountId());
-                UserAccountEntity assigneeEntity = assigneeOptional.orElse(null);
-                if(assigneeOptional.isPresent()) {
-                    model.setAssignee(modelMapper.map(assigneeEntity, UserAccountModel.class));
-                }
+                assigneeOptional.ifPresent(assigneeEntity -> model.setAssignee(modelMapper.map(assigneeEntity, UserAccountModel.class)));
             }
             taskModels.add(model);
         }
@@ -249,7 +234,6 @@ public class TaskService {
                 .andOperator(Criteria.where(TaskEntity_.USER_ACCOUNT_ID).is(userId))).with(pageable);
 
         //Find all tasks
-        //Find all tasks
         List<TaskEntity> taskEntityList = mongoTemplate.find(query, TaskEntity.class);
         Page<TaskEntity> taskEntityPage = PageableExecutionUtils.getPage(taskEntityList, pageable,
                 () -> mongoTemplate.count(Query.of(query).limit(-1).skip(-1), TaskEntity.class));
@@ -260,10 +244,7 @@ public class TaskService {
             TaskModel model = modelMapper.map(entity, TaskModel.class);
             if(entity.getUserAccountId() > 0) {
                 Optional<UserAccountEntity> assigneeOptional = userAccountRepository.findById(entity.getUserAccountId());
-                UserAccountEntity assigneeEntity = assigneeOptional.orElse(null);
-                if(assigneeOptional.isPresent()) {
-                    model.setAssignee(modelMapper.map(assigneeEntity, UserAccountModel.class));
-                }
+                assigneeOptional.ifPresent(assigneeEntity -> model.setAssignee(modelMapper.map(assigneeEntity, UserAccountModel.class)));
             }
             taskModels.add(model);
         }

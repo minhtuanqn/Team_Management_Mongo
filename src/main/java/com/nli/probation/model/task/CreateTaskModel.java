@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ public class CreateTaskModel {
     private LocalDateTime startTime;
 
     @NotNull(message = "{task_estimatedtime.null}")
+    @Range(message = "{task.estimatedtime.range}", min = 0)
     private double estimatedTime;
 
     private int assigneeId;
