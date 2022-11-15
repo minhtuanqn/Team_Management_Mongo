@@ -154,6 +154,8 @@ public class UserAccountService {
         //Find user account by id
         Optional<UserAccountEntity> deletedAccountOptional = userAccountRepository.findById(id);
         UserAccountEntity deletedAccountEntity = deletedAccountOptional.orElseThrow(() -> new NoSuchEntityException("Not found user account with id"));
+        if(deletedAccountEntity.getStatus() == EntityStatusEnum.UserAccountStatusEnum.DISABLE.ordinal())
+            throw new NoSuchEntityException("This user account was deleted");
 
         //Set status for entity
         deletedAccountEntity.setStatus(EntityStatusEnum.UserAccountStatusEnum.DISABLE.ordinal());

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
 
@@ -30,5 +31,6 @@ public class UpdateUserAccountModel {
     private int roleId;
 
     @NotNull(message = "{account_status.null}")
+    @Range(message = "{account_status.range}", min = 0, max = 1)
     private int status;
 }

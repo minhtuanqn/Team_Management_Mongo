@@ -125,7 +125,7 @@ public class TeamController {
      * @return response entity contains data resource
      */
     @GetMapping(path = "{id}/user-accounts", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Object> searchUserAccountsOfTeam(@RequestPagingParam RequestPaginationModel requestPaginationModel,
+    public ResponseEntity<Object> searchUsersOfTeam(@RequestPagingParam RequestPaginationModel requestPaginationModel,
                                               @PathVariable int id,
                                               @RequestParam(value = "searchText", defaultValue = "") String searchText) {
         ResourceModel<UserAccountModel> accountList = userAccountService
