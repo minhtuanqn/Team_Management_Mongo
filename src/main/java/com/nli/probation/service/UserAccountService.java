@@ -75,7 +75,6 @@ public class UserAccountService {
 
         //Check exist team
         Optional<TeamEntity> existedTeamOptional = teamRepository.findById(createUserAccountModel.getTeamId());
-        TeamEntity existedTeamEntity = existedTeamOptional.orElse(null);
 
         //Check exist office
         Optional<OfficeEntity> existedOfficeOptional = officeRepository.findById(createUserAccountModel.getOfficeId());
@@ -93,20 +92,15 @@ public class UserAccountService {
         userAccountEntity.setStatus(EntityStatusEnum.UserAccountStatusEnum.ACTIVE.ordinal());
         userAccountEntity.setOfficeId(userAccountEntity.getOfficeId());
         userAccountEntity.setRoleId(userAccountEntity.getRoleId());
-        if (existedTeamOptional.isPresent()) {
-            userAccountEntity.setTeamId(userAccountEntity.getTeamId());
-        } else {
-            userAccountEntity.setTeamId(0);
-        }
+        existedTeamOptional.ifPresentOrElse(existedTeamEntity -> userAccountEntity.setTeamId(userAccountEntity.getTeamId()),
+                () -> userAccountEntity.setTeamId(0));
 
         //Save entity to DB
         UserAccountEntity savedEntity = userAccountRepository.save(userAccountEntity);
         UserAccountModel responseUserAccountModel = modelMapper.map(savedEntity, UserAccountModel.class);
         responseUserAccountModel.setOfficeModel(modelMapper.map(existedOfficeEntity, OfficeModel.class));
-        if(existedTeamEntity != null) {
-            responseUserAccountModel.setTeamModel(modelMapper.map(existedTeamEntity, TeamModel.class));
-        }
         responseUserAccountModel.setRoleModel(modelMapper.map(existedRoleEntity, RoleModel.class));
+        existedTeamOptional.ifPresent(existedTeamEntity -> responseUserAccountModel.setTeamModel(modelMapper.map(existedTeamEntity, TeamModel.class)));
 
         return responseUserAccountModel;
     }
@@ -124,24 +118,16 @@ public class UserAccountService {
 
         //Find team information
         Optional<TeamEntity> teamOptional = teamRepository.findById(userAccountEntity.getTeamId());
-        TeamEntity teamEntity = teamOptional.orElse(null);
-        if(teamOptional.isPresent()) {
-            userAccountModel.setTeamModel(modelMapper.map(teamEntity, TeamModel.class));
-        }
+        teamOptional.ifPresent(teamEntity -> userAccountModel.setTeamModel(modelMapper.map(teamEntity, TeamModel.class)));
 
         //Find office information
         Optional<OfficeEntity> officeOptional = officeRepository.findById(userAccountEntity.getOfficeId());
-        OfficeEntity officeEntity = officeOptional.orElse(null);
-        if(officeOptional.isPresent()) {
-            userAccountModel.setOfficeModel(modelMapper.map(officeEntity, OfficeModel.class));
-        }
+        officeOptional.ifPresent(officeEntity -> userAccountModel.setOfficeModel(modelMapper.map(officeEntity, OfficeModel.class)));
 
         //Find role information
         Optional<RoleEntity> roleOptional = roleRepository.findById(userAccountEntity.getRoleId());
-        RoleEntity roleEntity = roleOptional.orElse(null);
-        if(roleOptional.isPresent()) {
-            userAccountModel.setRoleModel(modelMapper.map(roleEntity, RoleModel.class));
-        }
+        roleOptional.ifPresent(roleEntity -> userAccountModel.setRoleModel(modelMapper.map(roleEntity, RoleModel.class)));
+
         return userAccountModel;
     }
 
@@ -166,24 +152,16 @@ public class UserAccountService {
 
         //Find team information
         Optional<TeamEntity> teamOptional = teamRepository.findById(responseEntity.getTeamId());
-        TeamEntity teamEntity = teamOptional.orElse(null);
-        if(teamOptional.isPresent()) {
-            userAccountModel.setTeamModel(modelMapper.map(teamEntity, TeamModel.class));
-        }
+        teamOptional.ifPresent(teamEntity -> userAccountModel.setTeamModel(modelMapper.map(teamEntity, TeamModel.class)));
 
         //Find office information
         Optional<OfficeEntity> officeOptional = officeRepository.findById(responseEntity.getOfficeId());
-        OfficeEntity officeEntity = officeOptional.orElse(null);
-        if(officeOptional.isPresent()) {
-            userAccountModel.setOfficeModel(modelMapper.map(officeEntity, OfficeModel.class));
-        }
+        officeOptional.ifPresent(officeEntity -> userAccountModel.setOfficeModel(modelMapper.map(officeEntity, OfficeModel.class)));
 
         //Find role information
         Optional<RoleEntity> roleOptional = roleRepository.findById(responseEntity.getRoleId());
-        RoleEntity roleEntity = roleOptional.orElse(null);
-        if(roleOptional.isPresent()) {
-            userAccountModel.setRoleModel(modelMapper.map(roleEntity, RoleModel.class));
-        }
+        roleOptional.ifPresent(roleEntity -> userAccountModel.setRoleModel(modelMapper.map(roleEntity, RoleModel.class)));
+
         return userAccountModel;
     }
 
@@ -195,51 +173,41 @@ public class UserAccountService {
     public UserAccountModel updateUserAccount (UpdateUserAccountModel updateUserAccountModel) {
         //Find user account by id
         Optional<UserAccountEntity> foundAccountOptional = userAccountRepository.findById(updateUserAccountModel.getId());
-        UserAccountEntity foundAccountEntity = foundAccountOptional
-                .orElseThrow(() -> new NoSuchEntityException("Not found user account with id"));
+        UserAccountEntity foundAccountEntity = foundAccountOptional.orElseThrow(() -> new NoSuchEntityException("Not found user account with id"));
 
         //Check existed user account with email
-        if(userAccountRepository.existsByEmailAndIdNot(updateUserAccountModel.getEmail(),
-                updateUserAccountModel.getId()))
+        if(userAccountRepository.existsByEmailAndIdNot(updateUserAccountModel.getEmail(), updateUserAccountModel.getId()))
             throw new DuplicatedEntityException("Duplicate email for user account");
 
         //Check existed user account with phone
-        if(userAccountRepository.existsByEmailAndIdNot(updateUserAccountModel.getPhone(),
-                updateUserAccountModel.getId()))
+        if(userAccountRepository.existsByEmailAndIdNot(updateUserAccountModel.getPhone(), updateUserAccountModel.getId()))
             throw new DuplicatedEntityException("Duplicate phone for user account");
 
         //Check exist team
         Optional<TeamEntity> existedTeamOptional = teamRepository.findById(updateUserAccountModel.getTeamId());
-        TeamEntity existedTeamEntity = existedTeamOptional.orElse(null);
 
         //Check exist office
         Optional<OfficeEntity> existedOfficeOptional = officeRepository.findById(updateUserAccountModel.getOfficeId());
-        OfficeEntity existedOfficeEntity = existedOfficeOptional
-                .orElseThrow(() -> new NoSuchEntityException("Not found office"));
+        OfficeEntity existedOfficeEntity = existedOfficeOptional.orElseThrow(() -> new NoSuchEntityException("Not found office"));
 
         //Check exist role
         Optional<RoleEntity> existedRoleOptional = roleRepository.findById(updateUserAccountModel.getRoleId());
-        RoleEntity existedRoleEntity = existedRoleOptional
-                .orElseThrow(() -> new NoSuchEntityException("Not found role"));
+        RoleEntity existedRoleEntity = existedRoleOptional.orElseThrow(() -> new NoSuchEntityException("Not found role"));
 
         //Prepare saved entity
         UserAccountEntity userAccountEntity = modelMapper.map(updateUserAccountModel, UserAccountEntity.class);
         userAccountEntity.setRoleId(existedOfficeEntity.getId());
         userAccountEntity.setOfficeId(existedOfficeEntity.getId());
-        if (existedTeamOptional.isPresent()) {
-            userAccountEntity.setTeamId(userAccountEntity.getTeamId());
-        } else {
-            userAccountEntity.setTeamId(0);
-        }
+        existedTeamOptional.ifPresentOrElse(existedTeamEntity -> userAccountEntity.setTeamId(userAccountEntity.getTeamId()),
+                () -> userAccountEntity.setTeamId(0));
 
         //Save entity to DB
         UserAccountEntity savedEntity = userAccountRepository.save(userAccountEntity);
         UserAccountModel responseUserAccountModel = modelMapper.map(savedEntity, UserAccountModel.class);
         responseUserAccountModel.setOfficeModel(modelMapper.map(existedOfficeEntity, OfficeModel.class));
         responseUserAccountModel.setRoleModel(modelMapper.map(existedRoleEntity, RoleModel.class));
-        if(existedTeamOptional.isPresent()) {
-            responseUserAccountModel.setTeamModel(modelMapper.map(existedTeamEntity, TeamModel.class));
-        }
+        existedTeamOptional.ifPresent(existedTeamEntity -> responseUserAccountModel.setTeamModel(modelMapper.map(existedTeamEntity, TeamModel.class)));
+
         return responseUserAccountModel;
     }
 
@@ -327,17 +295,19 @@ public class UserAccountService {
         List<UserAccountEntity> savedAccounts = userAccountRepository.saveAll(userAccountEntities);
         for(UserAccountEntity userAccountEntity : savedAccounts) {
             UserAccountModel userAccountModel = modelMapper.map(userAccountEntity, UserAccountModel.class);
+
+            //Find role and set to response model
             Optional<RoleEntity> roleOptional = roleRepository.findById(userAccountEntity.getRoleId());
-            RoleEntity roleEntity = roleOptional.orElse(null);
-            if(roleOptional.isPresent()) {
-                userAccountModel.setRoleModel(modelMapper.map(roleEntity, RoleModel.class));
-            }
+            roleOptional.ifPresent(roleEntity -> userAccountModel.setRoleModel(modelMapper.map(roleEntity, RoleModel.class)));
+
+            //Find office and set to response model
             Optional<OfficeEntity> officeOptional = officeRepository.findById(userAccountEntity.getOfficeId());
-            OfficeEntity officeEntity = officeOptional.orElse(null);
-            if(officeOptional.isPresent()) {
-                userAccountModel.setOfficeModel(modelMapper.map(officeEntity, OfficeModel.class));
-            }
+            officeOptional.ifPresent(officeEntity -> userAccountModel.setOfficeModel(modelMapper.map(officeEntity, OfficeModel.class)));
+
+            //Set team to response model
             userAccountModel.setTeamModel(modelMapper.map(teamEntity, TeamModel.class));
+
+            //Add user account to list
             userAccountModels.add(userAccountModel);
         }
         return userAccountModels;
@@ -368,21 +338,20 @@ public class UserAccountService {
         List<UserAccountEntity> savedAccounts = userAccountRepository.saveAll(userAccountEntities);
         for(UserAccountEntity userAccountEntity : savedAccounts) {
             UserAccountModel userAccountModel = modelMapper.map(userAccountEntity, UserAccountModel.class);
+
+            //Find role and set to response model
             Optional<RoleEntity> roleOptional = roleRepository.findById(userAccountEntity.getRoleId());
-            RoleEntity roleEntity = roleOptional.orElse(null);
-            if(roleOptional.isPresent()) {
-                userAccountModel.setRoleModel(modelMapper.map(roleEntity, RoleModel.class));
-            }
+            roleOptional.ifPresent(roleEntity -> userAccountModel.setRoleModel(modelMapper.map(roleEntity, RoleModel.class)));
+
+            //Find office and set to response model
             Optional<OfficeEntity> officeOptional = officeRepository.findById(userAccountEntity.getOfficeId());
-            OfficeEntity officeEntity = officeOptional.orElse(null);
-            if(officeOptional.isPresent()) {
-                userAccountModel.setOfficeModel(modelMapper.map(officeEntity, OfficeModel.class));
-            }
+            officeOptional.ifPresent(officeEntity -> userAccountModel.setOfficeModel(modelMapper.map(officeEntity, OfficeModel.class)));
+
+            //Fimd team and set to response model
             Optional<TeamEntity> savedTeamOptional = teamRepository.findById(userAccountEntity.getTeamId());
-            TeamEntity savedTeamEntity = savedTeamOptional.orElse(null);
-            if(savedTeamOptional.isPresent()) {
-                userAccountModel.setTeamModel(modelMapper.map(savedTeamEntity, TeamModel.class));
-            }
+            savedTeamOptional.ifPresent(savedTeamEntity -> userAccountModel.setTeamModel(modelMapper.map(savedTeamEntity, TeamModel.class)));
+
+            //Add user account to list
             userAccountModels.add(userAccountModel);
         }
         return userAccountModels;
