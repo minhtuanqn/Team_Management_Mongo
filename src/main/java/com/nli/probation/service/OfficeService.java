@@ -45,9 +45,9 @@ public class OfficeService {
    */
   public OfficeModel createOffice(CreateOfficeModel createOfficeModel) {
     //Check exist office
-      if (officeRepository.existsByName(createOfficeModel.getName())) {
-          throw new DuplicatedEntityException("Duplicated name of office");
-      }
+    if (officeRepository.existsByName(createOfficeModel.getName())) {
+      throw new DuplicatedEntityException("Duplicated name of office");
+    }
 
     //Prepare saved entity
     OfficeEntity officeEntity = modelMapper.map(createOfficeModel, OfficeEntity.class);
@@ -85,9 +85,9 @@ public class OfficeService {
     Optional<OfficeEntity> deletedOfficeOptional = officeRepository.findById(id);
     OfficeEntity deletedOfficeEntity = deletedOfficeOptional.orElseThrow(
         () -> new NoSuchEntityException("Not found office with id"));
-      if (deletedOfficeEntity.getStatus() == EntityStatusEnum.OfficeStatusEnum.DISABLE.ordinal()) {
-          throw new NoSuchEntityException("This office was deleted");
-      }
+    if (deletedOfficeEntity.getStatus() == EntityStatusEnum.OfficeStatusEnum.DISABLE.ordinal()) {
+      throw new NoSuchEntityException("This office was deleted");
+    }
 
     //Set status for entity
     deletedOfficeEntity.setStatus(EntityStatusEnum.OfficeStatusEnum.DISABLE.ordinal());
@@ -110,10 +110,10 @@ public class OfficeService {
     foundOfficeOptional.orElseThrow(() -> new NoSuchEntityException("Not found office with id"));
 
     //Check existed office with name
-      if (officeRepository.existsByNameAndIdNot(updateOfficeModel.getName(),
-          updateOfficeModel.getId())) {
-          throw new DuplicatedEntityException("Duplicate name for office");
-      }
+    if (officeRepository.existsByNameAndIdNot(updateOfficeModel.getName(),
+        updateOfficeModel.getId())) {
+      throw new DuplicatedEntityException("Duplicate name for office");
+    }
 
     //Save entity to database
     OfficeEntity savedEntity = officeRepository.save(

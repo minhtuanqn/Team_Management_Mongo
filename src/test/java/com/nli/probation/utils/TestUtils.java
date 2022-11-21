@@ -1,61 +1,53 @@
 package com.nli.probation.utils;
 
-import com.nli.probation.constant.EntityStatusEnum.OfficeStatusEnum;
-import com.nli.probation.model.office.CreateOfficeModel;
-import com.nli.probation.model.office.OfficeModel;
-import com.nli.probation.model.office.UpdateOfficeModel;
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestUtils {
+import com.nli.probation.model.ResourceModel;
+import java.util.List;
+
+public class TestUtils <T> {
 
   /**
-   * Create mock office
-   * @return mock office model
+   * Create mock resource model for testing
+   * @param searchValue
+   * @param sortType
+   * @param sortBy
+   * @param totalResult
+   * @param totalPage
+   * @param index
+   * @param limit
+   * @param modelList
+   * @return resource model
    */
-  public static OfficeModel createOfficeModel() {
-    OfficeModel officeModel = new OfficeModel();
-    officeModel.setId(1);
-    officeModel.setName("Tan Vien");
-    officeModel.setLocation("Tan Binh");
-    officeModel.setStatus(OfficeStatusEnum.ACTIVE.ordinal());
-    return officeModel;
+  public ResourceModel<T> createResourceModel(String searchValue, String sortType, String sortBy,
+      int totalResult, int totalPage, int index, int limit, List<T> modelList) {
+    ResourceModel<T> resourceModel = new ResourceModel<>();
+    resourceModel.setSearchText(searchValue);
+    resourceModel.setSortType(sortType);
+    resourceModel.setSortBy(sortBy);
+    resourceModel.setTotalResult(totalResult);
+    resourceModel.setTotalPage(totalPage);
+    resourceModel.setLimit(limit);
+    resourceModel.setIndex(index);
+    resourceModel.setData(modelList);
+    return resourceModel;
   }
 
   /**
-   * Create mock create office
-   * @return mock create office model
-   */
-  public static CreateOfficeModel createCreateOfficeModel() {
-    CreateOfficeModel createOfficeModel = new CreateOfficeModel();
-    createOfficeModel.setName("Tan Vien");
-    createOfficeModel.setLocation("Tan Binh");
-    return createOfficeModel;
-  }
-
-  /**
-   * Create mock update office
-   * @return mock update office model
-   */
-  public static UpdateOfficeModel createUpdateOfficeModel() {
-    UpdateOfficeModel updateOfficeModel = new UpdateOfficeModel();
-    updateOfficeModel.setId(1);
-    updateOfficeModel.setName("Tan Vien");
-    updateOfficeModel.setLocation("Tan Binh");
-    updateOfficeModel.setStatus(OfficeStatusEnum.ACTIVE.ordinal());
-    return updateOfficeModel;
-  }
-
-  /**
-   * Campare two office model
+   * Compare information of two resource model
    * @param expected
    * @param actual
    * @return true or false
    */
-  public static boolean compareTwoOffice(OfficeModel expected, OfficeModel actual) {
-    Assertions.assertEquals(expected.getId(), actual.getId());
-    Assertions.assertEquals(expected.getName(), actual.getName());
-    Assertions.assertEquals(expected.getLocation(), actual.getLocation());
-    Assertions.assertEquals(expected.getStatus(), actual.getStatus());
+  public boolean compareTwoResourceInformation(ResourceModel<T> expected,
+      ResourceModel<T> actual) {
+    assertEquals(expected.getSearchText(), actual.getSearchText());
+    assertEquals(expected.getIndex(), actual.getIndex());
+    assertEquals(expected.getLimit(), actual.getLimit());
+    assertEquals(expected.getTotalPage(), actual.getTotalPage());
+    assertEquals(expected.getTotalResult(), actual.getTotalResult());
+    assertEquals(expected.getSortType(), actual.getSortType());
+    assertEquals(expected.getSortBy(), actual.getSortBy());
     return true;
   }
 }

@@ -1,9 +1,10 @@
 package com.nli.probation.unittest.service;
 
-import static com.nli.probation.utils.TestUtils.compareTwoOffice;
-import static com.nli.probation.utils.TestUtils.createCreateOfficeModel;
-import static com.nli.probation.utils.TestUtils.createOfficeModel;
-import static com.nli.probation.utils.TestUtils.createUpdateOfficeModel;
+import static com.nli.probation.utils.OfficeTestUtils.compareTwoOffice;
+import static com.nli.probation.utils.OfficeTestUtils.compareTwoOfficeList;
+import static com.nli.probation.utils.OfficeTestUtils.createCreateOfficeModel;
+import static com.nli.probation.utils.OfficeTestUtils.createOfficeModel;
+import static com.nli.probation.utils.OfficeTestUtils.createUpdateOfficeModel;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -15,16 +16,24 @@ import com.nli.probation.constant.EntityStatusEnum.OfficeStatusEnum;
 import com.nli.probation.customexception.DuplicatedEntityException;
 import com.nli.probation.customexception.NoSuchEntityException;
 import com.nli.probation.entity.OfficeEntity;
+import com.nli.probation.model.RequestPaginationModel;
+import com.nli.probation.model.ResourceModel;
 import com.nli.probation.model.office.CreateOfficeModel;
 import com.nli.probation.model.office.OfficeModel;
 import com.nli.probation.model.office.UpdateOfficeModel;
 import com.nli.probation.repository.OfficeRepository;
 import com.nli.probation.service.OfficeService;
 import com.nli.probation.service.SequenceGeneratorService;
+import com.nli.probation.utils.TestUtils;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 class OfficeServiceTest {
 
@@ -89,7 +98,7 @@ class OfficeServiceTest {
    * Delete office but can not find office by id
    */
   @Test
-  void when_DeleteNotExistOffice_thenThrowNoSuchEntityException() {
+  void when_deleteNotExistOffice_thenThrowNoSuchEntityException() {
     Optional<OfficeEntity> optional = Mockito.mock(Optional.class);
     when(officeRepository.findById(any())).thenReturn(optional);
     when(optional.orElseThrow(any())).thenThrow(NoSuchEntityException.class);
@@ -103,7 +112,7 @@ class OfficeServiceTest {
    * Delete office but status of office is disable
    */
   @Test
-  void when_DeleteOfficeWithDisableStatus_thenThrowNoSuchEntityException() {
+  void when_deleteOfficeWithDisableStatus_thenThrowNoSuchEntityException() {
     OfficeEntity foundOffice = modelMapper.map(createOfficeModel(), OfficeEntity.class);
     foundOffice.setStatus(OfficeStatusEnum.DISABLE.ordinal());
 
@@ -138,10 +147,10 @@ class OfficeServiceTest {
   }
 
   /**
-   * Find a office does not exist
+   * Find an office does not exist
    */
   @Test
-  void when_FindNotExistOffice_thenThrowNoSuchEntity(){
+  void when_findNotExistOffice_thenThrowNoSuchEntity(){
     Optional<OfficeEntity> optional = Mockito.mock(Optional.class);
     when(officeRepository.findById(any())).thenReturn(optional);
     when(optional.orElseThrow(any())).thenThrow(NoSuchEntityException.class);
@@ -156,7 +165,7 @@ class OfficeServiceTest {
    *
    */
   @Test
-  void when_UpdateExistOffice_thenUpdateSuccessfully() {
+  void when_updateExistOffice_thenUpdateSuccessfully() {
     UpdateOfficeModel updateOfficeModel = createUpdateOfficeModel();
 
     OfficeEntity savedEntity = modelMapper.map(updateOfficeModel, OfficeEntity.class);
@@ -177,14 +186,41 @@ class OfficeServiceTest {
    * Update office but can not find department by id
    */
   @Test
-  public void when_UpdateNotExistDepartment_thenThrowNoSuchEntityException() {
+  void when_updateNotExistDepartment_thenThrowNoSuchEntityException() {
     Optional<OfficeEntity> optional = Mockito.mock(Optional.class);
     when(officeRepository.findById(any())).thenReturn(optional);
     when(optional.orElseThrow(any())).thenThrow(NoSuchEntityException.class);
 
+    UpdateOfficeModel updateOfficeModel = createUpdateOfficeModel();
     OfficeService officeService = new OfficeService(officeRepository, modelMapper,
         sequenceGeneratorService);
-    assertThrows(NoSuchEntityException.class, () ->
-        officeService.updateOffice(createUpdateOfficeModel()));
+    assertThrows(NoSuchEntityException.class, () -> officeService.updateOffice(updateOfficeModel));
+  }
+
+  /**
+   * Find offices like name or location then return result
+   */
+  @Test
+  void when_findOfficeLikeNameOrLocationSortByAsc_thenReturnResourceOfListOfOfficesByAsc() {
+    List<OfficeEntity> entityList = new ArrayList<>();
+    entityList.add(modelMapper.map(createOfficeModel(), OfficeEntity.class));
+    Page<OfficeEntity> entityPage = new PageImpl<>(entityList);
+
+    when(officeRepository.findAll(any(), (Pageable) any())).thenReturn(entityPage);
+
+    OfficeService officeService = new OfficeService(officeRepository, modelMapper,
+        sequenceGeneratorService);
+    ResourceModel<OfficeModel> actualResource = officeService.
+        searchOffices("", new RequestPaginationModel(0, 1, "id", "asc"));
+
+    List<OfficeModel> modelList = new ArrayList<>();
+    OfficeModel expectModel = createOfficeModel();
+    modelList.add(expectModel);
+    TestUtils<OfficeModel> testUtils = new TestUtils<>();
+    ResourceModel<OfficeModel> expectedResource = testUtils
+        .createResourceModel("", "asc", "id",
+            1,1, 0, 1, modelList);
+    assertTrue(testUtils.compareTwoResourceInformation(expectedResource, actualResource));
+    assertTrue(compareTwoOfficeList(expectedResource.getData(), actualResource.getData()));
   }
 }
