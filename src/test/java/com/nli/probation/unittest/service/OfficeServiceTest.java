@@ -100,6 +100,24 @@ class OfficeServiceTest {
   }
 
   /**
+   * Delete office but status of office is disable
+   */
+  @Test
+  void when_DeleteOfficeWithDisableStatus_thenThrowNoSuchEntityException() {
+    OfficeEntity foundOffice = modelMapper.map(createOfficeModel(), OfficeEntity.class);
+    foundOffice.setStatus(OfficeStatusEnum.DISABLE.ordinal());
+
+    Optional<OfficeEntity> optional = Mockito.mock(Optional.class);
+    when(officeRepository.findById(any())).thenReturn(optional);
+    when(optional.orElseThrow(any())).thenReturn(foundOffice);
+
+    OfficeService officeService = new OfficeService(officeRepository, modelMapper,
+        sequenceGeneratorService);
+    assertThrows(NoSuchEntityException.class, () -> officeService.deleteOfficeById(
+        foundOffice.getId()));
+  }
+
+  /**
    * Find a office successfully
    */
   @Test
