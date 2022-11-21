@@ -3,6 +3,7 @@ package com.nli.probation.unittest.service;
 import static com.nli.probation.utils.TestUtils.compareTwoOffice;
 import static com.nli.probation.utils.TestUtils.createCreateOfficeModel;
 import static com.nli.probation.utils.TestUtils.createOfficeModel;
+import static com.nli.probation.utils.TestUtils.createUpdateOfficeModel;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -16,6 +17,7 @@ import com.nli.probation.customexception.NoSuchEntityException;
 import com.nli.probation.entity.OfficeEntity;
 import com.nli.probation.model.office.CreateOfficeModel;
 import com.nli.probation.model.office.OfficeModel;
+import com.nli.probation.model.office.UpdateOfficeModel;
 import com.nli.probation.repository.OfficeRepository;
 import com.nli.probation.service.OfficeService;
 import com.nli.probation.service.SequenceGeneratorService;
@@ -121,9 +123,7 @@ class OfficeServiceTest {
    * Find a office does not exist
    */
   @Test
-  void when_FindNotExistOffice_thenThrowNosuchEntity(){
-    OfficeModel officeModel = createOfficeModel();
-
+  void when_FindNotExistOffice_thenThrowNoSuchEntity(){
     Optional<OfficeEntity> optional = Mockito.mock(Optional.class);
     when(officeRepository.findById(any())).thenReturn(optional);
     when(optional.orElseThrow(any())).thenThrow(NoSuchEntityException.class);
@@ -133,4 +133,40 @@ class OfficeServiceTest {
     assertThrows(NoSuchEntityException.class, () -> officeService.findOfficeById(1));
   }
 
+  /**
+   * Update an existed office and update successfully
+   *
+   */
+  @Test
+  void when_UpdateExistOffice_thenUpdateSuccessfully() {
+    UpdateOfficeModel updateOfficeModel = createUpdateOfficeModel();
+
+    OfficeEntity savedEntity = modelMapper.map(updateOfficeModel, OfficeEntity.class);
+    Optional<OfficeEntity> optional = Mockito.mock(Optional.class);
+    when(officeRepository.findById(any())).thenReturn(optional);
+    when(optional.orElseThrow(any())).thenReturn(modelMapper.map(createOfficeModel(), OfficeEntity.class));
+    when(officeRepository.existsByNameAndIdNot(anyString(), anyInt())).thenReturn(false);
+    when(officeRepository.save(any())).thenReturn(savedEntity);
+
+    OfficeModel expectedModel = createOfficeModel();
+
+    OfficeModel actualModel = new OfficeService(officeRepository, modelMapper,
+        sequenceGeneratorService).updateOffice(createUpdateOfficeModel());
+    assertTrue(compareTwoOffice(expectedModel, actualModel));
+  }
+
+  /**
+   * Update office but can not find department by id
+   */
+  @Test
+  public void when_UpdateNotExistDepartment_thenThrowNoSuchEntityException() {
+    Optional<OfficeEntity> optional = Mockito.mock(Optional.class);
+    when(officeRepository.findById(any())).thenReturn(optional);
+    when(optional.orElseThrow(any())).thenThrow(NoSuchEntityException.class);
+
+    OfficeService officeService = new OfficeService(officeRepository, modelMapper,
+        sequenceGeneratorService);
+    assertThrows(NoSuchEntityException.class, () ->
+        officeService.updateOffice(createUpdateOfficeModel()));
+  }
 }

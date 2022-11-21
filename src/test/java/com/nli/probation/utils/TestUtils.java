@@ -3,6 +3,7 @@ package com.nli.probation.utils;
 import com.nli.probation.constant.EntityStatusEnum.OfficeStatusEnum;
 import com.nli.probation.model.office.CreateOfficeModel;
 import com.nli.probation.model.office.OfficeModel;
+import com.nli.probation.model.office.UpdateOfficeModel;
 import org.junit.jupiter.api.Assertions;
 
 public class TestUtils {
@@ -29,6 +30,19 @@ public class TestUtils {
     createOfficeModel.setName("Tan Vien");
     createOfficeModel.setLocation("Tan Binh");
     return createOfficeModel;
+  }
+
+  /**
+   * Create mock update office
+   * @return mock update office model
+   */
+  public static UpdateOfficeModel createUpdateOfficeModel() {
+    UpdateOfficeModel updateOfficeModel = new UpdateOfficeModel();
+    updateOfficeModel.setId(1);
+    updateOfficeModel.setName("Tan Vien");
+    updateOfficeModel.setLocation("Tan Binh");
+    updateOfficeModel.setStatus(OfficeStatusEnum.ACTIVE.ordinal());
+    return updateOfficeModel;
   }
 
   /**
