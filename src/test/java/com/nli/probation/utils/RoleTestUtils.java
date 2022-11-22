@@ -3,7 +3,6 @@ package com.nli.probation.utils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.nli.probation.constant.EntityStatusEnum.RoleStatusEnum;
-import com.nli.probation.model.office.OfficeModel;
 import com.nli.probation.model.role.CreateRoleModel;
 import com.nli.probation.model.role.RoleModel;
 import com.nli.probation.model.role.UpdateRoleModel;

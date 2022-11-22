@@ -47,7 +47,6 @@ class RoleServiceTest {
    */
   @Test
   void when_saveRole_thenSaveSuccessfully() {
-    when(roleRepository.existsByName(anyString())).thenReturn(false);
 
     RoleModel roleModel = createRoleModel();
     RoleEntity savedEntity = modelMapper.map(roleModel, RoleEntity.class);
