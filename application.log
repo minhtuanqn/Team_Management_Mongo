@@ -29,3 +29,53 @@
 2022-11-22 01:11:21.554  INFO 12140 --- [http-nio-8080-exec-1] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
 2022-11-22 01:11:30.132  INFO 12140 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
 2022-11-22 01:11:30.138  INFO 12140 --- [SpringContextShutdownHook] org.mongodb.driver.connection            : Closed connection [connectionId{localValue:3, serverValue:11}] to localhost:27017 because the pool has been closed.
+2022-11-22 09:04:57.540  INFO 21788 --- [main] com.nli.probation.ProbationApplication   : Starting ProbationApplication using Java 17.0.5 on 5CD1199VWM with PID 21788 (F:\Projects\probation_mongodb\build\classes\java\main started by tuanmle in F:\Projects\probation_mongodb)
+2022-11-22 09:04:57.542 DEBUG 21788 --- [main] com.nli.probation.ProbationApplication   : Running with Spring Boot v2.4.5, Spring v5.3.6
+2022-11-22 09:04:57.543  INFO 21788 --- [main] com.nli.probation.ProbationApplication   : No active profile set, falling back to default profiles: default
+2022-11-22 09:04:58.251  INFO 21788 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2022-11-22 09:04:58.309  INFO 21788 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 54 ms. Found 5 MongoDB repository interfaces.
+2022-11-22 09:04:58.779  INFO 21788 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-22 09:04:58.787  INFO 21788 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-22 09:04:58.787  INFO 21788 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2022-11-22 09:04:58.905  INFO 21788 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-22 09:04:58.905  INFO 21788 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1320 ms
+2022-11-22 09:04:59.145  INFO 21788 --- [main] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms'}
+2022-11-22 09:04:59.201  INFO 21788 --- [cluster-ClusterId{value='637c2e4bceb61d00d90e0e9a', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:1, serverValue:12}] to localhost:27017
+2022-11-22 09:04:59.201  INFO 21788 --- [cluster-rtt-ClusterId{value='637c2e4bceb61d00d90e0e9a', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:2, serverValue:13}] to localhost:27017
+2022-11-22 09:04:59.202  INFO 21788 --- [cluster-ClusterId{value='637c2e4bceb61d00d90e0e9a', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=16149300}
+2022-11-22 09:04:59.783  INFO 21788 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-11-22 09:04:59.933  INFO 21788 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-22 09:05:00.198  INFO 21788 --- [main] com.nli.probation.ProbationApplication   : Started ProbationApplication in 2.971 seconds (JVM running for 3.595)
+2022-11-22 09:05:03.240  INFO 21788 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-22 09:05:03.241  INFO 21788 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-22 09:05:03.242  INFO 21788 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-11-22 09:05:19.909  INFO 21788 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-11-22 09:05:25.333  INFO 24224 --- [main] com.nli.probation.ProbationApplication   : Starting ProbationApplication using Java 17.0.5 on 5CD1199VWM with PID 24224 (F:\Projects\probation_mongodb\build\classes\java\main started by tuanmle in F:\Projects\probation_mongodb)
+2022-11-22 09:05:25.335 DEBUG 24224 --- [main] com.nli.probation.ProbationApplication   : Running with Spring Boot v2.4.5, Spring v5.3.6
+2022-11-22 09:05:25.335  INFO 24224 --- [main] com.nli.probation.ProbationApplication   : No active profile set, falling back to default profiles: default
+2022-11-22 09:05:25.978  INFO 24224 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2022-11-22 09:05:26.033  INFO 24224 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 51 ms. Found 5 MongoDB repository interfaces.
+2022-11-22 09:05:26.410  INFO 24224 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-22 09:05:26.416  INFO 24224 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-22 09:05:26.416  INFO 24224 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2022-11-22 09:05:26.543  INFO 24224 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-22 09:05:26.544  INFO 24224 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1169 ms
+2022-11-22 09:05:26.779  INFO 24224 --- [main] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms'}
+2022-11-22 09:05:26.834  INFO 24224 --- [cluster-ClusterId{value='637c2e6689396556835018e3', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:2, serverValue:15}] to localhost:27017
+2022-11-22 09:05:26.834  INFO 24224 --- [cluster-rtt-ClusterId{value='637c2e6689396556835018e3', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:1, serverValue:14}] to localhost:27017
+2022-11-22 09:05:26.836  INFO 24224 --- [cluster-ClusterId{value='637c2e6689396556835018e3', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=15357000}
+2022-11-22 09:05:27.780  INFO 24224 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-11-22 09:05:27.995  INFO 24224 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-22 09:05:28.298  INFO 24224 --- [main] com.nli.probation.ProbationApplication   : Started ProbationApplication in 3.202 seconds (JVM running for 3.792)
+2022-11-22 09:05:28.747  INFO 24224 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-22 09:05:28.748  INFO 24224 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-22 09:05:28.748  INFO 24224 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2022-11-22 09:05:28.784 DEBUG 24224 --- [http-nio-8080-exec-1] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.controller.RoleController.searchRoles() with argument[s] = [com.nli.probation.model.RequestPaginationModel@510714b8, ]
+2022-11-22 09:05:28.818 DEBUG 24224 --- [http-nio-8080-exec-1] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.service.RoleService.searchRoles() with argument[s] = [, com.nli.probation.model.RequestPaginationModel@510714b8]
+2022-11-22 09:05:28.962  INFO 24224 --- [http-nio-8080-exec-1] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:3, serverValue:16}] to localhost:27017
+2022-11-22 09:05:29.030 DEBUG 24224 --- [http-nio-8080-exec-1] com.nli.probation.aop.LoggingAspect      : Response for com.nli.probation.service.RoleService.searchRoles with Result = dcom.nli.probation.model.ResourceModel@72722bb3
+2022-11-22 09:05:29.030  INFO 24224 --- [http-nio-8080-exec-1] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
+2022-11-22 09:05:29.052 DEBUG 24224 --- [http-nio-8080-exec-1] com.nli.probation.aop.LoggingAspect      : Response for com.nli.probation.controller.RoleController.searchRoles with Result = d<200 OK OK,com.nli.probation.model.ResourceModel@72722bb3,[]>
+2022-11-22 09:05:29.055  INFO 24224 --- [http-nio-8080-exec-1] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
+2022-11-22 09:05:41.779  INFO 24224 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-11-22 09:05:41.784  INFO 24224 --- [SpringContextShutdownHook] org.mongodb.driver.connection            : Closed connection [connectionId{localValue:3, serverValue:16}] to localhost:27017 because the pool has been closed.

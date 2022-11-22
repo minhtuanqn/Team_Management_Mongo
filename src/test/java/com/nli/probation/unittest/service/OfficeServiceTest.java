@@ -51,6 +51,7 @@ class OfficeServiceTest {
 
     OfficeModel officeModel = createOfficeModel();
     OfficeEntity savedEntity = modelMapper.map(officeModel, OfficeEntity.class);
+    when(officeRepository.existsByName(anyString())).thenReturn(false);
     when(officeRepository.save(any())).thenReturn(savedEntity);
 
     OfficeModel expectedModel = createOfficeModel();
