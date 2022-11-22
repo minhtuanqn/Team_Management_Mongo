@@ -128,10 +128,10 @@ class OfficeServiceTest {
   }
 
   /**
-   * Find a office successfully
+   * Find an office successfully
    */
   @Test
-  void when_findExistDepartment_thenReturnModelSuccessfully() {
+  void when_findExistOffice_thenReturnModelSuccessfully() {
     OfficeModel officeModel = createOfficeModel();
 
     OfficeEntity foundOffice = modelMapper.map(officeModel, OfficeEntity.class);

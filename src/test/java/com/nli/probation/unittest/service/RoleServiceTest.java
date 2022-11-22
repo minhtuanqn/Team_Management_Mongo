@@ -13,13 +13,16 @@ import static org.mockito.Mockito.when;
 import com.nli.probation.constant.EntityStatusEnum.RoleStatusEnum;
 import com.nli.probation.customexception.DuplicatedEntityException;
 import com.nli.probation.customexception.NoSuchEntityException;
+import com.nli.probation.entity.OfficeEntity;
 import com.nli.probation.entity.RoleEntity;
 import com.nli.probation.model.role.CreateRoleModel;
 import com.nli.probation.model.role.RoleModel;
 import com.nli.probation.repository.RoleRepository;
+import com.nli.probation.service.OfficeService;
 import com.nli.probation.service.RoleService;
 import com.nli.probation.service.SequenceGeneratorService;
 import java.util.Optional;
+import javax.management.relation.Role;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
@@ -128,6 +131,40 @@ class RoleServiceTest {
         sequenceGeneratorService);
     int foundId = foundRole.getId();
     assertThrows(NoSuchEntityException.class, () -> roleService.deleteRoleById(foundId));
+  }
+
+  /**
+   * Find role successfully
+   */
+  @Test
+  void when_findExistRole_thenReturnModelSuccessfully() {
+    RoleModel roleModel = createRoleModel();
+
+    RoleEntity foundRole = modelMapper.map(roleModel, RoleEntity.class);
+    Optional<RoleEntity> optional = Mockito.mock(Optional.class);
+    when(roleRepository.findById(anyInt())).thenReturn(optional);
+    when(optional.orElseThrow(any())).thenReturn(foundRole);
+
+    RoleModel expectedModel = createRoleModel();
+
+    RoleModel actualModel = new RoleService(roleRepository, modelMapper,
+        sequenceGeneratorService).findRoleById(
+        roleModel.getId());
+    assertTrue(compareTwoRole(expectedModel, actualModel));
+  }
+
+  /**
+   * Find an role does not exist
+   */
+  @Test
+  void when_findNotExistRole_thenThrowNoSuchEntity(){
+    Optional<RoleEntity> optional = Mockito.mock(Optional.class);
+    when(roleRepository.findById(any())).thenReturn(optional);
+    when(optional.orElseThrow(any())).thenThrow(NoSuchEntityException.class);
+
+    RoleService roleService = new RoleService(roleRepository, modelMapper,
+        sequenceGeneratorService);
+    assertThrows(NoSuchEntityException.class, () -> roleService.findRoleById(1));
   }
 
 }
