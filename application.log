@@ -79,3 +79,24 @@
 2022-11-22 09:05:29.055  INFO 24224 --- [http-nio-8080-exec-1] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
 2022-11-22 09:05:41.779  INFO 24224 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
 2022-11-22 09:05:41.784  INFO 24224 --- [SpringContextShutdownHook] org.mongodb.driver.connection            : Closed connection [connectionId{localValue:3, serverValue:16}] to localhost:27017 because the pool has been closed.
+2022-11-22 09:59:39.084  INFO 2596 --- [main] com.nli.probation.ProbationApplication   : Starting ProbationApplication using Java 17.0.5 on 5CD1199VWM with PID 2596 (F:\Projects\probation_mongodb\build\classes\java\main started by tuanmle in F:\Projects\probation_mongodb)
+2022-11-22 09:59:39.085 DEBUG 2596 --- [main] com.nli.probation.ProbationApplication   : Running with Spring Boot v2.4.5, Spring v5.3.6
+2022-11-22 09:59:39.086  INFO 2596 --- [main] com.nli.probation.ProbationApplication   : No active profile set, falling back to default profiles: default
+2022-11-22 09:59:39.719  INFO 2596 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2022-11-22 09:59:39.778  INFO 2596 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 57 ms. Found 5 MongoDB repository interfaces.
+2022-11-22 09:59:40.240  INFO 2596 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-22 09:59:40.248  INFO 2596 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-22 09:59:40.249  INFO 2596 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2022-11-22 09:59:40.387  INFO 2596 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-22 09:59:40.388  INFO 2596 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1264 ms
+2022-11-22 09:59:40.626  INFO 2596 --- [main] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms'}
+2022-11-22 09:59:40.671  INFO 2596 --- [cluster-rtt-ClusterId{value='637c3b1c599d8f5ae91dfd4d', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:2, serverValue:18}] to localhost:27017
+2022-11-22 09:59:40.671  INFO 2596 --- [cluster-ClusterId{value='637c3b1c599d8f5ae91dfd4d', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:1, serverValue:17}] to localhost:27017
+2022-11-22 09:59:40.672  INFO 2596 --- [cluster-ClusterId{value='637c3b1c599d8f5ae91dfd4d', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=14688500}
+2022-11-22 09:59:41.291  INFO 2596 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-11-22 09:59:41.460  INFO 2596 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-22 09:59:41.761  INFO 2596 --- [main] com.nli.probation.ProbationApplication   : Started ProbationApplication in 2.968 seconds (JVM running for 3.662)
+2022-11-22 09:59:46.186  INFO 2596 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-22 09:59:46.186  INFO 2596 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-22 09:59:46.187  INFO 2596 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-11-22 10:01:08.413  INFO 2596 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'

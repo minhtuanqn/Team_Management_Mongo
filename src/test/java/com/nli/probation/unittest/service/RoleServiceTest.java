@@ -1,8 +1,10 @@
 package com.nli.probation.unittest.service;
 
 import static com.nli.probation.utils.RoleTestUtils.compareTwoRole;
+import static com.nli.probation.utils.RoleTestUtils.compareTwoRoleList;
 import static com.nli.probation.utils.RoleTestUtils.createCreateRoleModel;
 import static com.nli.probation.utils.RoleTestUtils.createRoleModel;
+import static com.nli.probation.utils.RoleTestUtils.createUpdateRoleModel;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -13,19 +15,25 @@ import static org.mockito.Mockito.when;
 import com.nli.probation.constant.EntityStatusEnum.RoleStatusEnum;
 import com.nli.probation.customexception.DuplicatedEntityException;
 import com.nli.probation.customexception.NoSuchEntityException;
-import com.nli.probation.entity.OfficeEntity;
 import com.nli.probation.entity.RoleEntity;
+import com.nli.probation.model.RequestPaginationModel;
+import com.nli.probation.model.ResourceModel;
 import com.nli.probation.model.role.CreateRoleModel;
 import com.nli.probation.model.role.RoleModel;
+import com.nli.probation.model.role.UpdateRoleModel;
 import com.nli.probation.repository.RoleRepository;
-import com.nli.probation.service.OfficeService;
 import com.nli.probation.service.RoleService;
 import com.nli.probation.service.SequenceGeneratorService;
+import com.nli.probation.utils.TestUtils;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import javax.management.relation.Role;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 class RoleServiceTest {
 
@@ -165,6 +173,56 @@ class RoleServiceTest {
     RoleService roleService = new RoleService(roleRepository, modelMapper,
         sequenceGeneratorService);
     assertThrows(NoSuchEntityException.class, () -> roleService.findRoleById(1));
+  }
+
+  /**
+   * Update an existed role and update successfully
+   *
+   */
+  @Test
+  void when_updateExistRole_thenUpdateSuccessfully() {
+    UpdateRoleModel updateRoleModel = createUpdateRoleModel();
+
+    RoleEntity savedEntity = modelMapper.map(updateRoleModel, RoleEntity.class);
+    Optional<RoleEntity> optional = Mockito.mock(Optional.class);
+    when(roleRepository.findById(any())).thenReturn(optional);
+    when(optional.orElseThrow(any())).thenReturn(modelMapper.map(createRoleModel(), RoleEntity.class));
+    when(roleRepository.existsByNameAndIdNot(anyString(), anyInt())).thenReturn(false);
+    when(roleRepository.existsByShortNameAndIdNot(anyString(), anyInt())).thenReturn(false);
+    when(roleRepository.save(any())).thenReturn(savedEntity);
+
+    RoleModel expectedModel = createRoleModel();
+
+    RoleModel actualModel = new RoleService(roleRepository, modelMapper,
+        sequenceGeneratorService).updateRole(createUpdateRoleModel());
+    assertTrue(compareTwoRole(expectedModel, actualModel));
+  }
+
+  /**
+   * Find roles like name or short name then return result
+   */
+  @Test
+  void when_findRoleLikeNameOrShortNameSortByAsc_thenReturnResourceOfListOfRolesByAsc() {
+    List<RoleEntity> entityList = new ArrayList<>();
+    entityList.add(modelMapper.map(createRoleModel(), RoleEntity.class));
+    Page<RoleEntity> entityPage = new PageImpl<>(entityList);
+
+    when(roleRepository.findAll(any(), (Pageable) any())).thenReturn(entityPage);
+
+    RoleService roleService = new RoleService(roleRepository, modelMapper,
+        sequenceGeneratorService);
+    ResourceModel<RoleModel> actualResource = roleService.
+        searchRoles("", new RequestPaginationModel(0, 1, "id", "asc"));
+
+    List<RoleModel> modelList = new ArrayList<>();
+    RoleModel expectModel = createRoleModel();
+    modelList.add(expectModel);
+    TestUtils<RoleModel> testUtils = new TestUtils<>();
+    ResourceModel<RoleModel> expectedResource = testUtils
+        .createResourceModel("", "asc", "id",
+            1,1, 0, 1, modelList);
+    assertTrue(testUtils.compareTwoResourceInformation(expectedResource, actualResource));
+    assertTrue(compareTwoRoleList(expectedResource.getData(), actualResource.getData()));
   }
 
 }
