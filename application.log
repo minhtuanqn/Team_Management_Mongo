@@ -129,3 +129,39 @@
 2022-11-22 10:27:44.828  INFO 3364 --- [http-nio-8080-exec-1] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
 2022-11-22 10:29:53.347  INFO 3364 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
 2022-11-22 10:29:53.352  INFO 3364 --- [SpringContextShutdownHook] org.mongodb.driver.connection            : Closed connection [connectionId{localValue:3, serverValue:21}] to localhost:27017 because the pool has been closed.
+2022-11-22 14:18:05.166  INFO 16556 --- [main] com.nli.probation.ProbationApplication   : Starting ProbationApplication using Java 17.0.5 on 5CD1199VWM with PID 16556 (F:\Projects\probation_mongodb\build\classes\java\main started by tuanmle in F:\Projects\probation_mongodb)
+2022-11-22 14:18:05.168 DEBUG 16556 --- [main] com.nli.probation.ProbationApplication   : Running with Spring Boot v2.4.5, Spring v5.3.6
+2022-11-22 14:18:05.168  INFO 16556 --- [main] com.nli.probation.ProbationApplication   : No active profile set, falling back to default profiles: default
+2022-11-22 14:18:05.887  INFO 16556 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2022-11-22 14:18:05.945  INFO 16556 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 55 ms. Found 5 MongoDB repository interfaces.
+2022-11-22 14:18:06.443  INFO 16556 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-22 14:18:06.451  INFO 16556 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-22 14:18:06.452  INFO 16556 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2022-11-22 14:18:06.596  INFO 16556 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-22 14:18:06.596  INFO 16556 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1382 ms
+2022-11-22 14:18:06.843  INFO 16556 --- [main] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms'}
+2022-11-22 14:18:06.893  INFO 16556 --- [cluster-rtt-ClusterId{value='637c77ae8ff45a7646c6f0cd', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:1, serverValue:23}] to localhost:27017
+2022-11-22 14:18:06.893  INFO 16556 --- [cluster-ClusterId{value='637c77ae8ff45a7646c6f0cd', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:2, serverValue:22}] to localhost:27017
+2022-11-22 14:18:06.893  INFO 16556 --- [cluster-ClusterId{value='637c77ae8ff45a7646c6f0cd', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=15000800}
+2022-11-22 14:18:07.537  INFO 16556 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-11-22 14:18:07.705  INFO 16556 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-22 14:18:07.971  INFO 16556 --- [main] com.nli.probation.ProbationApplication   : Started ProbationApplication in 3.095 seconds (JVM running for 3.807)
+2022-11-22 14:18:09.333  INFO 16556 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-22 14:18:09.334  INFO 16556 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-22 14:18:09.335  INFO 16556 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-11-22 14:18:21.595 DEBUG 16556 --- [http-nio-8080-exec-6] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.controller.TeamController.createTeam() with argument[s] = [com.nli.probation.model.team.CreateTeamModel@26370915]
+2022-11-22 14:18:21.607 DEBUG 16556 --- [http-nio-8080-exec-6] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.service.TeamService.createTeam() with argument[s] = [com.nli.probation.model.team.CreateTeamModel@26370915]
+2022-11-22 14:18:21.736  INFO 16556 --- [http-nio-8080-exec-6] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:3, serverValue:24}] to localhost:27017
+2022-11-22 14:18:21.760 ERROR 16556 --- [http-nio-8080-exec-6] com.nli.probation.aop.LoggingAspect      : Exception in com.nli.probation.service.TeamService.createTeam() with cause = NULL, with message = Duplicated name of team
+2022-11-22 14:18:21.761 ERROR 16556 --- [http-nio-8080-exec-6] com.nli.probation.aop.LoggingAspect      : Exception in com.nli.probation.controller.TeamController.createTeam() with cause = NULL, with message = Duplicated name of team
+2022-11-22 14:18:29.439 DEBUG 16556 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.controller.TeamController.createTeam() with argument[s] = [com.nli.probation.model.team.CreateTeamModel@4933a8bc]
+2022-11-22 14:18:29.440 DEBUG 16556 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.service.TeamService.createTeam() with argument[s] = [com.nli.probation.model.team.CreateTeamModel@4933a8bc]
+2022-11-22 14:18:29.464 DEBUG 16556 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.service.SequenceGeneratorService.generateSequence() with argument[s] = [team_sequence]
+2022-11-22 14:18:29.508 DEBUG 16556 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Response for com.nli.probation.service.SequenceGeneratorService.generateSequence with Result = d4
+2022-11-22 14:18:29.509  INFO 16556 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
+2022-11-22 14:18:29.536 DEBUG 16556 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Response for com.nli.probation.service.TeamService.createTeam with Result = dcom.nli.probation.model.team.TeamModel@76a597b3
+2022-11-22 14:18:29.536  INFO 16556 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
+2022-11-22 14:18:29.537 DEBUG 16556 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Response for com.nli.probation.controller.TeamController.createTeam with Result = d<200 OK OK,com.nli.probation.model.ResponseModel@42a748ae,[]>
+2022-11-22 14:18:29.537  INFO 16556 --- [http-nio-8080-exec-7] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
+2022-11-22 14:18:36.929  INFO 16556 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-11-22 14:18:36.937  INFO 16556 --- [SpringContextShutdownHook] org.mongodb.driver.connection            : Closed connection [connectionId{localValue:3, serverValue:24}] to localhost:27017 because the pool has been closed.
