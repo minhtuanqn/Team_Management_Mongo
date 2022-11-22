@@ -4,19 +4,21 @@ import static com.nli.probation.utils.OfficeTestUtils.compareTwoOffice;
 import static com.nli.probation.utils.OfficeTestUtils.createOfficeModel;
 import static com.nli.probation.utils.RoleTestUtils.compareTwoRole;
 import static com.nli.probation.utils.RoleTestUtils.createRoleModel;
-import static com.nli.probation.utils.TeamTestUtils.compareTwoTeam;
-import static com.nli.probation.utils.TeamTestUtils.compareTwoTeamList;
 import static com.nli.probation.utils.TeamTestUtils.createTeamModel;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.nli.probation.constant.EntityStatusEnum.UserAccountStatusEnum;
-import com.nli.probation.model.role.RoleModel;
+import com.nli.probation.entity.UserAccountEntity;
 import com.nli.probation.model.useraccount.CreateUserAccountModel;
+import com.nli.probation.model.useraccount.UpdateUserAccountModel;
 import com.nli.probation.model.useraccount.UserAccountModel;
+import org.springframework.data.mongodb.core.query.Update;
 
 public class UserAccountTestUtils {
+
   /**
    * Create mock user account
+   *
    * @return mock user account model
    */
   public static UserAccountModel createUserAccountModel() {
@@ -34,6 +36,7 @@ public class UserAccountTestUtils {
 
   /**
    * Create mock create user account
+   *
    * @return mock create user account model
    */
   public static CreateUserAccountModel createCreateUserAccountModel() {
@@ -48,7 +51,44 @@ public class UserAccountTestUtils {
   }
 
   /**
+   * Create mock create user account entity
+   *
+   * @return mock create user account entity
+   */
+  public static UserAccountEntity createUserAccountEntity() {
+    UserAccountEntity userAccountEntity = new UserAccountEntity();
+    userAccountEntity.setId(1);
+    userAccountEntity.setName("Tuan");
+    userAccountEntity.setEmail("minhtuan@gmail.com");
+    userAccountEntity.setPhone("0987654321");
+    userAccountEntity.setOfficeId(1);
+    userAccountEntity.setTeamId(1);
+    userAccountEntity.setRoleId(1);
+    userAccountEntity.setStatus(1);
+    return userAccountEntity;
+  }
+
+  /**
+   * Create mock update user account model
+   *
+   * @return mock update user account model
+   */
+  public static UpdateUserAccountModel createUpdateUserAccountModel() {
+    UpdateUserAccountModel updateUserAccountModel = new UpdateUserAccountModel();
+    updateUserAccountModel.setId(1);
+    updateUserAccountModel.setName("Tuan");
+    updateUserAccountModel.setEmail("minhtuan@gmail.com");
+    updateUserAccountModel.setPhone("0987654321");
+    updateUserAccountModel.setOfficeId(1);
+    updateUserAccountModel.setTeamId(1);
+    updateUserAccountModel.setRoleId(1);
+    updateUserAccountModel.setStatus(1);
+    return updateUserAccountModel;
+  }
+
+  /**
    * Campare two role model
+   *
    * @param expected
    * @param actual
    * @return true or false
@@ -60,8 +100,8 @@ public class UserAccountTestUtils {
     assertEquals(expected.getStatus(), actual.getStatus());
     assertEquals(expected.getPhone(), actual.getPhone());
     assertEquals(expected.getStatus(), actual.getStatus());
-    compareTwoRole(expected.getRoleModel(), actual.getRoleModel());
-    compareTwoOffice(expected.getOfficeModel(), actual.getOfficeModel());
+//    compareTwoRole(expected.getRoleModel(), actual.getRoleModel());
+//    compareTwoOffice(expected.getOfficeModel(), actual.getOfficeModel());
 //    compareTwoTeam(expected.getTeamModel(), actual.getTeamModel());
     return true;
   }
