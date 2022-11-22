@@ -6,6 +6,7 @@ import com.nli.probation.constant.EntityStatusEnum.TeamStatusEnum;
 import com.nli.probation.model.team.CreateTeamModel;
 import com.nli.probation.model.team.TeamModel;
 import com.nli.probation.model.team.UpdateTeamModel;
+import java.util.List;
 
 public class TeamTestUtils {
   /**
@@ -56,6 +57,20 @@ public class TeamTestUtils {
     assertEquals(expected.getName(), actual.getName());
     assertEquals(expected.getShortName(), actual.getShortName());
     assertEquals(expected.getStatus(), actual.getStatus());
+    return true;
+  }
+
+  /**
+   * Compare two list of team
+   * @param expectedList
+   * @param actualList
+   * @return true or false
+   */
+  public static boolean compareTwoTeamList(List<TeamModel> expectedList, List<TeamModel> actualList) {
+    assertEquals(expectedList.size(), actualList.size());
+    for (TeamModel teamModel : expectedList) {
+      compareTwoTeam(teamModel, actualList.get(expectedList.indexOf(teamModel)));
+    }
     return true;
   }
 }

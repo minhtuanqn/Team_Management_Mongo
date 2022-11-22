@@ -184,7 +184,7 @@ class OfficeServiceTest {
   }
 
   /**
-   * Update office but can not find department by id
+   * Update office but can not find office by id
    */
   @Test
   void when_updateNotExistDepartment_thenThrowNoSuchEntityException() {

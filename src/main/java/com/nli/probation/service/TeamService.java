@@ -45,14 +45,14 @@ public class TeamService {
    */
   public TeamModel createTeam(CreateTeamModel createTeamModel) {
     //Check exist team name
-      if (teamRepository.existsByName(createTeamModel.getName())) {
-          throw new DuplicatedEntityException("Duplicated name of team");
-      }
+    if (teamRepository.existsByName(createTeamModel.getName())) {
+      throw new DuplicatedEntityException("Duplicated name of team");
+    }
 
     //Check exist short name
-      if (teamRepository.existsByShortName(createTeamModel.getShortName())) {
-          throw new DuplicatedEntityException("Duplicated short name of team");
-      }
+    if (teamRepository.existsByShortName(createTeamModel.getShortName())) {
+      throw new DuplicatedEntityException("Duplicated short name of team");
+    }
 
     //Prepare saved entity
     TeamEntity teamEntity = modelMapper.map(createTeamModel, TeamEntity.class);
@@ -89,9 +89,9 @@ public class TeamService {
     Optional<TeamEntity> deletedTeamOptional = teamRepository.findById(id);
     TeamEntity deletedTeamEntity = deletedTeamOptional.orElseThrow(
         () -> new NoSuchEntityException("Not found team with id"));
-      if (deletedTeamEntity.getStatus() == EntityStatusEnum.TeamStatusEnum.DISABLE.ordinal()) {
-          throw new NoSuchEntityException("This team was deleted");
-      }
+    if (deletedTeamEntity.getStatus() == EntityStatusEnum.TeamStatusEnum.DISABLE.ordinal()) {
+      throw new NoSuchEntityException("This team was deleted");
+    }
 
     //Set status for entity
     deletedTeamEntity.setStatus(EntityStatusEnum.TeamStatusEnum.DISABLE.ordinal());
@@ -110,19 +110,19 @@ public class TeamService {
   public TeamModel updateTeam(UpdateTeamModel updateTeamModel) {
     //Find team by id
     Optional<TeamEntity> foundTeamOptional = teamRepository.findById(updateTeamModel.getId());
-    TeamEntity foundTeamEntity = foundTeamOptional.orElseThrow(
+    foundTeamOptional.orElseThrow(
         () -> new NoSuchEntityException("Not found team with id"));
 
     //Check existed team with name
-      if (teamRepository.existsByNameAndIdNot(updateTeamModel.getName(), updateTeamModel.getId())) {
-          throw new DuplicatedEntityException("Duplicate name for team");
-      }
+    if (teamRepository.existsByNameAndIdNot(updateTeamModel.getName(), updateTeamModel.getId())) {
+      throw new DuplicatedEntityException("Duplicate name for team");
+    }
 
     //Check existed team with short name
-      if (teamRepository.existsByShortNameAndIdNot(updateTeamModel.getShortName(),
-          updateTeamModel.getId())) {
-          throw new DuplicatedEntityException("Duplicate short name for team");
-      }
+    if (teamRepository.existsByShortNameAndIdNot(updateTeamModel.getShortName(),
+        updateTeamModel.getId())) {
+      throw new DuplicatedEntityException("Duplicate short name for team");
+    }
 
     //Save entity to database
     TeamEntity savedEntity = teamRepository.save(

@@ -75,7 +75,7 @@ class RoleServiceTest {
   }
 
   /**
-   * Create new role but name of role has been existed
+   * Create new role but short name of role has been existed
    */
   @Test
   void when_saveRoleWithExistShortName_thenThrowDuplicatedEntityException() {

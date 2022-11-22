@@ -45,14 +45,14 @@ public class RoleService {
    */
   public RoleModel createRole(CreateRoleModel createRoleModel) {
     //Check exist role name
-      if (roleRepository.existsByName(createRoleModel.getName())) {
-          throw new DuplicatedEntityException("Duplicated name of role");
-      }
+    if (roleRepository.existsByName(createRoleModel.getName())) {
+      throw new DuplicatedEntityException("Duplicated name of role");
+    }
 
     //Check exist short name
-      if (roleRepository.existsByShortName(createRoleModel.getShortName())) {
-          throw new DuplicatedEntityException("Duplicated short name of role");
-      }
+    if (roleRepository.existsByShortName(createRoleModel.getShortName())) {
+      throw new DuplicatedEntityException("Duplicated short name of role");
+    }
 
     //Prepare saved entity
     RoleEntity roleEntity = modelMapper.map(createRoleModel, RoleEntity.class);
@@ -113,15 +113,15 @@ public class RoleService {
     foundRoleOptional.orElseThrow(() -> new NoSuchEntityException("Not found role with id"));
 
     //Check existed role with name
-      if (roleRepository.existsByNameAndIdNot(updateRoleModel.getName(), updateRoleModel.getId())) {
-          throw new DuplicatedEntityException("Duplicate name for role");
-      }
+    if (roleRepository.existsByNameAndIdNot(updateRoleModel.getName(), updateRoleModel.getId())) {
+      throw new DuplicatedEntityException("Duplicate name for role");
+    }
 
     //Check existed role with short name
-      if (roleRepository.existsByShortNameAndIdNot(updateRoleModel.getShortName(),
-          updateRoleModel.getId())) {
-          throw new DuplicatedEntityException("Duplicate short name for role");
-      }
+    if (roleRepository.existsByShortNameAndIdNot(updateRoleModel.getShortName(),
+        updateRoleModel.getId())) {
+      throw new DuplicatedEntityException("Duplicate short name for role");
+    }
 
     //Save entity to database
     RoleEntity savedEntity = roleRepository.save(
