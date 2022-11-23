@@ -3,6 +3,7 @@ package com.nli.probation.utils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.nli.probation.constant.EntityStatusEnum.TeamStatusEnum;
+import com.nli.probation.entity.TeamEntity;
 import com.nli.probation.model.team.CreateTeamModel;
 import com.nli.probation.model.team.TeamModel;
 import com.nli.probation.model.team.UpdateTeamModel;
@@ -44,6 +45,19 @@ public class TeamTestUtils {
     updateTeamModel.setShortName("LNI");
     updateTeamModel.setStatus(TeamStatusEnum.ACTIVE.ordinal());
     return updateTeamModel;
+  }
+
+  /**
+   * Create mock team entity
+   * @return mock team entity
+   */
+  public static TeamEntity createTeamEntity() {
+    TeamEntity teamEntity = new TeamEntity();
+    teamEntity.setId(1);
+    teamEntity.setName("LexisNexis");
+    teamEntity.setShortName("LNI");
+    teamEntity.setStatus(TeamStatusEnum.ACTIVE.ordinal());
+    return teamEntity;
   }
 
   /**
