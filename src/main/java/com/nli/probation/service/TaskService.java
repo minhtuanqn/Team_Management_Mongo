@@ -221,7 +221,7 @@ public class TaskService {
     public ResourceModel<TaskModel> searchTasksOfUserId(String searchValue, RequestPaginationModel paginationModel, int userId) {
         //Check exist user account
         Optional<UserAccountEntity> accountOptional = userAccountRepository.findById(userId);
-        UserAccountEntity accountEntity = accountOptional.orElseThrow(() -> new NoSuchEntityException("Not found user accpount"));
+        accountOptional.orElseThrow(() -> new NoSuchEntityException("Not found user accpount"));
 
         PaginationConverter<TaskModel, TaskEntity> paginationConverter = new PaginationConverter<>();
 

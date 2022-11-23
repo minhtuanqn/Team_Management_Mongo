@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ValidatorUtils {
+
+    private ValidatorUtils(){}
+
     /**
      * check not negative number
      * @param number
@@ -47,7 +50,7 @@ public class ValidatorUtils {
      */
     public static boolean checkExistFieldOfClass(Class<? extends Object> checkedClass, String fieldName) {
         try {
-            Field field = checkedClass.getDeclaredField(fieldName);
+            checkedClass.getDeclaredField(fieldName);
         }
         catch (NoSuchFieldException e) {
             Map<String, String> notExistField = new HashMap<>();

@@ -1,6 +1,7 @@
 package com.nli.probation.metamodel;
 
 public class TaskEntity_ {
+    private TaskEntity_(){}
     public static final String ID = "id";
     public static final String TITLE = "title";
     public static final String DESCRIPTION = "description";

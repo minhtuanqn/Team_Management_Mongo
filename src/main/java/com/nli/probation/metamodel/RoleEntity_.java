@@ -1,6 +1,7 @@
 package com.nli.probation.metamodel;
 
 public class RoleEntity_ {
+    private RoleEntity_() {}
     public static final String ID = "id";
     public static final String NAME = "name";
     public static final String SHORT_NAME = "shortName";
