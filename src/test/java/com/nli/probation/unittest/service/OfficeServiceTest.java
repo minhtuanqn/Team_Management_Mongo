@@ -12,6 +12,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+import com.nli.probation.MockConstants;
 import com.nli.probation.constant.EntityStatusEnum.OfficeStatusEnum;
 import com.nli.probation.customexception.DuplicatedEntityException;
 import com.nli.probation.customexception.NoSuchEntityException;
@@ -91,7 +92,7 @@ class OfficeServiceTest {
     expectedModel.setStatus(OfficeStatusEnum.DISABLE.ordinal());
 
     OfficeModel actualModel = new OfficeService(officeRepository, modelMapper,
-        sequenceGeneratorService).deleteOfficeById(savedEntity.getId());
+        sequenceGeneratorService).deleteOfficeById(MockConstants.OFFICE_ID);
     assertTrue(compareTwoOffice(expectedModel, actualModel));
   }
 
@@ -106,7 +107,8 @@ class OfficeServiceTest {
 
     OfficeService officeService = new OfficeService(officeRepository, modelMapper,
         sequenceGeneratorService);
-    assertThrows(NoSuchEntityException.class, () -> officeService.deleteOfficeById(1));
+    assertThrows(NoSuchEntityException.class,
+        () -> officeService.deleteOfficeById(MockConstants.NOT_FOUND_OFFICE_ID));
   }
 
   /**
@@ -124,7 +126,7 @@ class OfficeServiceTest {
     OfficeService officeService = new OfficeService(officeRepository, modelMapper,
         sequenceGeneratorService);
     assertThrows(NoSuchEntityException.class, () -> officeService.deleteOfficeById(
-        foundOffice.getId()));
+        MockConstants.NOT_FOUND_OFFICE_ID));
   }
 
   /**
@@ -143,7 +145,7 @@ class OfficeServiceTest {
 
     OfficeModel actualModel = new OfficeService(officeRepository, modelMapper,
         sequenceGeneratorService).findOfficeById(
-        officeModel.getId());
+        MockConstants.OFFICE_ID);
     assertTrue(compareTwoOffice(expectedModel, actualModel));
   }
 
@@ -158,7 +160,8 @@ class OfficeServiceTest {
 
     OfficeService officeService = new OfficeService(officeRepository, modelMapper,
         sequenceGeneratorService);
-    assertThrows(NoSuchEntityException.class, () -> officeService.findOfficeById(1));
+    assertThrows(NoSuchEntityException.class,
+        () -> officeService.findOfficeById(MockConstants.NOT_FOUND_OFFICE_ID));
   }
 
   /**
@@ -212,15 +215,19 @@ class OfficeServiceTest {
     OfficeService officeService = new OfficeService(officeRepository, modelMapper,
         sequenceGeneratorService);
     ResourceModel<OfficeModel> actualResource = officeService.
-        searchOffices("", new RequestPaginationModel(0, 1, "id", "asc"));
+        searchOffices(MockConstants.SEARCH_VALUE,
+            new RequestPaginationModel(MockConstants.INDEX, MockConstants.LIMIT,
+                MockConstants.SORT_BY, MockConstants.SORT_TYPE));
 
     List<OfficeModel> modelList = new ArrayList<>();
     OfficeModel expectModel = createOfficeModel();
     modelList.add(expectModel);
     TestUtils<OfficeModel> testUtils = new TestUtils<>();
     ResourceModel<OfficeModel> expectedResource = testUtils
-        .createResourceModel("", "asc", "id",
-            1, 1, 0, 1, modelList);
+        .createResourceModel(MockConstants.SEARCH_VALUE, MockConstants.SORT_TYPE,
+            MockConstants.SORT_BY,
+            MockConstants.TOTAL_RESULT, MockConstants.TOTAL_PAGE, MockConstants.INDEX,
+            MockConstants.LIMIT, modelList);
     assertTrue(testUtils.compareTwoResourceInformation(expectedResource, actualResource));
     assertTrue(compareTwoOfficeList(expectedResource.getData(), actualResource.getData()));
   }

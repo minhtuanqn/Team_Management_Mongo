@@ -2,11 +2,16 @@ package com.nli.probation.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.nli.probation.MockConstants;
 import com.nli.probation.constant.EntityStatusEnum.OfficeStatusEnum;
+import com.nli.probation.metamodel.OfficeEntity_;
 import com.nli.probation.model.office.CreateOfficeModel;
 import com.nli.probation.model.office.OfficeModel;
 import com.nli.probation.model.office.UpdateOfficeModel;
 import java.util.List;
+import netscape.javascript.JSObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class OfficeTestUtils {
 
@@ -17,10 +22,10 @@ public class OfficeTestUtils {
    */
   public static OfficeModel createOfficeModel() {
     OfficeModel officeModel = new OfficeModel();
-    officeModel.setId(1);
-    officeModel.setName("Tan Vien");
-    officeModel.setLocation("Tan Binh");
-    officeModel.setStatus(OfficeStatusEnum.ACTIVE.ordinal());
+    officeModel.setId(MockConstants.OFFICE_ID);
+    officeModel.setName(MockConstants.OFFICE_NAME);
+    officeModel.setLocation(MockConstants.OFFICE_LOCATION);
+    officeModel.setStatus(MockConstants.OFFICE_STATUS);
     return officeModel;
   }
 
@@ -31,8 +36,8 @@ public class OfficeTestUtils {
    */
   public static CreateOfficeModel createCreateOfficeModel() {
     CreateOfficeModel createOfficeModel = new CreateOfficeModel();
-    createOfficeModel.setName("Tan Vien");
-    createOfficeModel.setLocation("Tan Binh");
+    createOfficeModel.setName(MockConstants.OFFICE_NAME);
+    createOfficeModel.setLocation(MockConstants.OFFICE_LOCATION);
     return createOfficeModel;
   }
 
@@ -43,10 +48,10 @@ public class OfficeTestUtils {
    */
   public static UpdateOfficeModel createUpdateOfficeModel() {
     UpdateOfficeModel updateOfficeModel = new UpdateOfficeModel();
-    updateOfficeModel.setId(1);
-    updateOfficeModel.setName("Tan Vien");
-    updateOfficeModel.setLocation("Tan Binh");
-    updateOfficeModel.setStatus(OfficeStatusEnum.ACTIVE.ordinal());
+    updateOfficeModel.setId(MockConstants.OFFICE_ID);
+    updateOfficeModel.setName(MockConstants.OFFICE_NAME);
+    updateOfficeModel.setLocation(MockConstants.OFFICE_LOCATION);
+    updateOfficeModel.setStatus(MockConstants.OFFICE_STATUS);
     return updateOfficeModel;
   }
 
@@ -79,5 +84,19 @@ public class OfficeTestUtils {
       compareTwoOffice(officeModel, actualList.get(expectedList.indexOf(officeModel)));
     }
     return true;
+  }
+
+  /**
+   * Create mock json object
+   * @return ofice json
+   * @throws JSONException
+   */
+  public static JSONObject createOfficeJsonObject() throws JSONException {
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put(OfficeEntity_.ID, MockConstants.OFFICE_ID);
+    jsonObject.put(OfficeEntity_.NAME, MockConstants.OFFICE_NAME);
+    jsonObject.put(OfficeEntity_.LOCATION, MockConstants.OFFICE_LOCATION);
+    jsonObject.put(OfficeEntity_.STATUS, MockConstants.OFFICE_STATUS);
+    return jsonObject;
   }
 }
