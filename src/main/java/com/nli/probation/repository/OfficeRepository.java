@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OfficeRepository extends MongoRepository<OfficeEntity, Integer> {
-    boolean existsByName(String name);
-    boolean existsByNameAndIdNot(String name, int id);
+
+  boolean existsByName(String name);
+
+  boolean existsByNameAndIdNot(String name, int id);
 }

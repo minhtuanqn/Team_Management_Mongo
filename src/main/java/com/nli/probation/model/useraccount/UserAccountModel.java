@@ -9,24 +9,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class UserAccountModel {
-    private int id;
 
-    private String name;
+  private int id;
 
-    private String email;
+  private String name;
 
-    private String phone;
+  private String email;
 
-    private  int status;
+  private String phone;
 
-    @JsonProperty("team")
-    private TeamModel teamModel;
+  private int status;
 
-    @JsonProperty("office")
-    private OfficeModel officeModel;
+  @JsonProperty("team")
+  private TeamModel teamModel;
 
-    @JsonProperty("role")
-    private RoleModel roleModel;
+  @JsonProperty("office")
+  private OfficeModel officeModel;
+
+  @JsonProperty("role")
+  private RoleModel roleModel;
 }

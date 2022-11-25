@@ -2,31 +2,34 @@ package com.nli.probation.model.task;
 
 import com.nli.probation.model.logwork.LogWorkModel;
 import com.nli.probation.model.useraccount.UserAccountModel;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-@NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class TaskModel {
-    private int id;
 
-    private String title;
+  private int id;
 
-    private String description;
+  private String title;
 
-    private LocalDateTime startTime;
+  private String description;
 
-    private double estimatedTime;
+  private LocalDateTime startTime;
 
-    private UserAccountModel assignee;
+  private double estimatedTime;
 
-    private List<LogWorkModel> logWorkModels;
+  private UserAccountModel assignee;
 
-    private double actualTime;
+  private List<LogWorkModel> logWorkModels;
 
-    private int status;
+  private double actualTime;
+
+  private int status;
 }

@@ -5,14 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class OfficeModel {
 
-    private int id;
+  private int id;
 
-    private String name;
+  private String name;
 
-    private String location;
+  private String location;
 
-    private int status;
+  private int status;
 }

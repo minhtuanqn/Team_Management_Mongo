@@ -5,26 +5,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class ResponseModel {
-    private String message;
 
-    private Object data;
+  private String message;
 
-    private int statusCode;
+  private Object data;
 
-    public ResponseModel statusCode(int statusCode) {
-        this.statusCode = statusCode;
-        return this;
-    }
+  private int statusCode;
 
-    public ResponseModel data(Object data) {
-        this.data = data;
-        return this;
-    }
+  public ResponseModel statusCode(int statusCode) {
+    this.statusCode = statusCode;
+    return this;
+  }
 
-    public ResponseModel message(String message) {
-        this.message = message;
-        return this;
-    }
+  public ResponseModel data(Object data) {
+    this.data = data;
+    return this;
+  }
+
+  public ResponseModel message(String message) {
+    this.message = message;
+    return this;
+  }
 }

@@ -5,10 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.nli.probation.model.ResourceModel;
 import java.util.List;
 
-public class TestUtils <T> {
+public class TestUtils<T> {
 
   /**
    * Create mock resource model for testing
+   *
    * @param searchValue
    * @param sortType
    * @param sortBy
@@ -35,6 +36,7 @@ public class TestUtils <T> {
 
   /**
    * Compare information of two resource model
+   *
    * @param expected
    * @param actual
    * @return true or false

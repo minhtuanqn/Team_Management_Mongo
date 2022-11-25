@@ -8,6 +8,7 @@ import com.nli.probation.service.SequenceGeneratorService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.data.mongodb.core.MongoOperations;
+
 class SequenceGeneratorServiceTest {
 
   private final MongoOperations mongoOperations = Mockito.mock(MongoOperations.class);

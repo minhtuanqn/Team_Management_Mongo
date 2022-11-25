@@ -164,7 +164,7 @@ class RoleServiceTest {
    * Find an role does not exist
    */
   @Test
-  void when_findNotExistRole_thenThrowNoSuchEntity(){
+  void when_findNotExistRole_thenThrowNoSuchEntity() {
     Optional<RoleEntity> optional = Mockito.mock(Optional.class);
     when(roleRepository.findById(any())).thenReturn(optional);
     when(optional.orElseThrow(any())).thenThrow(NoSuchEntityException.class);
@@ -176,7 +176,6 @@ class RoleServiceTest {
 
   /**
    * Update an existed role and update successfully
-   *
    */
   @Test
   void when_updateExistRole_thenUpdateSuccessfully() {
@@ -185,7 +184,8 @@ class RoleServiceTest {
     RoleEntity savedEntity = modelMapper.map(updateRoleModel, RoleEntity.class);
     Optional<RoleEntity> optional = Mockito.mock(Optional.class);
     when(roleRepository.findById(any())).thenReturn(optional);
-    when(optional.orElseThrow(any())).thenReturn(modelMapper.map(createRoleModel(), RoleEntity.class));
+    when(optional.orElseThrow(any())).thenReturn(
+        modelMapper.map(createRoleModel(), RoleEntity.class));
     when(roleRepository.existsByNameAndIdNot(anyString(), anyInt())).thenReturn(false);
     when(roleRepository.existsByShortNameAndIdNot(anyString(), anyInt())).thenReturn(false);
     when(roleRepository.save(any())).thenReturn(savedEntity);
@@ -219,7 +219,7 @@ class RoleServiceTest {
     TestUtils<RoleModel> testUtils = new TestUtils<>();
     ResourceModel<RoleModel> expectedResource = testUtils
         .createResourceModel("", "asc", "id",
-            1,1, 0, 1, modelList);
+            1, 1, 0, 1, modelList);
     assertTrue(testUtils.compareTwoResourceInformation(expectedResource, actualResource));
     assertTrue(compareTwoRoleList(expectedResource.getData(), actualResource.getData()));
   }

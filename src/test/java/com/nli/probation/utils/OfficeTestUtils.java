@@ -12,6 +12,7 @@ public class OfficeTestUtils {
 
   /**
    * Create mock office
+   *
    * @return mock office model
    */
   public static OfficeModel createOfficeModel() {
@@ -25,6 +26,7 @@ public class OfficeTestUtils {
 
   /**
    * Create mock create office
+   *
    * @return mock create office model
    */
   public static CreateOfficeModel createCreateOfficeModel() {
@@ -36,6 +38,7 @@ public class OfficeTestUtils {
 
   /**
    * Create mock update office
+   *
    * @return mock update office model
    */
   public static UpdateOfficeModel createUpdateOfficeModel() {
@@ -49,6 +52,7 @@ public class OfficeTestUtils {
 
   /**
    * Campare two office model
+   *
    * @param expected
    * @param actual
    * @return true or false
@@ -63,11 +67,13 @@ public class OfficeTestUtils {
 
   /**
    * Compare two list of office
+   *
    * @param expectedList
    * @param actualList
    * @return true or false
    */
-  public static boolean compareTwoOfficeList(List<OfficeModel> expectedList, List<OfficeModel> actualList) {
+  public static boolean compareTwoOfficeList(List<OfficeModel> expectedList,
+      List<OfficeModel> actualList) {
     assertEquals(expectedList.size(), actualList.size());
     for (OfficeModel officeModel : expectedList) {
       compareTwoOffice(officeModel, actualList.get(expectedList.indexOf(officeModel)));

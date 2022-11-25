@@ -151,7 +151,7 @@ class OfficeServiceTest {
    * Find an office does not exist
    */
   @Test
-  void when_findNotExistOffice_thenThrowNoSuchEntity(){
+  void when_findNotExistOffice_thenThrowNoSuchEntity() {
     Optional<OfficeEntity> optional = Mockito.mock(Optional.class);
     when(officeRepository.findById(any())).thenReturn(optional);
     when(optional.orElseThrow(any())).thenThrow(NoSuchEntityException.class);
@@ -163,7 +163,6 @@ class OfficeServiceTest {
 
   /**
    * Update an existed office and update successfully
-   *
    */
   @Test
   void when_updateExistOffice_thenUpdateSuccessfully() {
@@ -172,7 +171,8 @@ class OfficeServiceTest {
     OfficeEntity savedEntity = modelMapper.map(updateOfficeModel, OfficeEntity.class);
     Optional<OfficeEntity> optional = Mockito.mock(Optional.class);
     when(officeRepository.findById(any())).thenReturn(optional);
-    when(optional.orElseThrow(any())).thenReturn(modelMapper.map(createOfficeModel(), OfficeEntity.class));
+    when(optional.orElseThrow(any())).thenReturn(
+        modelMapper.map(createOfficeModel(), OfficeEntity.class));
     when(officeRepository.existsByNameAndIdNot(anyString(), anyInt())).thenReturn(false);
     when(officeRepository.save(any())).thenReturn(savedEntity);
 
@@ -220,7 +220,7 @@ class OfficeServiceTest {
     TestUtils<OfficeModel> testUtils = new TestUtils<>();
     ResourceModel<OfficeModel> expectedResource = testUtils
         .createResourceModel("", "asc", "id",
-            1,1, 0, 1, modelList);
+            1, 1, 0, 1, modelList);
     assertTrue(testUtils.compareTwoResourceInformation(expectedResource, actualResource));
     assertTrue(compareTwoOfficeList(expectedResource.getData(), actualResource.getData()));
   }

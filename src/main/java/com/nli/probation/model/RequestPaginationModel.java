@@ -5,10 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class RequestPaginationModel {
-    private int index;
-    private int limit;
-    private String sortBy;
-    private String sortType;
+
+  private int index;
+  private int limit;
+  private String sortBy;
+  private String sortType;
 }

@@ -162,7 +162,6 @@ class TeamServiceTest {
 
   /**
    * Update an existed team and update successfully
-   *
    */
   @Test
   void when_updateExistTeam_thenUpdateSuccessfully() {
@@ -171,7 +170,8 @@ class TeamServiceTest {
     TeamEntity savedEntity = modelMapper.map(updateTeamModel, TeamEntity.class);
     Optional<TeamEntity> optional = Mockito.mock(Optional.class);
     when(teamRepository.findById(any())).thenReturn(optional);
-    when(optional.orElseThrow(any())).thenReturn(modelMapper.map(createTeamModel(), TeamEntity.class));
+    when(optional.orElseThrow(any())).thenReturn(
+        modelMapper.map(createTeamModel(), TeamEntity.class));
     when(teamRepository.existsByNameAndIdNot(anyString(), anyInt())).thenReturn(false);
     when(teamRepository.existsByShortNameAndIdNot(anyString(), anyInt())).thenReturn(false);
     when(teamRepository.save(any())).thenReturn(savedEntity);
@@ -205,7 +205,7 @@ class TeamServiceTest {
     TestUtils<TeamModel> testUtils = new TestUtils<>();
     ResourceModel<TeamModel> expectedResource = testUtils
         .createResourceModel("", "asc", "id",
-            1,1, 0, 1, modelList);
+            1, 1, 0, 1, modelList);
     assertTrue(testUtils.compareTwoResourceInformation(expectedResource, actualResource));
     assertTrue(compareTwoTeamList(expectedResource.getData(), actualResource.getData()));
   }

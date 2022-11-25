@@ -2,9 +2,6 @@ package com.nli.probation.unittest.service;
 
 import static com.nli.probation.utils.OfficeTestUtils.createOfficeModel;
 import static com.nli.probation.utils.RoleTestUtils.createRoleModel;
-import static com.nli.probation.utils.TeamTestUtils.compareTwoTeamList;
-import static com.nli.probation.utils.TeamTestUtils.createTeamEntity;
-import static com.nli.probation.utils.TeamTestUtils.createTeamModel;
 import static com.nli.probation.utils.UserAccountTestUtils.compareTwoUserAccount;
 import static com.nli.probation.utils.UserAccountTestUtils.createCreateUserAccountModel;
 import static com.nli.probation.utils.UserAccountTestUtils.createUpdateUserAccountModel;
@@ -21,30 +18,19 @@ import com.nli.probation.constant.EntityStatusEnum.UserAccountStatusEnum;
 import com.nli.probation.customexception.NoSuchEntityException;
 import com.nli.probation.entity.OfficeEntity;
 import com.nli.probation.entity.RoleEntity;
-import com.nli.probation.entity.TeamEntity;
 import com.nli.probation.entity.UserAccountEntity;
-import com.nli.probation.model.RequestPaginationModel;
-import com.nli.probation.model.ResourceModel;
-import com.nli.probation.model.team.TeamModel;
 import com.nli.probation.model.useraccount.UserAccountModel;
 import com.nli.probation.repository.OfficeRepository;
 import com.nli.probation.repository.RoleRepository;
 import com.nli.probation.repository.TeamRepository;
 import com.nli.probation.repository.UserAccountRepository;
 import com.nli.probation.service.SequenceGeneratorService;
-import com.nli.probation.service.TeamService;
 import com.nli.probation.service.UserAccountService;
-import com.nli.probation.utils.TestUtils;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 class UserAccountServiceTest {
@@ -125,7 +111,8 @@ class UserAccountServiceTest {
     UserAccountService userAccountService = new UserAccountService(userAccountRepository,
         teamRepository, officeRepository, modelMapper, roleRepository, sequenceGeneratorService,
         mongoTemplate);
-    assertThrows(NoSuchEntityException.class, () -> userAccountService.deleteUserAccountById(Integer.MAX_VALUE));
+    assertThrows(NoSuchEntityException.class,
+        () -> userAccountService.deleteUserAccountById(Integer.MAX_VALUE));
   }
 
   /**

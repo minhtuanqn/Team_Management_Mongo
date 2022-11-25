@@ -5,13 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class TeamModel {
-    private int id;
 
-    private String shortName;
+  private int id;
 
-    private String name;
+  private String shortName;
 
-    private int status;
+  private String name;
+
+  private int status;
 }

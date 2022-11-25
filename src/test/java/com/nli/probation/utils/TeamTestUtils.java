@@ -10,8 +10,10 @@ import com.nli.probation.model.team.UpdateTeamModel;
 import java.util.List;
 
 public class TeamTestUtils {
+
   /**
    * Create mock team
+   *
    * @return mock team model
    */
   public static TeamModel createTeamModel() {
@@ -25,6 +27,7 @@ public class TeamTestUtils {
 
   /**
    * Create mock create team
+   *
    * @return mock create team model
    */
   public static CreateTeamModel createCreateTeamModel() {
@@ -36,6 +39,7 @@ public class TeamTestUtils {
 
   /**
    * Create mock update team
+   *
    * @return mock update team model
    */
   public static UpdateTeamModel createUpdateTeamModel() {
@@ -49,6 +53,7 @@ public class TeamTestUtils {
 
   /**
    * Create mock team entity
+   *
    * @return mock team entity
    */
   public static TeamEntity createTeamEntity() {
@@ -62,6 +67,7 @@ public class TeamTestUtils {
 
   /**
    * Campare two team model
+   *
    * @param expected
    * @param actual
    * @return true or false
@@ -76,11 +82,13 @@ public class TeamTestUtils {
 
   /**
    * Compare two list of team
+   *
    * @param expectedList
    * @param actualList
    * @return true or false
    */
-  public static boolean compareTwoTeamList(List<TeamModel> expectedList, List<TeamModel> actualList) {
+  public static boolean compareTwoTeamList(List<TeamModel> expectedList,
+      List<TeamModel> actualList) {
     assertEquals(expectedList.size(), actualList.size());
     for (TeamModel teamModel : expectedList) {
       compareTwoTeam(teamModel, actualList.get(expectedList.indexOf(teamModel)));
