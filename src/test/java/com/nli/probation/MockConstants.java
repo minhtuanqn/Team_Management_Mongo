@@ -2,6 +2,7 @@ package com.nli.probation;
 
 import com.nli.probation.constant.EntityStatusEnum.OfficeStatusEnum;
 import com.nli.probation.constant.EntityStatusEnum.RoleStatusEnum;
+import com.nli.probation.constant.EntityStatusEnum.TeamStatusEnum;
 
 public class MockConstants {
   private MockConstants() {
@@ -25,4 +26,10 @@ public class MockConstants {
   public static final String ROLE_SHORT_NAME = "SE";
   public static final int ROLE_STATUS = RoleStatusEnum.ACTIVE.ordinal();
   public static final int NOT_FOUND_ROLE_ID = Integer.MAX_VALUE;
+
+  public static final int TEAM_ID = 1;
+  public static final String TEAM_NAME = "Lexis&Nexis Insurance";
+  public static final String TEAM_SHORT_NAME = "LNI";
+  public static final int TEAM_STATUS = TeamStatusEnum.ACTIVE.ordinal();
+  public static final int NOT_FOUND_TEAM_ID = Integer.MAX_VALUE;
 }

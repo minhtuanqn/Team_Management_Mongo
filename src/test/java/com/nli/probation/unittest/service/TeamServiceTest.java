@@ -12,6 +12,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+import com.nli.probation.MockConstants;
 import com.nli.probation.constant.EntityStatusEnum.TeamStatusEnum;
 import com.nli.probation.customexception.DuplicatedEntityException;
 import com.nli.probation.customexception.NoSuchEntityException;
@@ -104,7 +105,7 @@ class TeamServiceTest {
     expectedModel.setStatus(TeamStatusEnum.DISABLE.ordinal());
 
     TeamModel actualModel = new TeamService(teamRepository, modelMapper,
-        sequenceGeneratorService).deleteTeamById(savedEntity.getId());
+        sequenceGeneratorService).deleteTeamById(MockConstants.TEAM_ID);
     assertTrue(compareTwoTeam(expectedModel, actualModel));
   }
 
@@ -119,7 +120,8 @@ class TeamServiceTest {
 
     TeamService teamService = new TeamService(teamRepository, modelMapper,
         sequenceGeneratorService);
-    assertThrows(NoSuchEntityException.class, () -> teamService.deleteTeamById(1));
+    assertThrows(NoSuchEntityException.class,
+        () -> teamService.deleteTeamById(MockConstants.NOT_FOUND_TEAM_ID));
   }
 
   /**
@@ -136,8 +138,8 @@ class TeamServiceTest {
 
     TeamService teamService = new TeamService(teamRepository, modelMapper,
         sequenceGeneratorService);
-    int foundId = foundTeam.getId();
-    assertThrows(NoSuchEntityException.class, () -> teamService.deleteTeamById(foundId));
+    assertThrows(NoSuchEntityException.class,
+        () -> teamService.deleteTeamById(MockConstants.TEAM_ID));
   }
 
   /**
@@ -156,7 +158,7 @@ class TeamServiceTest {
 
     TeamModel actualModel = new TeamService(teamRepository, modelMapper,
         sequenceGeneratorService).findTeamById(
-        teamModel.getId());
+        MockConstants.TEAM_ID);
     assertTrue(compareTwoTeam(expectedModel, actualModel));
   }
 
@@ -197,15 +199,19 @@ class TeamServiceTest {
     TeamService teamService = new TeamService(teamRepository, modelMapper,
         sequenceGeneratorService);
     ResourceModel<TeamModel> actualResource = teamService.
-        searchTeams("", new RequestPaginationModel(0, 1, "id", "asc"));
+        searchTeams(MockConstants.SEARCH_VALUE,
+            new RequestPaginationModel(MockConstants.INDEX, MockConstants.LIMIT,
+                MockConstants.SORT_BY, MockConstants.SORT_TYPE));
 
     List<TeamModel> modelList = new ArrayList<>();
     TeamModel expectModel = createTeamModel();
     modelList.add(expectModel);
     TestUtils<TeamModel> testUtils = new TestUtils<>();
     ResourceModel<TeamModel> expectedResource = testUtils
-        .createResourceModel("", "asc", "id",
-            1, 1, 0, 1, modelList);
+        .createResourceModel(MockConstants.SEARCH_VALUE, MockConstants.SORT_TYPE,
+            MockConstants.SORT_BY,
+            MockConstants.TOTAL_RESULT, MockConstants.TOTAL_PAGE, MockConstants.INDEX,
+            MockConstants.LIMIT, modelList);
     assertTrue(testUtils.compareTwoResourceInformation(expectedResource, actualResource));
     assertTrue(compareTwoTeamList(expectedResource.getData(), actualResource.getData()));
   }
