@@ -3,13 +3,11 @@ package com.nli.probation.utils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.nli.probation.MockConstants;
-import com.nli.probation.constant.EntityStatusEnum.OfficeStatusEnum;
 import com.nli.probation.metamodel.OfficeEntity_;
 import com.nli.probation.model.office.CreateOfficeModel;
 import com.nli.probation.model.office.OfficeModel;
 import com.nli.probation.model.office.UpdateOfficeModel;
 import java.util.List;
-import netscape.javascript.JSObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -88,6 +86,7 @@ public class OfficeTestUtils {
 
   /**
    * Create mock json object
+   *
    * @return ofice json
    * @throws JSONException
    */

@@ -14,6 +14,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+import com.nli.probation.MockConstants;
 import com.nli.probation.constant.EntityStatusEnum.UserAccountStatusEnum;
 import com.nli.probation.customexception.NoSuchEntityException;
 import com.nli.probation.entity.OfficeEntity;
@@ -95,7 +96,8 @@ class UserAccountServiceTest {
     UserAccountModel expectedModel = createUserAccountModel();
     expectedModel.setStatus(UserAccountStatusEnum.DISABLE.ordinal());
 
-    UserAccountModel actualModel = userAccountService.deleteUserAccountById(savedEntity.getId());
+    UserAccountModel actualModel = userAccountService.deleteUserAccountById(
+        MockConstants.ACCOUNT_ID);
     assertTrue(compareTwoUserAccount(expectedModel, actualModel));
   }
 
@@ -112,7 +114,7 @@ class UserAccountServiceTest {
         teamRepository, officeRepository, modelMapper, roleRepository, sequenceGeneratorService,
         mongoTemplate);
     assertThrows(NoSuchEntityException.class,
-        () -> userAccountService.deleteUserAccountById(Integer.MAX_VALUE));
+        () -> userAccountService.deleteUserAccountById(MockConstants.NOT_FOUND_ACCOUNT_ID));
   }
 
   /**
@@ -130,7 +132,7 @@ class UserAccountServiceTest {
     UserAccountService userAccountService = new UserAccountService(userAccountRepository,
         teamRepository, officeRepository, modelMapper, roleRepository, sequenceGeneratorService,
         mongoTemplate);
-    UserAccountModel actualModel = userAccountService.findUserAccountById(foundUserAccount.getId());
+    UserAccountModel actualModel = userAccountService.findUserAccountById(MockConstants.ACCOUNT_ID);
     assertTrue(compareTwoUserAccount(expectedModel, actualModel));
   }
 
