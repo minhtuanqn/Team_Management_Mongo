@@ -74,7 +74,7 @@ class OfficeControllerTest {
    * @throws Exception
    */
   @Test
-  public void when_deleteExistedOffice_thenSuccessfullyDelete() throws Exception {
+  void when_deleteExistedOffice_thenSuccessfullyDelete() throws Exception {
     when(officeService.deleteOfficeById(1)).thenReturn(createOfficeModel());
     this.mockMvc = MockMvcBuilders.standaloneSetup(new OfficeController(officeService)).build();
     mockMvc.perform(delete("/offices/{id}", 1)
