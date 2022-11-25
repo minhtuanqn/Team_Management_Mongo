@@ -2,7 +2,7 @@ package com.nli.probation.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.nli.probation.constant.EntityStatusEnum.TeamStatusEnum;
+import com.nli.probation.MockConstants;
 import com.nli.probation.entity.TeamEntity;
 import com.nli.probation.model.team.CreateTeamModel;
 import com.nli.probation.model.team.TeamModel;
@@ -18,10 +18,10 @@ public class TeamTestUtils {
    */
   public static TeamModel createTeamModel() {
     TeamModel teamModel = new TeamModel();
-    teamModel.setId(1);
-    teamModel.setName("LexisNexis");
-    teamModel.setShortName("LNI");
-    teamModel.setStatus(TeamStatusEnum.ACTIVE.ordinal());
+    teamModel.setId(MockConstants.TEAM_ID);
+    teamModel.setName(MockConstants.TEAM_NAME);
+    teamModel.setShortName(MockConstants.TEAM_SHORT_NAME);
+    teamModel.setStatus(MockConstants.TEAM_STATUS);
     return teamModel;
   }
 
@@ -32,8 +32,8 @@ public class TeamTestUtils {
    */
   public static CreateTeamModel createCreateTeamModel() {
     CreateTeamModel createTeamModel = new CreateTeamModel();
-    createTeamModel.setName("LexisNexis");
-    createTeamModel.setShortName("LNI");
+    createTeamModel.setName(MockConstants.TEAM_NAME);
+    createTeamModel.setShortName(MockConstants.TEAM_SHORT_NAME);
     return createTeamModel;
   }
 
@@ -44,10 +44,10 @@ public class TeamTestUtils {
    */
   public static UpdateTeamModel createUpdateTeamModel() {
     UpdateTeamModel updateTeamModel = new UpdateTeamModel();
-    updateTeamModel.setId(1);
-    updateTeamModel.setName("LexisNexis");
-    updateTeamModel.setShortName("LNI");
-    updateTeamModel.setStatus(TeamStatusEnum.ACTIVE.ordinal());
+    updateTeamModel.setId(MockConstants.TEAM_ID);
+    updateTeamModel.setName(MockConstants.TEAM_NAME);
+    updateTeamModel.setShortName(MockConstants.TEAM_SHORT_NAME);
+    updateTeamModel.setStatus(MockConstants.TEAM_STATUS);
     return updateTeamModel;
   }
 
@@ -58,10 +58,10 @@ public class TeamTestUtils {
    */
   public static TeamEntity createTeamEntity() {
     TeamEntity teamEntity = new TeamEntity();
-    teamEntity.setId(1);
-    teamEntity.setName("LexisNexis");
-    teamEntity.setShortName("LNI");
-    teamEntity.setStatus(TeamStatusEnum.ACTIVE.ordinal());
+    teamEntity.setId(MockConstants.TEAM_ID);
+    teamEntity.setName(MockConstants.TEAM_NAME);
+    teamEntity.setShortName(MockConstants.TEAM_SHORT_NAME);
+    teamEntity.setStatus(MockConstants.TEAM_STATUS);
     return teamEntity;
   }
 
