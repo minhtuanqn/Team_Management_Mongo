@@ -2,7 +2,7 @@ package com.nli.probation.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.nli.probation.constant.EntityStatusEnum.RoleStatusEnum;
+import com.nli.probation.MockConstants;
 import com.nli.probation.model.role.CreateRoleModel;
 import com.nli.probation.model.role.RoleModel;
 import com.nli.probation.model.role.UpdateRoleModel;
@@ -17,10 +17,10 @@ public class RoleTestUtils {
    */
   public static RoleModel createRoleModel() {
     RoleModel roleModel = new RoleModel();
-    roleModel.setId(1);
-    roleModel.setName("Software Engineer");
-    roleModel.setShortName("SE");
-    roleModel.setStatus(RoleStatusEnum.ACTIVE.ordinal());
+    roleModel.setId(MockConstants.ROLE_ID);
+    roleModel.setName(MockConstants.ROLE_NAME);
+    roleModel.setShortName(MockConstants.ROLE_SHORT_NAME);
+    roleModel.setStatus(MockConstants.ROLE_STATUS);
     return roleModel;
   }
 
@@ -31,8 +31,8 @@ public class RoleTestUtils {
    */
   public static CreateRoleModel createCreateRoleModel() {
     CreateRoleModel createRoleModel = new CreateRoleModel();
-    createRoleModel.setName("Software Engineer");
-    createRoleModel.setShortName("SE");
+    createRoleModel.setName(MockConstants.ROLE_NAME);
+    createRoleModel.setShortName(MockConstants.ROLE_SHORT_NAME);
     return createRoleModel;
   }
 
@@ -43,10 +43,10 @@ public class RoleTestUtils {
    */
   public static UpdateRoleModel createUpdateRoleModel() {
     UpdateRoleModel updateRoleModel = new UpdateRoleModel();
-    updateRoleModel.setId(1);
-    updateRoleModel.setName("Software Engineer");
-    updateRoleModel.setShortName("SE");
-    updateRoleModel.setStatus(RoleStatusEnum.ACTIVE.ordinal());
+    updateRoleModel.setId(MockConstants.ROLE_ID);
+    updateRoleModel.setName(MockConstants.ROLE_NAME);
+    updateRoleModel.setShortName(MockConstants.ROLE_SHORT_NAME);
+    updateRoleModel.setStatus(MockConstants.ROLE_STATUS);
     return updateRoleModel;
   }
 

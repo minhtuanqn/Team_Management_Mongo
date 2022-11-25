@@ -1,6 +1,7 @@
 package com.nli.probation;
 
 import com.nli.probation.constant.EntityStatusEnum.OfficeStatusEnum;
+import com.nli.probation.constant.EntityStatusEnum.RoleStatusEnum;
 
 public class MockConstants {
   private MockConstants() {
@@ -19,4 +20,9 @@ public class MockConstants {
   public static final String SORT_TYPE = "asc";
   public static final int TOTAL_RESULT = 1;
   public static final int TOTAL_PAGE = 1;
+  public static final int ROLE_ID = 1;
+  public static final String ROLE_NAME = "Software Engineer";
+  public static final String ROLE_SHORT_NAME = "SE";
+  public static final int ROLE_STATUS = RoleStatusEnum.ACTIVE.ordinal();
+  public static final int NOT_FOUND_ROLE_ID = Integer.MAX_VALUE;
 }
