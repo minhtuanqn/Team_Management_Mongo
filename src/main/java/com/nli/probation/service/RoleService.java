@@ -1,5 +1,11 @@
 package com.nli.probation.service;
 
+import static com.nli.probation.constant.ErrorMessageConst.DELETED_ROLE;
+import static com.nli.probation.constant.ErrorMessageConst.NOT_FOUND_ROLE;
+import static com.nli.probation.constant.ErrorMessageConst.NOT_FOUND_ROLE_ID;
+import static com.nli.probation.constant.ErrorMessageConst.ROLE_NAME_DUPLICATE;
+import static com.nli.probation.constant.ErrorMessageConst.ROLE_SHORT_NAME_DUPLICATE;
+
 import com.nli.probation.constant.EntityStatusEnum;
 import com.nli.probation.converter.PaginationConverter;
 import com.nli.probation.customexception.DuplicatedEntityException;
@@ -46,12 +52,12 @@ public class RoleService {
   public RoleModel createRole(CreateRoleModel createRoleModel) {
     //Check exist role name
     if (roleRepository.existsByName(createRoleModel.getName())) {
-      throw new DuplicatedEntityException("Duplicated name of role");
+      throw new DuplicatedEntityException(ROLE_NAME_DUPLICATE);
     }
 
     //Check exist short name
     if (roleRepository.existsByShortName(createRoleModel.getShortName())) {
-      throw new DuplicatedEntityException("Duplicated short name of role");
+      throw new DuplicatedEntityException(ROLE_SHORT_NAME_DUPLICATE);
     }
 
     //Prepare saved entity
@@ -74,7 +80,7 @@ public class RoleService {
     //Find role by id
     Optional<RoleEntity> searchedRoleOptional = roleRepository.findById(id);
     RoleEntity roleEntity = searchedRoleOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found role"));
+        () -> new NoSuchEntityException(NOT_FOUND_ROLE));
     return modelMapper.map(roleEntity, RoleModel.class);
   }
 
@@ -88,9 +94,9 @@ public class RoleService {
     //Find role by id
     Optional<RoleEntity> deletedRoleOptional = roleRepository.findById(id);
     RoleEntity deletedRoleEntity = deletedRoleOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found role with id"));
+        () -> new NoSuchEntityException(NOT_FOUND_ROLE_ID));
     if (deletedRoleEntity.getStatus() == EntityStatusEnum.RoleStatusEnum.DISABLE.ordinal()) {
-      throw new NoSuchEntityException("This role was deleted");
+      throw new NoSuchEntityException(DELETED_ROLE);
     }
 
     //Set status for entity
@@ -110,17 +116,17 @@ public class RoleService {
   public RoleModel updateRole(UpdateRoleModel updateRoleModel) {
     //Find role by id
     Optional<RoleEntity> foundRoleOptional = roleRepository.findById(updateRoleModel.getId());
-    foundRoleOptional.orElseThrow(() -> new NoSuchEntityException("Not found role with id"));
+    foundRoleOptional.orElseThrow(() -> new NoSuchEntityException(NOT_FOUND_ROLE_ID));
 
     //Check existed role with name
     if (roleRepository.existsByNameAndIdNot(updateRoleModel.getName(), updateRoleModel.getId())) {
-      throw new DuplicatedEntityException("Duplicate name for role");
+      throw new DuplicatedEntityException(ROLE_NAME_DUPLICATE);
     }
 
     //Check existed role with short name
     if (roleRepository.existsByShortNameAndIdNot(updateRoleModel.getShortName(),
         updateRoleModel.getId())) {
-      throw new DuplicatedEntityException("Duplicate short name for role");
+      throw new DuplicatedEntityException(ROLE_SHORT_NAME_DUPLICATE);
     }
 
     //Save entity to database
