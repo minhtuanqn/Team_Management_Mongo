@@ -1,5 +1,10 @@
 package com.nli.probation.service;
 
+import static com.nli.probation.constant.ErrorMessageConst.DELETED_OFFICE;
+import static com.nli.probation.constant.ErrorMessageConst.NOT_FOUND_OFFICE;
+import static com.nli.probation.constant.ErrorMessageConst.NOT_FOUND_OFFICE_ID;
+import static com.nli.probation.constant.ErrorMessageConst.OFFICE_NAME_DUPLICATE;
+
 import com.nli.probation.constant.EntityStatusEnum;
 import com.nli.probation.converter.PaginationConverter;
 import com.nli.probation.customexception.DuplicatedEntityException;
@@ -46,7 +51,7 @@ public class OfficeService {
   public OfficeModel createOffice(CreateOfficeModel createOfficeModel) {
     //Check exist office
     if (officeRepository.existsByName(createOfficeModel.getName())) {
-      throw new DuplicatedEntityException("Duplicated name of office");
+      throw new DuplicatedEntityException(OFFICE_NAME_DUPLICATE);
     }
 
     //Prepare saved entity
@@ -70,7 +75,7 @@ public class OfficeService {
     //Find office by id
     Optional<OfficeEntity> searchedOfficeOptional = officeRepository.findById(id);
     OfficeEntity officeEntity = searchedOfficeOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found office"));
+        () -> new NoSuchEntityException(NOT_FOUND_OFFICE));
     return modelMapper.map(officeEntity, OfficeModel.class);
   }
 
@@ -84,9 +89,9 @@ public class OfficeService {
     //Find office by id
     Optional<OfficeEntity> deletedOfficeOptional = officeRepository.findById(id);
     OfficeEntity deletedOfficeEntity = deletedOfficeOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found office with id"));
+        () -> new NoSuchEntityException(NOT_FOUND_OFFICE_ID));
     if (deletedOfficeEntity.getStatus() == EntityStatusEnum.OfficeStatusEnum.DISABLE.ordinal()) {
-      throw new NoSuchEntityException("This office was deleted");
+      throw new NoSuchEntityException(DELETED_OFFICE);
     }
 
     //Set status for entity
@@ -107,12 +112,12 @@ public class OfficeService {
     //Find office by id
     Optional<OfficeEntity> foundOfficeOptional = officeRepository.findById(
         updateOfficeModel.getId());
-    foundOfficeOptional.orElseThrow(() -> new NoSuchEntityException("Not found office with id"));
+    foundOfficeOptional.orElseThrow(() -> new NoSuchEntityException(NOT_FOUND_OFFICE_ID));
 
     //Check existed office with name
     if (officeRepository.existsByNameAndIdNot(updateOfficeModel.getName(),
         updateOfficeModel.getId())) {
-      throw new DuplicatedEntityException("Duplicate name for office");
+      throw new DuplicatedEntityException(OFFICE_NAME_DUPLICATE);
     }
 
     //Save entity to database
