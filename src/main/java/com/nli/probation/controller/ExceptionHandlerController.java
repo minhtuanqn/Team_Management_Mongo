@@ -3,6 +3,7 @@ package com.nli.probation.controller;
 import com.nli.probation.customexception.SQLCustomException;
 import com.nli.probation.customexception.TimeCustomException;
 import com.nli.probation.model.APIErrorModel;
+import java.net.BindException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
@@ -82,7 +84,10 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
   protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
       HttpHeaders headers, HttpStatus status, WebRequest request) {
     initMap();
-    invalidMap.put(ex.getFieldError().getField(), ex.getFieldError().getDefaultMessage());
+    FieldError bindException = ex.getFieldError();
+    String messageDefault = bindException != null ? bindException.getDefaultMessage() : "null";
+    String field = bindException != null ? bindException.getField() : "null";
+    invalidMap.put(field, messageDefault);
     APIErrorModel apiErrorModel = new APIErrorModel(LocalDateTime.now(), status.name(), invalidMap);
     return super.handleExceptionInternal(ex, apiErrorModel, headers, status, request);
   }

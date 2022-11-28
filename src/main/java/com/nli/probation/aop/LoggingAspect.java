@@ -82,7 +82,8 @@ public class LoggingAspect {
         joinPoint.getSignature().getDeclaringTypeName(),
         joinPoint.getSignature().getName(), returnValue);
 
-    LOGGER.info("Time taken =" + new SimpleDateFormat("mm:ss:sss").format(new Date(timeElapsed)));
+    String timeTaken = new SimpleDateFormat("mm:ss:sss").format(new Date(timeElapsed));
+    LOGGER.info("Time taken = {}", timeTaken);
 
     return returnValue;
   }
