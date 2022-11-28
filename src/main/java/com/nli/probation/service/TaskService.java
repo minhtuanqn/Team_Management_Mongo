@@ -1,5 +1,10 @@
 package com.nli.probation.service;
 
+import static com.nli.probation.constant.ErrorMessageConst.DELETED_TASK;
+import static com.nli.probation.constant.ErrorMessageConst.NOT_FOUND_ACCOUNT;
+import static com.nli.probation.constant.ErrorMessageConst.NOT_FOUND_TASK;
+import static com.nli.probation.constant.ErrorMessageConst.NOT_FOUND_TASK_ID;
+
 import com.nli.probation.constant.EntityStatusEnum;
 import com.nli.probation.converter.PaginationConverter;
 import com.nli.probation.customexception.NoSuchEntityException;
@@ -88,7 +93,7 @@ public class TaskService {
     //Find task by id
     Optional<TaskEntity> searchedTaskOptional = taskRepository.findById(id);
     TaskEntity taskEntity = searchedTaskOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found task"));
+        () -> new NoSuchEntityException(NOT_FOUND_TASK));
     TaskModel taskModel = modelMapper.map(taskEntity, TaskModel.class);
 
     //Check assignee id
@@ -110,9 +115,9 @@ public class TaskService {
     //Find task by id
     Optional<TaskEntity> deletedTaskOptional = taskRepository.findById(id);
     TaskEntity deletedTaskEntity = deletedTaskOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found task with id"));
+        () -> new NoSuchEntityException(NOT_FOUND_TASK_ID));
       if (deletedTaskEntity.getStatus() == EntityStatusEnum.TaskStatusEnum.DISABLE.ordinal()) {
-          throw new NoSuchEntityException("This task was deleted");
+          throw new NoSuchEntityException(DELETED_TASK);
       }
 
     //Set status for entity
@@ -139,7 +144,7 @@ public class TaskService {
   public TaskModel updateTask(UpdateTaskModel updateTaskModel) {
     //Find task by id
     Optional<TaskEntity> foundTaskOptional = taskRepository.findById(updateTaskModel.getId());
-    foundTaskOptional.orElseThrow(() -> new NoSuchEntityException("Not found task with id"));
+    foundTaskOptional.orElseThrow(() -> new NoSuchEntityException(NOT_FOUND_TASK_ID));
 
     //Check assignee
     Optional<UserAccountEntity> existAccountOptional = userAccountRepository.findById(
@@ -219,12 +224,12 @@ public class TaskService {
     //Check task
     Optional<TaskEntity> taskOptional = taskRepository.findById(taskId);
     TaskEntity taskEntity = taskOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found task"));
+        () -> new NoSuchEntityException(NOT_FOUND_TASK));
 
     //Check user
     Optional<UserAccountEntity> userOptional = userAccountRepository.findById(userId);
     UserAccountEntity userEntity = userOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found user account"));
+        () -> new NoSuchEntityException(NOT_FOUND_ACCOUNT));
 
     //Update user in task
     taskEntity.setUserAccountId(userId);
@@ -248,7 +253,7 @@ public class TaskService {
       RequestPaginationModel paginationModel, int userId) {
     //Check exist user account
     Optional<UserAccountEntity> accountOptional = userAccountRepository.findById(userId);
-    accountOptional.orElseThrow(() -> new NoSuchEntityException("Not found user accpount"));
+    accountOptional.orElseThrow(() -> new NoSuchEntityException(NOT_FOUND_ACCOUNT));
 
     PaginationConverter<TaskModel, TaskEntity> paginationConverter = new PaginationConverter<>();
 

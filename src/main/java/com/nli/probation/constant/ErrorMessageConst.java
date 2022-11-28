@@ -21,4 +21,7 @@ public class ErrorMessageConst {
   public static final String NOT_FOUND_ACCOUNT = "Not found user account";
   public static final String NOT_FOUND_ACCOUNT_ID = "Not found user account with id";
   public static final String DELETED_ACCOUNT = "This user account was deleted";
+  public static final String NOT_FOUND_TASK = "Not found task";
+  public static final String NOT_FOUND_TASK_ID = "Not found task with id";
+  public static final String DELETED_TASK = "This task was deleted";
 }
