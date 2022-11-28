@@ -11,4 +11,9 @@ public class ErrorMessageConst {
   public static final String NOT_FOUND_ROLE = "Not found role";
   public static final String NOT_FOUND_ROLE_ID = "Not found role with id";
   public static final String DELETED_ROLE = "This role was deleted";
+  public static final String TEAM_NAME_DUPLICATE = "Duplicated name of team";
+  public static final String TEAM_SHORT_NAME_DUPLICATE = "Duplicated short name of team";
+  public static final String NOT_FOUND_TEAM = "Not found team";
+  public static final String NOT_FOUND_TEAM_ID = "Not found team with id";
+  public static final String DELETED_TEAM = "This team was deleted";
 }

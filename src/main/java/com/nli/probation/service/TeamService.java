@@ -1,5 +1,11 @@
 package com.nli.probation.service;
 
+import static com.nli.probation.constant.ErrorMessageConst.DELETED_TEAM;
+import static com.nli.probation.constant.ErrorMessageConst.NOT_FOUND_TEAM;
+import static com.nli.probation.constant.ErrorMessageConst.NOT_FOUND_TEAM_ID;
+import static com.nli.probation.constant.ErrorMessageConst.TEAM_NAME_DUPLICATE;
+import static com.nli.probation.constant.ErrorMessageConst.TEAM_SHORT_NAME_DUPLICATE;
+
 import com.nli.probation.constant.EntityStatusEnum;
 import com.nli.probation.converter.PaginationConverter;
 import com.nli.probation.customexception.DuplicatedEntityException;
@@ -46,12 +52,12 @@ public class TeamService {
   public TeamModel createTeam(CreateTeamModel createTeamModel) {
     //Check exist team name
     if (teamRepository.existsByName(createTeamModel.getName())) {
-      throw new DuplicatedEntityException("Duplicated name of team");
+      throw new DuplicatedEntityException(TEAM_NAME_DUPLICATE);
     }
 
     //Check exist short name
     if (teamRepository.existsByShortName(createTeamModel.getShortName())) {
-      throw new DuplicatedEntityException("Duplicated short name of team");
+      throw new DuplicatedEntityException(TEAM_SHORT_NAME_DUPLICATE);
     }
 
     //Prepare saved entity
@@ -74,7 +80,7 @@ public class TeamService {
     //Find team by id
     Optional<TeamEntity> searchedTeamOptional = teamRepository.findById(id);
     TeamEntity teamEntity = searchedTeamOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found team"));
+        () -> new NoSuchEntityException(NOT_FOUND_TEAM));
     return modelMapper.map(teamEntity, TeamModel.class);
   }
 
@@ -88,9 +94,9 @@ public class TeamService {
     //Find team by id
     Optional<TeamEntity> deletedTeamOptional = teamRepository.findById(id);
     TeamEntity deletedTeamEntity = deletedTeamOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found team with id"));
+        () -> new NoSuchEntityException(NOT_FOUND_TEAM_ID));
     if (deletedTeamEntity.getStatus() == EntityStatusEnum.TeamStatusEnum.DISABLE.ordinal()) {
-      throw new NoSuchEntityException("This team was deleted");
+      throw new NoSuchEntityException(DELETED_TEAM);
     }
 
     //Set status for entity
@@ -111,17 +117,17 @@ public class TeamService {
     //Find team by id
     Optional<TeamEntity> foundTeamOptional = teamRepository.findById(updateTeamModel.getId());
     foundTeamOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found team with id"));
+        () -> new NoSuchEntityException(NOT_FOUND_TEAM_ID));
 
     //Check existed team with name
     if (teamRepository.existsByNameAndIdNot(updateTeamModel.getName(), updateTeamModel.getId())) {
-      throw new DuplicatedEntityException("Duplicate name for team");
+      throw new DuplicatedEntityException(TEAM_NAME_DUPLICATE);
     }
 
     //Check existed team with short name
     if (teamRepository.existsByShortNameAndIdNot(updateTeamModel.getShortName(),
         updateTeamModel.getId())) {
-      throw new DuplicatedEntityException("Duplicate short name for team");
+      throw new DuplicatedEntityException(TEAM_SHORT_NAME_DUPLICATE);
     }
 
     //Save entity to database
