@@ -24,4 +24,7 @@ public class ErrorMessageConst {
   public static final String NOT_FOUND_TASK = "Not found task";
   public static final String NOT_FOUND_TASK_ID = "Not found task with id";
   public static final String DELETED_TASK = "This task was deleted";
+  public static final String LOG_WORK_TIME = "Check time of log work again";
+  public static final String NOT_FOUND_LOG_WORK = "Not found log work";
+  public static final String DELETED_LOG_WORK = "This log work was deleted";
 }

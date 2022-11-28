@@ -1,5 +1,10 @@
 package com.nli.probation.service;
 
+import static com.nli.probation.constant.ErrorMessageConst.DELETED_LOG_WORK;
+import static com.nli.probation.constant.ErrorMessageConst.LOG_WORK_TIME;
+import static com.nli.probation.constant.ErrorMessageConst.NOT_FOUND_LOG_WORK;
+import static com.nli.probation.constant.ErrorMessageConst.NOT_FOUND_TASK;
+
 import com.nli.probation.constant.EntityStatusEnum;
 import com.nli.probation.customexception.NoSuchEntityException;
 import com.nli.probation.customexception.TimeCustomException;
@@ -40,11 +45,11 @@ public class LogWorkService {
     Optional<TaskEntity> existedTaskOptional = taskRepository.findById(
         createLogWorkModel.getTaskId());
     TaskEntity existedTaskEntity = existedTaskOptional
-        .orElseThrow(() -> new NoSuchEntityException("Not found task"));
+        .orElseThrow(() -> new NoSuchEntityException(NOT_FOUND_TASK));
 
     //Check time
     if (createLogWorkModel.getStartTime().isAfter(createLogWorkModel.getEndTime())) {
-      throw new TimeCustomException("Check time of log work again");
+      throw new TimeCustomException(LOG_WORK_TIME);
     }
 
     //Prepare saved entity
@@ -79,7 +84,7 @@ public class LogWorkService {
     //Find task by id
     Optional<TaskEntity> taskOptional = taskRepository.findById(taskId);
     TaskEntity taskEntity = taskOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found task with id"));
+        () -> new NoSuchEntityException(NOT_FOUND_TASK));
 
     //Find log work in list
     for (LogWorkEntity logWorkEntity : taskEntity.getLogWorkList()) {
@@ -88,7 +93,7 @@ public class LogWorkService {
       }
     }
 
-    throw new NoSuchEntityException("Not found log work with id");
+    throw new NoSuchEntityException(NOT_FOUND_LOG_WORK);
   }
 
   /**
@@ -102,7 +107,7 @@ public class LogWorkService {
     //Find task by id
     Optional<TaskEntity> taskOptional = taskRepository.findById(taskId);
     TaskEntity taskEntity = taskOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found task with id"));
+        () -> new NoSuchEntityException(NOT_FOUND_TASK));
 
     //Find log work in list and update disable status
     int index = Integer.MIN_VALUE;
@@ -116,7 +121,7 @@ public class LogWorkService {
 
     //Check exist log work
     if (index < 0) {
-      throw new NoSuchEntityException(" Not found log work with id");
+      throw new NoSuchEntityException(NOT_FOUND_LOG_WORK);
     }
 
     //Update log work
@@ -143,7 +148,7 @@ public class LogWorkService {
     //Find task by id
     Optional<TaskEntity> taskOptional = taskRepository.findById(taskId);
     TaskEntity taskEntity = taskOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found task with id"));
+        () -> new NoSuchEntityException(NOT_FOUND_TASK));
 
     //Find log work in list
     LogWorkEntity foundLogWork = null;
@@ -156,17 +161,17 @@ public class LogWorkService {
 
     //Check exist log work
     if (foundLogWork == null) {
-      throw new NoSuchEntityException(" Not found log work with id");
+      throw new NoSuchEntityException(NOT_FOUND_LOG_WORK);
     }
 
     //Check status of log work
     if (foundLogWork.getStatus() == EntityStatusEnum.LogWorkStatusEnum.DISABLE.ordinal()) {
-      throw new NoSuchEntityException("This log work was deleted");
+      throw new NoSuchEntityException(DELETED_LOG_WORK);
     }
 
     //Check time
     if (updateLogWorkModel.getStartTime().isAfter(updateLogWorkModel.getEndTime())) {
-      throw new TimeCustomException("Check time of log work again");
+      throw new TimeCustomException(LOG_WORK_TIME);
     }
 
     //Prepare saved entity
@@ -197,7 +202,7 @@ public class LogWorkService {
     //Find task by id
     Optional<TaskEntity> taskOptional = taskRepository.findById(taskId);
     TaskEntity taskEntity = taskOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found task with id"));
+        () -> new NoSuchEntityException(NOT_FOUND_TASK));
 
     //Find log work in list
     List<LogWorkModel> logWorkModels = new ArrayList<>();

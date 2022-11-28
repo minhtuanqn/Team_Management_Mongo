@@ -715,3 +715,56 @@
 2022-11-28 17:46:53.138 ERROR 21748 --- [http-nio-8080-exec-8] com.nli.probation.aop.LoggingAspect      : Exception in com.nli.probation.controller.TaskController.findTaskById() with cause = NULL, with message = Not found task
 2022-11-28 17:46:56.442  INFO 21748 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
 2022-11-28 17:46:56.448  INFO 21748 --- [SpringContextShutdownHook] org.mongodb.driver.connection            : Closed connection [connectionId{localValue:3, serverValue:18}] to localhost:27017 because the pool has been closed.
+2022-11-28 17:52:03.163  INFO 16692 --- [main] com.nli.probation.ProbationApplication   : Starting ProbationApplication using Java 17.0.5 on 5CD1199VWM with PID 16692 (F:\Projects\probation_mongodb\build\classes\java\main started by tuanmle in F:\Projects\probation_mongodb)
+2022-11-28 17:52:03.165 DEBUG 16692 --- [main] com.nli.probation.ProbationApplication   : Running with Spring Boot v2.4.5, Spring v5.3.6
+2022-11-28 17:52:03.166  INFO 16692 --- [main] com.nli.probation.ProbationApplication   : No active profile set, falling back to default profiles: default
+2022-11-28 17:52:04.183  INFO 16692 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2022-11-28 17:52:04.270  INFO 16692 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 82 ms. Found 5 MongoDB repository interfaces.
+2022-11-28 17:52:04.946  INFO 16692 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-28 17:52:04.962  INFO 16692 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-28 17:52:04.962  INFO 16692 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2022-11-28 17:52:05.307  INFO 16692 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-28 17:52:05.307  INFO 16692 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2094 ms
+2022-11-28 17:52:05.603  INFO 16692 --- [main] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms'}
+2022-11-28 17:52:05.678  INFO 16692 --- [cluster-rtt-ClusterId{value='638492d5100463783a18ce44', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:2, serverValue:20}] to localhost:27017
+2022-11-28 17:52:05.678  INFO 16692 --- [cluster-ClusterId{value='638492d5100463783a18ce44', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:1, serverValue:19}] to localhost:27017
+2022-11-28 17:52:05.679  INFO 16692 --- [cluster-ClusterId{value='638492d5100463783a18ce44', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=24937100}
+2022-11-28 17:52:06.734  INFO 16692 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-11-28 17:52:07.030  INFO 16692 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-28 17:52:07.555  INFO 16692 --- [main] com.nli.probation.ProbationApplication   : Started ProbationApplication in 4.784 seconds (JVM running for 5.831)
+2022-11-28 17:52:15.546  INFO 16692 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-28 17:52:15.546  INFO 16692 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-28 17:52:15.547  INFO 16692 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-11-28 17:52:45.388 DEBUG 16692 --- [http-nio-8080-exec-8] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.controller.TaskController.searchTasks() with argument[s] = [com.nli.probation.model.RequestPaginationModel@4579a579, ]
+2022-11-28 17:52:45.421 DEBUG 16692 --- [http-nio-8080-exec-8] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.service.TaskService.searchTasks() with argument[s] = [, com.nli.probation.model.RequestPaginationModel@4579a579]
+2022-11-28 17:52:45.587  INFO 16692 --- [http-nio-8080-exec-8] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:3, serverValue:21}] to localhost:27017
+2022-11-28 17:52:45.754 DEBUG 16692 --- [http-nio-8080-exec-8] com.nli.probation.aop.LoggingAspect      : Response for com.nli.probation.service.TaskService.searchTasks with Result = dcom.nli.probation.model.ResourceModel@1488d048
+2022-11-28 17:52:45.755  INFO 16692 --- [http-nio-8080-exec-8] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
+2022-11-28 17:52:45.755 DEBUG 16692 --- [http-nio-8080-exec-8] com.nli.probation.aop.LoggingAspect      : Response for com.nli.probation.controller.TaskController.searchTasks with Result = d<200 OK OK,com.nli.probation.model.ResourceModel@1488d048,[]>
+2022-11-28 17:52:45.757  INFO 16692 --- [http-nio-8080-exec-8] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
+2022-11-28 17:53:27.952 DEBUG 16692 --- [http-nio-8080-exec-10] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.controller.TaskController.searchLogWorkOfTask() with argument[s] = [8]
+2022-11-28 17:53:27.953 DEBUG 16692 --- [http-nio-8080-exec-10] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.service.LogWorkService.findAllLogWorkOfTask() with argument[s] = [8]
+2022-11-28 17:53:27.959 ERROR 16692 --- [http-nio-8080-exec-10] com.nli.probation.aop.LoggingAspect      : Exception in com.nli.probation.service.LogWorkService.findAllLogWorkOfTask() with cause = NULL, with message = Not found task
+2022-11-28 17:53:27.959 ERROR 16692 --- [http-nio-8080-exec-10] com.nli.probation.aop.LoggingAspect      : Exception in com.nli.probation.controller.TaskController.searchLogWorkOfTask() with cause = NULL, with message = Not found task
+2022-11-28 17:53:31.599 DEBUG 16692 --- [http-nio-8080-exec-1] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.controller.TaskController.searchLogWorkOfTask() with argument[s] = [9]
+2022-11-28 17:53:31.599 DEBUG 16692 --- [http-nio-8080-exec-1] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.service.LogWorkService.findAllLogWorkOfTask() with argument[s] = [9]
+2022-11-28 17:53:31.601 ERROR 16692 --- [http-nio-8080-exec-1] com.nli.probation.aop.LoggingAspect      : Exception in com.nli.probation.service.LogWorkService.findAllLogWorkOfTask() with cause = NULL, with message = Not found task
+2022-11-28 17:53:31.601 ERROR 16692 --- [http-nio-8080-exec-1] com.nli.probation.aop.LoggingAspect      : Exception in com.nli.probation.controller.TaskController.searchLogWorkOfTask() with cause = NULL, with message = Not found task
+2022-11-28 17:53:34.295 DEBUG 16692 --- [http-nio-8080-exec-2] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.controller.TaskController.searchLogWorkOfTask() with argument[s] = [5]
+2022-11-28 17:53:34.296 DEBUG 16692 --- [http-nio-8080-exec-2] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.service.LogWorkService.findAllLogWorkOfTask() with argument[s] = [5]
+2022-11-28 17:53:34.299 DEBUG 16692 --- [http-nio-8080-exec-2] com.nli.probation.aop.LoggingAspect      : Response for com.nli.probation.service.LogWorkService.findAllLogWorkOfTask with Result = d[com.nli.probation.model.logwork.LogWorkModel@5bceb77e, com.nli.probation.model.logwork.LogWorkModel@5f987ba8]
+2022-11-28 17:53:34.300  INFO 16692 --- [http-nio-8080-exec-2] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
+2022-11-28 17:53:34.300 DEBUG 16692 --- [http-nio-8080-exec-2] com.nli.probation.aop.LoggingAspect      : Response for com.nli.probation.controller.TaskController.searchLogWorkOfTask with Result = d<200 OK OK,[com.nli.probation.model.logwork.LogWorkModel@5bceb77e, com.nli.probation.model.logwork.LogWorkModel@5f987ba8],[]>
+2022-11-28 17:53:34.300  INFO 16692 --- [http-nio-8080-exec-2] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
+2022-11-28 17:53:51.032 DEBUG 16692 --- [http-nio-8080-exec-4] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.controller.TaskController.findLogWorkById() with argument[s] = [5, 63843439fd0750023873f27c]
+2022-11-28 17:53:51.032 DEBUG 16692 --- [http-nio-8080-exec-4] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.service.LogWorkService.findLogWorkById() with argument[s] = [5, 63843439fd0750023873f27c]
+2022-11-28 17:53:51.035 DEBUG 16692 --- [http-nio-8080-exec-4] com.nli.probation.aop.LoggingAspect      : Response for com.nli.probation.service.LogWorkService.findLogWorkById with Result = dcom.nli.probation.model.logwork.LogWorkModel@11fde06d
+2022-11-28 17:53:51.036  INFO 16692 --- [http-nio-8080-exec-4] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
+2022-11-28 17:53:51.036 DEBUG 16692 --- [http-nio-8080-exec-4] com.nli.probation.aop.LoggingAspect      : Response for com.nli.probation.controller.TaskController.findLogWorkById with Result = d<200 OK OK,com.nli.probation.model.ResponseModel@efc0f09,[]>
+2022-11-28 17:53:51.036  INFO 16692 --- [http-nio-8080-exec-4] com.nli.probation.aop.LoggingAspect      : Time taken =00:00:000
+2022-11-28 17:53:54.115 DEBUG 16692 --- [http-nio-8080-exec-5] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.controller.TaskController.findLogWorkById() with argument[s] = [5, 63843439fd0750023873f27d]
+2022-11-28 17:53:54.116 DEBUG 16692 --- [http-nio-8080-exec-5] com.nli.probation.aop.LoggingAspect      : Request for com.nli.probation.service.LogWorkService.findLogWorkById() with argument[s] = [5, 63843439fd0750023873f27d]
+2022-11-28 17:53:54.118 ERROR 16692 --- [http-nio-8080-exec-5] com.nli.probation.aop.LoggingAspect      : Exception in com.nli.probation.service.LogWorkService.findLogWorkById() with cause = NULL, with message = Not found log work
+2022-11-28 17:53:54.119 ERROR 16692 --- [http-nio-8080-exec-5] com.nli.probation.aop.LoggingAspect      : Exception in com.nli.probation.controller.TaskController.findLogWorkById() with cause = NULL, with message = Not found log work
+2022-11-28 17:53:56.879  INFO 16692 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-11-28 17:53:56.884  INFO 16692 --- [SpringContextShutdownHook] org.mongodb.driver.connection            : Closed connection [connectionId{localValue:3, serverValue:21}] to localhost:27017 because the pool has been closed.
