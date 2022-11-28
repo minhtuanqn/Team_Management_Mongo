@@ -1,5 +1,14 @@
 package com.nli.probation.service;
 
+import static com.nli.probation.constant.ErrorMessageConst.ACCOUNT_EMAIL_DUPLICATE;
+import static com.nli.probation.constant.ErrorMessageConst.ACCOUNT_PHONE_DUPLICATE;
+import static com.nli.probation.constant.ErrorMessageConst.DELETED_ACCOUNT;
+import static com.nli.probation.constant.ErrorMessageConst.NOT_FOUND_ACCOUNT;
+import static com.nli.probation.constant.ErrorMessageConst.NOT_FOUND_ACCOUNT_ID;
+import static com.nli.probation.constant.ErrorMessageConst.NOT_FOUND_OFFICE;
+import static com.nli.probation.constant.ErrorMessageConst.NOT_FOUND_ROLE;
+import static com.nli.probation.constant.ErrorMessageConst.NOT_FOUND_TEAM;
+
 import com.nli.probation.constant.EntityStatusEnum;
 import com.nli.probation.converter.PaginationConverter;
 import com.nli.probation.customexception.DuplicatedEntityException;
@@ -71,12 +80,12 @@ public class UserAccountService {
   public UserAccountModel createUserAccount(CreateUserAccountModel createUserAccountModel) {
     //Check exist email
     if (userAccountRepository.existsByEmail(createUserAccountModel.getEmail())) {
-      throw new DuplicatedEntityException("Duplicated email of user account");
+      throw new DuplicatedEntityException(ACCOUNT_EMAIL_DUPLICATE);
     }
 
     //Check exist phone
     if (userAccountRepository.existsByPhone(createUserAccountModel.getPhone())) {
-      throw new DuplicatedEntityException("Duplicated phone of user account");
+      throw new DuplicatedEntityException(ACCOUNT_PHONE_DUPLICATE);
     }
 
     //Check exist team
@@ -87,13 +96,13 @@ public class UserAccountService {
     Optional<OfficeEntity> existedOfficeOptional = officeRepository.findById(
         createUserAccountModel.getOfficeId());
     OfficeEntity existedOfficeEntity = existedOfficeOptional
-        .orElseThrow(() -> new NoSuchEntityException("Not found office"));
+        .orElseThrow(() -> new NoSuchEntityException(NOT_FOUND_OFFICE));
 
     //Check exist role
     Optional<RoleEntity> existedRoleOptional = roleRepository.findById(
         createUserAccountModel.getRoleId());
     RoleEntity existedRoleEntity = existedRoleOptional
-        .orElseThrow(() -> new NoSuchEntityException("Not found role"));
+        .orElseThrow(() -> new NoSuchEntityException(NOT_FOUND_ROLE));
 
     //Prepare saved entity
     UserAccountEntity userAccountEntity = modelMapper.map(createUserAccountModel,
@@ -130,7 +139,7 @@ public class UserAccountService {
     //Find user account by id
     Optional<UserAccountEntity> searchedAccountOptional = userAccountRepository.findById(id);
     UserAccountEntity userAccountEntity = searchedAccountOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found user account"));
+        () -> new NoSuchEntityException(NOT_FOUND_ACCOUNT));
     UserAccountModel userAccountModel = modelMapper.map(userAccountEntity, UserAccountModel.class);
 
     //Find team information
@@ -162,10 +171,10 @@ public class UserAccountService {
     //Find user account by id
     Optional<UserAccountEntity> deletedAccountOptional = userAccountRepository.findById(id);
     UserAccountEntity deletedAccountEntity = deletedAccountOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found user account with id"));
+        () -> new NoSuchEntityException(NOT_FOUND_ACCOUNT_ID));
     if (deletedAccountEntity.getStatus()
         == EntityStatusEnum.UserAccountStatusEnum.DISABLE.ordinal()) {
-      throw new NoSuchEntityException("This user account was deleted");
+      throw new NoSuchEntityException(DELETED_ACCOUNT);
     }
 
     //Set status for entity
@@ -204,18 +213,18 @@ public class UserAccountService {
     Optional<UserAccountEntity> foundAccountOptional = userAccountRepository.findById(
         updateUserAccountModel.getId());
     foundAccountOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found user account with id"));
+        () -> new NoSuchEntityException(NOT_FOUND_ACCOUNT_ID));
 
     //Check existed user account with email
     if (userAccountRepository.existsByEmailAndIdNot(updateUserAccountModel.getEmail(),
         updateUserAccountModel.getId())) {
-      throw new DuplicatedEntityException("Duplicate email for user account");
+      throw new DuplicatedEntityException(ACCOUNT_EMAIL_DUPLICATE);
     }
 
     //Check existed user account with phone
     if (userAccountRepository.existsByEmailAndIdNot(updateUserAccountModel.getPhone(),
         updateUserAccountModel.getId())) {
-      throw new DuplicatedEntityException("Duplicate phone for user account");
+      throw new DuplicatedEntityException(ACCOUNT_PHONE_DUPLICATE);
     }
 
     //Check exist team
@@ -226,13 +235,13 @@ public class UserAccountService {
     Optional<OfficeEntity> existedOfficeOptional = officeRepository.findById(
         updateUserAccountModel.getOfficeId());
     OfficeEntity existedOfficeEntity = existedOfficeOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found office"));
+        () -> new NoSuchEntityException(NOT_FOUND_OFFICE));
 
     //Check exist role
     Optional<RoleEntity> existedRoleOptional = roleRepository.findById(
         updateUserAccountModel.getRoleId());
     RoleEntity existedRoleEntity = existedRoleOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found role"));
+        () -> new NoSuchEntityException(NOT_FOUND_ROLE));
 
     //Prepare saved entity
     UserAccountEntity userAccountEntity = modelMapper.map(updateUserAccountModel,
@@ -284,7 +293,7 @@ public class UserAccountService {
     List<UserAccountEntity> userAccountEntities;
     if (teamId != 0) {
       Optional<TeamEntity> teamOptional = teamRepository.findById(teamId);
-      teamOptional.orElseThrow(() -> new NoSuchEntityException("Not found team"));
+      teamOptional.orElseThrow(() -> new NoSuchEntityException(NOT_FOUND_TEAM));
       userAccountEntities = mongoTemplate.find(
           query.addCriteria(Criteria.where(UserAccountEntity_.TEAM_ID).is(teamId)),
           UserAccountEntity.class);
@@ -338,7 +347,7 @@ public class UserAccountService {
     //Check exist team
     Optional<TeamEntity> teamOptional = teamRepository.findById(teamId);
     TeamEntity teamEntity = teamOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found team"));
+        () -> new NoSuchEntityException(NOT_FOUND_TEAM));
 
     //Find all user accounts by id list and set team id
     List<UserAccountEntity> userAccountEntities = userAccountRepository.findAllByIdIn(userIds);
@@ -385,7 +394,7 @@ public class UserAccountService {
     //Check exist team
     Optional<TeamEntity> teamOptional = teamRepository.findById(teamId);
     teamOptional.orElseThrow(
-        () -> new NoSuchEntityException("Not found team"));
+        () -> new NoSuchEntityException(NOT_FOUND_TEAM));
 
     //Find all user accounts by id list and set team id
     List<UserAccountEntity> userAccountEntities = userAccountRepository.findAllByIdIn(userIds);
