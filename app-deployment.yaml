@@ -13,8 +13,8 @@ spec:
         app: teamwork-management-application
     spec:
       containers:
-        - name: probation
-          image: probation:1.0
+        - name: teamwork-management
+          image: teamwork-management:1.0
           ports:
             - containerPort: 8080
           env:   # Setting Enviornmental Variables
@@ -32,10 +32,10 @@ spec:
 apiVersion: v1 # Kubernetes API version
 kind: Service # Kubernetes resource kind we are creating
 metadata: # Metadata of the resource kind we are creating
-  name: probation
+  name: teamwork-management
 spec:
   selector:
-    app: probation
+    app: teamwork-management
   ports:
     - protocol: "TCP"
       port: 8080 # The port that the service is running on in the cluster
