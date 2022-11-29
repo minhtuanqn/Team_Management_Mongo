@@ -3,7 +3,6 @@ package com.nli.probation.controller;
 import com.nli.probation.customexception.SQLCustomException;
 import com.nli.probation.customexception.TimeCustomException;
 import com.nli.probation.model.APIErrorModel;
-import java.net.BindException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
